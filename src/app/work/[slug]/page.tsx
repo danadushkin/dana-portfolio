@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { HorizontalTrack } from "@/components/HorizontalTrack";
+import { LoopVideo } from "@/components/LoopVideo";
 import { Shell } from "@/components/Shell";
 import { getProject, mediaOf, nextProject, projects, realProjects, type Paragraph } from "@/content/projects";
 
@@ -95,6 +96,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               sizes={`(min-width: 768px) ${Math.round((m.w / m.h) * 80)}vh, 100vw`}
               className="object-cover"
             />
+            {m.video && <LoopVideo src={m.video} poster={m.src} label={`${p.title} — ${i + 2}`} />}
           </div>
         ))}
       </HorizontalTrack>

@@ -13,16 +13,18 @@ export type Project = {
   meta: { label: string; value: string | string[] }[];
   sections: { heading: string; body: Paragraph[] }[];
   media: string[]; // first item is the cover
+  /** Image path → looping clip that replaces it (the image stays as the poster). */
+  videos?: Record<string, string>;
   /** Placeholder rows keep the index at its designed length until real projects exist. */
   placeholder?: boolean;
 };
 
-export type Media = { src: string; w: number; h: number };
+export type Media = { src: string; w: number; h: number; video?: string };
 
 const sizes = media as Record<string, { w: number; h: number }>;
 
 export function mediaOf(p: Project): Media[] {
-  return p.media.map((src) => ({ src, ...(sizes[src] ?? { w: 1600, h: 1080 }) }));
+  return p.media.map((src) => ({ src, ...(sizes[src] ?? { w: 1600, h: 1080 }), video: p.videos?.[src] }));
 }
 
 const workImages = (slug: string, n: number) =>
@@ -72,6 +74,14 @@ export const projects: Project[] = [
       },
     ],
     media: workImages("wix-harmony", 11),
+    // Sources in /videos (not committed). Re-encode with:
+    // ffmpeg -i in.mp4 -an -vf "scale='min(1920,iw)':-2,fps=30" -c:v libx264 -preset slow -crf 24 -pix_fmt yuv420p -movflags +faststart out.mp4
+    videos: {
+      "/work/wix-harmony/02.webp": "/work/wix-harmony/02.mp4", // cover for pp a.mp4
+      "/work/wix-harmony/06.webp": "/work/wix-harmony/06.mp4", // flower.mp4
+      "/work/wix-harmony/08.webp": "/work/wix-harmony/08.mp4", // lp.mp4
+      "/work/wix-harmony/09.webp": "/work/wix-harmony/09.mp4", // link1.mp4
+    },
   },
   {
     slug: "montora-studio-two",
