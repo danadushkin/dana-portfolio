@@ -11,9 +11,10 @@ export const metadata: Metadata = {
 };
 
 // Runs before first paint: applies the saved theme (no white flash in dark mode) and
-// arms the home intro once per browser session (skipped for reduced-motion users).
+// arms the home intro on every full load of "/" (Dana: replay it on refresh).
+// Skipped on phones and for reduced-motion users.
 const themeScript = `(function(){var d=document.documentElement;try{if(localStorage.getItem('theme')==='dark')d.dataset.theme='dark'}catch(e){}
-try{if(location.pathname==='/'&&!sessionStorage.getItem('introSeen')&&innerWidth>=768&&!matchMedia('(prefers-reduced-motion: reduce)').matches)d.dataset.intro='running'}catch(e){}})()`;
+try{if(location.pathname==='/'&&innerWidth>=768&&!matchMedia('(prefers-reduced-motion: reduce)').matches)d.dataset.intro='running'}catch(e){}})()`;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

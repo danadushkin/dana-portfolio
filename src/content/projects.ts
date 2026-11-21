@@ -55,7 +55,7 @@ export const projects: Project[] = [
       { label: "Client", value: "Wix" },
       { label: "Role", value: "Brand Designer" },
       { label: "Team", value: "Brand R&D, Wix.com" },
-      { label: "Tools", value: ["Figma", "Photoshop", "Weavy", "Midjourney"] },
+      { label: "Tools", value: ["Figma", "Weavy", "Midjourney"] },
     ],
     sections: [
       {
@@ -87,21 +87,24 @@ export const projects: Project[] = [
     slug: "montora-studio-two",
     title: "Montora - Studio Two",
     year: "2026",
-    // TODO: real Montora copy from Dana — the fields below are the Figma template's placeholder text.
+    // Copy from Figma frame 921:22657 (summary 921:22658, process text 922:28617).
     summary:
-      "End-to-end launch work — translating the brand into a cohesive campaign across video, web, and paid media. Delivered the launch story and storyboard, designed the landing experience, and built a modular ad system consistent across every touchpoint.",
-    tags: ["Branding", "UX Design", "Visual Identity", "Design System"],
+      "Montora is a fashion mini-brand created for the Studio Two launch video, for professional web creators. The brief was to develop a distinctive brand identity and website for a high-end travel fashion label, combining a tech-driven, cool, and futuristic aesthetic.",
+    tags: ["Brand Development", "Visual Identity", "Design System", "Visual Storytelling"],
     meta: [
       { label: "Year", value: "2026" },
       { label: "Client", value: "Wix Studio Two" },
       { label: "Role", value: "Brand Designer" },
-      { label: "Team", value: "Wix Motion" },
-      { label: "Tools", value: ["Figma", "Photoshop", "Weavy", "Midjourney"] },
+      { label: "Team", value: "Wix Motion Studio" },
+      { label: "Tools", value: ["Figma", "ChatGPT", "Midjourney"] },
     ],
     sections: [
       {
-        heading: "The Brief",
-        body: ["TODO: the brief for this project."],
+        heading: "Design Process",
+        body: [
+          "The project included web design, layout development, and typography, alongside close collaboration with designers and animators from the Wix Motion Studio team.",
+          "I developed Montora’s visual identity and website, translating the brief into a cohesive brand experience.",
+        ],
       },
     ],
     media: workImages("montora-studio-two", 6),

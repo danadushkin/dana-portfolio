@@ -1,16 +1,14 @@
 import { HomeIndex } from "@/components/HomeIndex";
 import { ContactBlock } from "@/components/ContactBlock";
 import { Shell } from "@/components/Shell";
+import media from "@/content/media.json";
 import { projects, realProjects } from "@/content/projects";
 
-// Intro flips through a mix of every project's images and lands on the first cover.
+// Intro = Dana's "opening frames" (public/intro, from scripts/figma-opening.mjs),
+// then the first project's cover, which is what the window grows into.
 function introSequence() {
-  const pools = realProjects.map((p) => p.media.slice(1));
-  const mixed: string[] = [];
-  for (let i = 0; mixed.length < 7 && pools.some((pool) => pool[i]); i++) {
-    for (const pool of pools) if (pool[i] && mixed.length < 7) mixed.push(pool[i]);
-  }
-  return [...mixed, realProjects[0].media[0]];
+  const opening = Object.keys(media).filter((k) => k.startsWith("/intro/")).sort();
+  return [...opening, realProjects[0].media[0]];
 }
 
 export default function Home() {

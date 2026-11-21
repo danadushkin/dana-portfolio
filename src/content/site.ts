@@ -8,8 +8,8 @@ export const site = {
     "A visual communication designer, combining brand thinking, marketing, and web design to create clear, detail-oriented work through thoughtful creative processes.",
   ],
   contact: [
-    { label: "Email", href: "mailto:hello@example.com" }, // TODO
-    { label: "Linkedin", href: "#" }, // TODO
+    { label: "Email", href: "mailto:danadushkin@gmail.com" },
+    { label: "Linkedin", href: "#" }, // TODO: Dana's LinkedIn URL
     { label: "Resume", href: "#" }, // TODO: PDF in /public or a link
   ],
   phone: "+972 526818161",

@@ -58,14 +58,26 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     <Shell current={projects.indexOf(p)} sub={sub}>
       <HorizontalTrack>
         {cover && (
-          <div data-count className="relative aspect-[3/2] shrink-0 bg-panel md:aspect-auto md:h-full md:w-[33.2vw]">
-            <Image src={cover.src} alt={p.title} fill priority sizes="(min-width: 768px) 34vw, 100vw" className="object-cover" />
+          // First screen (Figma 921:25347): the whole 1260×850 cover, uncropped, then the info.
+          <div
+            data-count
+            className="relative shrink-0 bg-panel md:h-full"
+            style={{ aspectRatio: `${cover.w} / ${cover.h}` }}
+          >
+            <Image
+              src={cover.src}
+              alt={p.title}
+              fill
+              priority
+              sizes={`(min-width: 768px) ${Math.round((cover.w / cover.h) * 80)}vh, 100vw`}
+              className="object-cover"
+            />
           </div>
         )}
 
         {/* Info panel */}
-        <section className="flex shrink-0 flex-col py-6 md:h-full md:w-[52vw] md:py-0">
-          <div className="grid gap-8 border-line pb-10 md:grid-cols-[1fr_auto] md:gap-12 md:border-b md:px-[3vw] md:pt-8">
+        <section className="flex shrink-0 flex-col py-6 md:h-full md:w-[56vw] md:py-0">
+          <div className="grid gap-8 border-line pb-10 md:grid-cols-[1fr_auto] md:gap-12 md:border-b md:pl-[7vw] md:pr-[3vw] md:pt-8">
             <div className="max-w-[440px]">
               <h1 className="text-[26px] leading-[1.1] tracking-[-0.015em]">{p.title}</h1>
               <p className="mt-6">{p.summary}</p>
@@ -80,7 +92,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               ))}
             </dl>
           </div>
-          <div className="space-y-5 pt-8 text-muted md:max-w-[480px] md:px-[3vw] md:pt-10">
+          <div className="space-y-5 pt-8 text-muted md:max-w-[calc(480px+7vw)] md:pl-[7vw] md:pr-[3vw] md:pt-10">
             {p.sections.map((s) => (
               <div key={s.heading} className="space-y-4">
                 <h2>{s.heading}</h2>

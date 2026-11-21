@@ -3,12 +3,12 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-const STEP_MS = 330; // time each image holds before the next wipes over it
+const STEP_MS = 650; // time each image holds before the next wipes over it
 const EXPAND_MS = 1100;
 
 /**
- * Home intro (Dana's "home page" frame): a small centered window flips through
- * project images, lands on the first project's cover, then grows into the
+ * Home intro: a small centered window shows Dana's "opening frames" one after
+ * another, lands on the first project's cover, then grows into the 1260×850
  * preview panel and hands over to the page. Armed by the inline script in layout.tsx.
  */
 export function Intro({ images, target }: { images: string[]; target: React.RefObject<HTMLDivElement | null> }) {
@@ -19,9 +19,6 @@ export function Intro({ images, target }: { images: string[]; target: React.RefO
   const started = useRef(false);
 
   const finish = () => {
-    try {
-      sessionStorage.setItem("introSeen", "1");
-    } catch {}
     delete document.documentElement.dataset.intro;
     setArmed(false);
   };
@@ -78,7 +75,8 @@ export function Intro({ images, target }: { images: string[]; target: React.RefO
               src={src}
               alt=""
               fill
-              sizes="66vw"
+              // the last image is the home cover: same sizes as the panel so it's already cached there
+              sizes={i === images.length - 1 ? "66vw" : "30vw"}
               priority
               onLoad={onLoad}
               className={`object-cover ${i < shown ? "wipe-up" : "invisible"}`}

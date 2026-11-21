@@ -9,6 +9,7 @@ import { Intro } from "./Intro";
 const reveal = (i: number) => ({ "data-reveal": "", style: { "--i": i } as React.CSSProperties });
 
 // Tells the project page it was entered from the index, so it plays the slide-in.
+// (sessionStorage only carries this one-shot flag between pages.)
 const markFromIndex = () => {
   try {
     sessionStorage.setItem("fromIndex", "1");
@@ -56,7 +57,13 @@ export function HomeIndex({
         <div className="hidden md:block" {...reveal(6 + projects.length)}>{contact}</div>
       </div>
 
-      <div ref={panel} className="relative hidden bg-panel md:block">
+      {/* Preview locked to 1260×850 (Dana's cover size) so covers are never cropped:
+          as wide as the column allows, unless the height runs out first. */}
+      <div className="relative hidden [container-type:size] md:block">
+        <div
+          ref={panel}
+          className="absolute left-0 top-0 aspect-[1260/850] w-[min(100cqw,calc(100cqh*1260/850))] bg-panel"
+        >
         {projects.map((p, i) => {
           const cover = mediaOf(p)[0];
           if (!cover) return null;
@@ -75,6 +82,7 @@ export function HomeIndex({
             </Link>
           );
         })}
+        </div>
       </div>
 
       {/* Mobile: covers stacked under the list */}
