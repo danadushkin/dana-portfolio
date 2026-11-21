@@ -10,8 +10,10 @@ export const metadata: Metadata = {
   description: site.bio,
 };
 
-// Applies the saved theme before first paint so dark mode doesn't flash white.
-const themeScript = `try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}`;
+// Runs before first paint: applies the saved theme (no white flash in dark mode) and
+// arms the home intro once per browser session (skipped for reduced-motion users).
+const themeScript = `(function(){var d=document.documentElement;try{if(localStorage.getItem('theme')==='dark')d.dataset.theme='dark'}catch(e){}
+try{if(location.pathname==='/'&&!sessionStorage.getItem('introSeen')&&innerWidth>=768&&!matchMedia('(prefers-reduced-motion: reduce)').matches)d.dataset.intro='running'}catch(e){}})()`;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

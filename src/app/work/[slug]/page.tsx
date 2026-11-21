@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { HorizontalTrack } from "@/components/HorizontalTrack";
+import { HorizontalTrack, TrackCounter } from "@/components/HorizontalTrack";
 import { LoopVideo } from "@/components/LoopVideo";
 import { Shell } from "@/components/Shell";
 import { getProject, mediaOf, nextProject, projects, realProjects, type Paragraph } from "@/content/projects";
@@ -40,12 +40,15 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const [cover, ...rest] = mediaOf(p);
 
   const sub = (
-    <div className="flex flex-wrap justify-between gap-x-6 gap-y-1 md:cols">
+    <div className="fade-in flex flex-wrap justify-between gap-x-6 gap-y-1 md:cols">
       <Link href="/" className="hover:text-muted">Back to index</Link>
       <Link href={`/work/${next.slug}`} className="group">
         Next <span className="text-muted group-hover:text-fg">{next.title}</span>
       </Link>
-      <span className="hidden md:block">{p.title}</span>
+      <span className="hidden gap-8 md:flex">
+        {p.title}
+        <TrackCounter total={(cover ? 1 : 0) + rest.length} />
+      </span>
       <span className="hidden md:block" />
       <span className="hidden text-right md:block">{p.year}</span>
     </div>
@@ -55,7 +58,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     <Shell current={projects.indexOf(p)} sub={sub}>
       <HorizontalTrack>
         {cover && (
-          <div className="relative aspect-[3/2] shrink-0 bg-panel md:aspect-auto md:h-full md:w-[33.2vw]">
+          <div data-count className="relative aspect-[3/2] shrink-0 bg-panel md:aspect-auto md:h-full md:w-[33.2vw]">
             <Image src={cover.src} alt={p.title} fill priority sizes="(min-width: 768px) 34vw, 100vw" className="object-cover" />
           </div>
         )}
@@ -88,7 +91,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </section>
 
         {rest.map((m, i) => (
-          <div key={m.src} className="relative shrink-0 md:h-full" style={{ aspectRatio: `${m.w} / ${m.h}` }}>
+          <div key={m.src} data-count className="relative shrink-0 md:h-full" style={{ aspectRatio: `${m.w} / ${m.h}` }}>
             <Image
               src={m.src}
               alt={`${p.title} — ${i + 2}`}
