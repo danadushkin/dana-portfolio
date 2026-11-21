@@ -8,10 +8,12 @@
 //   node scripts/figma-export.mjs list
 //       → prints every page and its top-level frames with their node ids
 //   node scripts/figma-export.mjs export <slug> <nodeId> [<nodeId> ...] [--scale=2] [--format=png|jpg]
-//       → downloads those frames to public/work/<slug>/01.png, 02.png, ...
+//       → replaces public/work/<slug>/ with those frames as 01.webp, 02.webp, ... (in the order given)
+//         and records each one's pixel size in src/content/media.json
 
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
+import sharp from "sharp";
 
 try {
   process.loadEnvFile(".env.local");
@@ -62,18 +64,32 @@ if (cmd === "list") {
   if (err) throw new Error(err);
 
   const dir = path.join("public", "work", slug);
+  await rm(dir, { recursive: true, force: true });
   await mkdir(dir, { recursive: true });
+
+  // Every image is re-encoded to WebP; its size goes into src/content/media.json
+  // so the page can lay images out at the right aspect ratio before they load.
+  const manifestPath = path.join("src", "content", "media.json");
+  const manifest = JSON.parse(await readFile(manifestPath, "utf8").catch(() => "{}"));
+  for (const key of Object.keys(manifest)) {
+    if (key.startsWith(`/work/${slug}/`)) delete manifest[key];
+  }
+
   for (const [i, id] of ids.entries()) {
     const url = images[id];
     if (!url) {
       console.warn(`  ! no image for ${id}`);
       continue;
     }
-    const buf = Buffer.from(await (await fetch(url)).arrayBuffer());
-    const name = `${String(i + 1).padStart(2, "0")}.${format}`;
-    await writeFile(path.join(dir, name), buf);
-    console.log(`  ✓ ${id} → /work/${slug}/${name} (${Math.round(buf.length / 1024)} KB)`);
+    const raw = Buffer.from(await (await fetch(url)).arrayBuffer());
+    const name = `${String(i + 1).padStart(2, "0")}.webp`;
+    const { data, info } = await sharp(raw).webp({ quality: 82 }).toBuffer({ resolveWithObject: true });
+    await writeFile(path.join(dir, name), data);
+    manifest[`/work/${slug}/${name}`] = { w: info.width, h: info.height, figma: id };
+    console.log(`  ✓ ${id} → /work/${slug}/${name} ${info.width}x${info.height} (${Math.round(data.length / 1024)} KB)`);
   }
+  const sorted = Object.fromEntries(Object.entries(manifest).sort(([a], [b]) => a.localeCompare(b)));
+  await writeFile(manifestPath, JSON.stringify(sorted, null, 2) + "\n");
 } else {
   console.log("Commands: list | export <slug> <nodeId...>");
 }

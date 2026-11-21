@@ -1,15 +1,16 @@
-// Personal details, edited in one place.
+// Personal details, edited in one place. Values marked TODO still need Dana's input.
 export const site = {
-  name: "Dana",
-  role: "Graphic Designer",
-  tagline: "Brand identities, packaging and visual systems.",
+  name: "Dana Dushkin",
+  role: "Designer",
+  bio: "A visual communication designer, combining brand thinking, marketing, and web design to create clear, detail-oriented work through thoughtful creative processes.",
   about: [
-    "Placeholder bio. A few sentences about Dana's approach and favorite kinds of work.",
+    // TODO: Dana's About text
+    "A visual communication designer, combining brand thinking, marketing, and web design to create clear, detail-oriented work through thoughtful creative processes.",
   ],
-  email: "hello@example.com",
-  links: [
-    { label: "Instagram", href: "#" },
-    { label: "LinkedIn", href: "#" },
-    { label: "Behance", href: "#" },
+  contact: [
+    { label: "Email", href: "mailto:hello@example.com" }, // TODO
+    { label: "Linkedin", href: "#" }, // TODO
+    { label: "Resume", href: "#" }, // TODO: PDF in /public or a link
   ],
+  phone: "+972 526818161",
 };

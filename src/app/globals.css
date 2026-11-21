@@ -1,19 +1,58 @@
 @import "tailwindcss";
 
-/* Placeholder palette — will be replaced with Dana's own colors/fonts from Figma. */
+/* Tokens taken from Dana's Figma ("pp for cloud"): Geist Light 12px, black / #999 / #cecece on white. */
 :root {
-  --background: #fafaf8;
-  --foreground: #161616;
+  --bg: #ffffff;
+  --fg: #000000;
+  --muted: #999999;
+  --faint: #cecece;
+  --line: #ebebeb;
+  --panel: #f2f2f2;
+}
+:root[data-theme="dark"] {
+  --bg: #0e0e0e;
+  --fg: #f2f2f2;
+  --muted: #8a8a8a;
+  --faint: #4a4a4a;
+  --line: #262626;
+  --panel: #1a1a1a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-panel: var(--panel);
+  --font-sans: var(--font-geist);
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-geist), system-ui, sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: -0.017em;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Desktop column grid, measured from the 1920px frames:
+   name | bio | about | contact … | index + counter */
+@utility cols {
+  display: grid;
+  grid-template-columns: 10.4fr 23.3fr 13.6fr 45.7fr 7fr;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
