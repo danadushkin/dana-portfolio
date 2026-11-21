@@ -90,7 +90,7 @@ export const projects: Project[] = [
     // Copy from Figma frame 921:22657 (summary 921:22658, process text 922:28617).
     summary:
       "Montora is a fashion mini-brand created for the Studio Two launch video, for professional web creators. The brief was to develop a distinctive brand identity and website for a high-end travel fashion label, combining a tech-driven, cool, and futuristic aesthetic.",
-    tags: ["Brand Development", "Visual Identity", "Design System", "Visual Storytelling"],
+    tags: ["Brand Development", "Visual Identity", "Typography", "Layout Design"],
     meta: [
       { label: "Year", value: "2026" },
       { label: "Client", value: "Wix Studio Two" },

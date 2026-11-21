@@ -9,7 +9,7 @@ export const site = {
   ],
   contact: [
     { label: "Email", href: "mailto:danadushkin@gmail.com" },
-    { label: "Linkedin", href: "#" }, // TODO: Dana's LinkedIn URL
+    { label: "Linkedin", href: "https://www.linkedin.com/in/dana-dushkin-199b59136/" },
     { label: "Resume", href: "#" }, // TODO: PDF in /public or a link
   ],
   phone: "+972 526818161",
