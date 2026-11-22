@@ -18,4 +18,7 @@ export const site = {
     { label: "Phone", href: "tel:+972526818161" },
   ],
   cta: "For projects, collaborations, more info or just say hello - let's get in touch.",
+  // Web3Forms access key for the contact form (created at web3forms.com for Dana's email).
+  // Public by design — it can only deliver to Dana. Empty = SEND opens the email app instead.
+  formKey: "",
 };
