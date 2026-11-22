@@ -89,6 +89,40 @@ html[data-intro="running"] {
   animation: wipe-up 0.42s cubic-bezier(0.7, 0, 0.25, 1) both;
 }
 
+/* Cursor follower (zitafernandez.com): solid dot that becomes a translucent ring over
+   anything clickable. Position comes from CursorDot.tsx; size/colour changes ease here. */
+.cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 60;
+  width: 17px;
+  height: 17px;
+  border-radius: 9999px;
+  border: 1px solid var(--fg);
+  background-color: var(--fg);
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity 0.375s cubic-bezier(0.625, 0.05, 0, 1),
+    background-color 0.375s cubic-bezier(0.625, 0.05, 0, 1),
+    width 0.375s cubic-bezier(0.625, 0.05, 0, 1),
+    height 0.375s cubic-bezier(0.625, 0.05, 0, 1);
+}
+.cursor[data-visible] {
+  opacity: 1;
+}
+body:has(a:hover, button:hover, [data-cursor]:hover) .cursor {
+  width: 51px;
+  height: 51px;
+  background-color: color-mix(in srgb, var(--fg) 30%, transparent);
+}
+@media (hover: none), (pointer: coarse) {
+  .cursor {
+    display: none;
+  }
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;
