@@ -1,6 +1,7 @@
 // The project index. Order here = order on the site (01, 02, ...).
 // Media comes from Figma via scripts/figma-export.mjs; sizes live in media.json.
 import media from "./media.json";
+import { asset } from "./assets";
 
 /** A paragraph: plain text, or text with inline links. "\n" inside text is a line break. */
 export type Paragraph = string | { text: string; href?: string }[];
@@ -27,10 +28,12 @@ export type Media = { src: string; w: number; h: number; video?: string; poster?
 const sizes = media as Record<string, { w: number; h: number }>;
 
 const videoOf = (v: string | { src: string; poster: string } | undefined) =>
-  !v ? {} : typeof v === "string" ? { video: v } : { video: v.src, poster: v.poster };
+  !v ? {} : typeof v === "string" ? { video: asset(v) } : { video: asset(v.src), poster: asset(v.poster) };
 
+// Content refers to canonical paths ("/work/x/10.webp"); what gets published is the
+// content-hashed file, so a changed picture always gets a fresh URL (see assets.ts).
 export const mediaItem = (p: Project, src: string): Media => ({
-  src,
+  src: asset(src),
   ...(sizes[src] ?? { w: 1600, h: 1080 }),
   ...videoOf(p.videos?.[src]),
 });

@@ -11,10 +11,11 @@ export const metadata: Metadata = {
   description: site.bio,
 };
 
-// Runs before first paint: applies the saved theme (no white flash in dark mode) and
-// arms the home intro on every full load of "/" (Dana: replay it on refresh).
-// Skipped on phones and for reduced-motion users.
-const themeScript = `(function(){var d=document.documentElement;try{if(localStorage.getItem('theme')==='dark')d.dataset.theme='dark'}catch(e){}
+// Runs before first paint: arms the home intro on every full load of "/" (Dana: replay
+// it on refresh; skipped on phones and for reduced-motion users). The site always opens
+// in Light — Dark only lasts while you browse (Dana's call), so no theme is restored;
+// the key an older version saved is cleared.
+const themeScript = `(function(){var d=document.documentElement;try{localStorage.removeItem('theme')}catch(e){}
 try{if(location.pathname==='/'&&innerWidth>=768&&!matchMedia('(prefers-reduced-motion: reduce)').matches)d.dataset.intro='running'}catch(e){}})()`;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

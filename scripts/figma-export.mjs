@@ -94,3 +94,6 @@ if (cmd === "list") {
 } else {
   console.log("Commands: list | export <slug> <nodeId...>");
 }
+
+// Publish under content-hashed names so changed pictures never come back from a cache.
+await import("./hash-assets.mjs");

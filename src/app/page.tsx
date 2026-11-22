@@ -4,6 +4,7 @@ import { HomeIndex, type IntroConfig } from "@/components/HomeIndex";
 import { ContactBlock } from "@/components/ContactBlock";
 import { Shell } from "@/components/Shell";
 import media from "@/content/media.json";
+import { asset } from "@/content/assets";
 import { coverOf, projects, realProjects } from "@/content/projects";
 
 // Average colour of a few pixel rows at the top / bottom edge of an image in /public.
@@ -29,7 +30,7 @@ async function edgeColors(src: string) {
 async function intro(): Promise<IntroConfig> {
   const [, ...others] = Object.keys(media).filter((k) => k.startsWith("/intro/")).sort();
   const cover = coverOf(realProjects[0])!;
-  return { frames: others, cover: cover.src, coverRatio: cover.w / cover.h, coverEdges: await edgeColors(cover.src) };
+  return { frames: others.map(asset), cover: cover.src, coverRatio: cover.w / cover.h, coverEdges: await edgeColors(cover.src) };
 }
 
 export default async function Home() {

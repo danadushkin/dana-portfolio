@@ -46,3 +46,6 @@ for (const [i, id] of ids.entries()) {
 }
 const sorted = Object.fromEntries(Object.entries(manifest).sort(([a], [b]) => a.localeCompare(b)));
 await writeFile(manifestPath, JSON.stringify(sorted, null, 2) + "\n");
+
+// Publish under content-hashed names so changed pictures never come back from a cache.
+await import("./hash-assets.mjs");

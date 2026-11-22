@@ -9,13 +9,12 @@ export function ThemeToggle() {
     setDark(document.documentElement.dataset.theme === "dark");
   }, []);
 
+  // Not saved anywhere: the choice holds while browsing (the <html> attribute survives
+  // page changes) and every new visit starts in Light.
   const toggle = () => {
     const next = !dark;
     setDark(next);
     document.documentElement.dataset.theme = next ? "dark" : "";
-    try {
-      localStorage.setItem("theme", next ? "dark" : "light");
-    } catch {}
   };
 
   return (
