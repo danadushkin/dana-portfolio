@@ -51,7 +51,7 @@ function Tile({ m, label, sizes, priority }: { m: Media; label: string; sizes: s
   return (
     <div className="relative w-full bg-panel" style={{ aspectRatio: `${m.w} / ${m.h}` }}>
       <Image src={m.src} alt={label} fill sizes={sizes} priority={priority} className="object-cover" />
-      {m.video && <LoopVideo src={m.video} poster={m.src} label={label} />}
+      {m.video && <LoopVideo src={m.video} poster={m.poster ?? m.src} label={label} />}
     </div>
   );
 }

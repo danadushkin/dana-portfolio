@@ -17,19 +17,22 @@ export type Project = {
   meta: { label: string; value: string | string[] }[];
   rows: Row[]; // the first row's image is the cover
   /** Image path → looping clip that replaces it (the image stays as the poster). */
-  videos?: Record<string, string>;
+  videos?: Record<string, string | { src: string; poster: string }>;
   /** Placeholder rows keep the index at its designed length until real projects exist. */
   placeholder?: boolean;
 };
 
-export type Media = { src: string; w: number; h: number; video?: string };
+export type Media = { src: string; w: number; h: number; video?: string; poster?: string };
 
 const sizes = media as Record<string, { w: number; h: number }>;
+
+const videoOf = (v: string | { src: string; poster: string } | undefined) =>
+  !v ? {} : typeof v === "string" ? { video: v } : { video: v.src, poster: v.poster };
 
 export const mediaItem = (p: Project, src: string): Media => ({
   src,
   ...(sizes[src] ?? { w: 1600, h: 1080 }),
-  video: p.videos?.[src],
+  ...videoOf(p.videos?.[src]),
 });
 
 export const coverOf = (p: Project): Media | undefined => {
@@ -54,6 +57,9 @@ const placeholder = (n: number): Project => ({
 const wix = img("wix-harmony");
 const wixV = vid("wix-harmony");
 const mon = img("montora-studio-two");
+const monV = vid("montora-studio-two");
+const sw = img("showcase-websites");
+const swV = vid("showcase-websites");
 
 export const projects: Project[] = [
   {
@@ -107,8 +113,13 @@ export const projects: Project[] = [
       { label: "Team", value: "Wix Motion Studio" },
       { label: "Tools", value: ["Figma", "ChatGPT", "Midjourney"] },
     ],
-    // 03 and 04 are the "video 1" / "video 2" frames — stills until the clips arrive.
     rows: [mon(1), mon(2), mon(3), mon(4), [mon(5), mon(6)], [mon(7), mon(8)], mon(9), [mon(10), mon(11)]],
+    // "video 1" / "video 2" frames ← videos/montora_1.mp4, montora_2.mp4 (audio stripped).
+    // Their first frame differs from the Figma still, so the poster is the clip's own first frame.
+    videos: {
+      [mon(3)]: { src: monV(3), poster: "/work/montora-studio-two/03.poster.jpg" },
+      [mon(4)]: { src: monV(4), poster: "/work/montora-studio-two/04.poster.jpg" },
+    },
   },
   {
     // Figma: page frame 925:83305, image column x≈11079
@@ -126,7 +137,9 @@ export const projects: Project[] = [
       { label: "Team", value: "Brand R&D" },
       { label: "Tools", value: ["Figma", "Illustrator", "Midjourney", "Weavy"] },
     ],
-    rows: [1, 2, 3, 4, 5, 6, 7].map(img("showcase-websites")),
+    rows: [1, 2, 3, 4, 5, 6, 7].map(sw),
+    // Sources: videos/demo1-3.mov (ProRes) — matched to their frames by comparing first frames.
+    videos: { [sw(2)]: swV(2), [sw(4)]: swV(4), [sw(7)]: swV(7) },
   },
   placeholder(4),
   placeholder(5),
