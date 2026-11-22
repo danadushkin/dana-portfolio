@@ -20,24 +20,34 @@ export function SmoothColumn({ children, className = "" }: { children: React.Rea
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const clamp = (v: number) => Math.max(0, Math.min(el.scrollHeight - el.clientHeight, v));
 
-    let target = el.scrollTop;
+    // Position is tracked as a float here: the browser rounds scrollTop to whole pixels,
+    // so reading it back would stall the glide once the remaining step drops below 1px.
+    let pos = el.scrollTop;
+    let target = pos;
     let raf = 0;
     let written = el.scrollTop;
+    const write = () => {
+      el.scrollTop = pos;
+      written = el.scrollTop;
+    };
     const tick = () => {
-      const diff = target - el.scrollTop;
+      const diff = target - pos;
       if (Math.abs(diff) < 0.5) {
-        el.scrollTop = written = target;
+        pos = target;
+        write();
         raf = 0;
         return;
       }
-      el.scrollTop += diff * EASE;
-      written = el.scrollTop;
+      pos += diff * EASE;
+      write();
       raf = requestAnimationFrame(tick);
     };
     const glideTo = (v: number) => {
       target = clamp(v);
-      if (reduced) el.scrollTop = written = target;
-      else if (!raf) raf = requestAnimationFrame(tick);
+      if (reduced) {
+        pos = target;
+        write();
+      } else if (!raf) raf = requestAnimationFrame(tick);
     };
 
     const onWheel = (e: WheelEvent) => {
@@ -60,16 +70,20 @@ export function SmoothColumn({ children, className = "" }: { children: React.Rea
     };
     // Native scrolling (touch screens, scrollbar drag) moves the target along with it.
     const onScroll = () => {
-      if (!raf && Math.abs(el.scrollTop - written) > 1) target = written = el.scrollTop;
+      if (!raf && Math.abs(el.scrollTop - written) > 1) pos = target = written = el.scrollTop;
     };
+
+    const toTop = () => glideTo(0); // from the "Back to top" button
 
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("keydown", onKey);
+    window.addEventListener("column:top", toTop);
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKey);
+      window.removeEventListener("column:top", toTop);
       el.removeEventListener("scroll", onScroll);
     };
   }, []);

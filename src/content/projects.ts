@@ -108,9 +108,26 @@ export const projects: Project[] = [
       { label: "Tools", value: ["Figma", "ChatGPT", "Midjourney"] },
     ],
     // 03 and 04 are the "video 1" / "video 2" frames — stills until the clips arrive.
-    rows: [mon(1), mon(2), mon(3), mon(4), [mon(5), mon(6)], [mon(7), mon(8)], [mon(9), mon(10)], mon(11)],
+    rows: [mon(1), mon(2), mon(3), mon(4), [mon(5), mon(6)], [mon(7), mon(8)], mon(9), [mon(10), mon(11)]],
   },
-  placeholder(3),
+  {
+    // Figma: page frame 925:83305, image column x≈11079
+    slug: "showcase-websites",
+    title: "Showcase Websites",
+    year: "2025-2026",
+    description: [
+      "A collection of showcase websites created for Wix. Each website features a distinct mini-brand with its own visual identity, custom logo, unique typography and website design. All imagery was created using various AI tools, exploring diverse visual styles and creative directions.",
+    ],
+    tags: ["Visual Identity", "Web Design", "AI Image Making"],
+    meta: [
+      { label: "Year", value: "2025-26" },
+      { label: "Client", value: "Wix" },
+      { label: "Role", value: "Brand Designer" },
+      { label: "Team", value: "Brand R&D" },
+      { label: "Tools", value: ["Figma", "Illustrator", "Midjourney", "Weavy"] },
+    ],
+    rows: [1, 2, 3, 4, 5, 6, 7].map(img("showcase-websites")),
+  },
   placeholder(4),
   placeholder(5),
   placeholder(6),

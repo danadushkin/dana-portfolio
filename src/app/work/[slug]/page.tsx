@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { SmoothColumn } from "@/components/SmoothColumn";
+import { BackToTop } from "@/components/BackToTop";
 import { LoopVideo } from "@/components/LoopVideo";
 import { Shell } from "@/components/Shell";
 import {
@@ -116,6 +117,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
         <SmoothColumn>
           <Rows p={p} />
+          <BackToTop />
         </SmoothColumn>
       </div>
     </Shell>
