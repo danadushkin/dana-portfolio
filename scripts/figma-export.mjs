@@ -8,7 +8,10 @@
 //   node scripts/figma-export.mjs list
 //       → prints every page and its top-level frames with their node ids
 //   node scripts/figma-export.mjs export <slug> <nodeId> [<nodeId> ...] [--scale=2] [--format=png|jpg]
-//       → replaces public/work/<slug>/ with those frames as 01.webp, 02.webp, ... (in the order given)
+//       → replaces public/work/<slug>/ with those frames as 01.jpg, 02.jpg, ... (in the order given)
+//         JPEG on purpose: when a screen asks for more pixels than the source has, the image
+//         optimiser serves the source file untouched — it must be a format every browser reads
+//         (WebP sources broke on older Macs).
 //         and records each one's pixel size in src/content/media.json
 
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
@@ -65,8 +68,9 @@ if (cmd === "list") {
 
   const dir = path.join("public", "work", slug);
   await mkdir(dir, { recursive: true });
-  // Replace the old images only — videos (.mp4) in the same folder are kept.
-  for (const f of await readdir(dir)) if (f.endsWith(".webp")) await rm(path.join(dir, f));
+  // Replace the old images only (NN.webp / NN.jpg, hashed or not); posters (NN.poster.*)
+  // and videos (.mp4) in the same folder are kept.
+  for (const f of await readdir(dir)) if (/^\d\d(\.[0-9a-f]{8})?\.(webp|jpg)$/.test(f)) await rm(path.join(dir, f));
 
   // Every image is re-encoded to WebP; its size goes into src/content/media.json
   // so the page can lay images out at the right aspect ratio before they load.
@@ -83,8 +87,8 @@ if (cmd === "list") {
       continue;
     }
     const raw = Buffer.from(await (await fetch(url)).arrayBuffer());
-    const name = `${String(i + 1).padStart(2, "0")}.webp`;
-    const { data, info } = await sharp(raw).webp({ quality: 82 }).toBuffer({ resolveWithObject: true });
+    const name = `${String(i + 1).padStart(2, "0")}.jpg`;
+    const { data, info } = await sharp(raw).flatten({ background: "#ffffff" }).jpeg({ quality: 88, mozjpeg: true }).toBuffer({ resolveWithObject: true });
     await writeFile(path.join(dir, name), data);
     manifest[`/work/${slug}/${name}`] = { w: info.width, h: info.height, figma: id };
     console.log(`  ✓ ${id} → /work/${slug}/${name} ${info.width}x${info.height} (${Math.round(data.length / 1024)} KB)`);

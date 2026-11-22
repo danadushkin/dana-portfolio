@@ -2,7 +2,7 @@
 // with the visible window at the same spot, so we render the frame and crop that window.
 //
 // Usage: node scripts/figma-opening.mjs <frameId> [<frameId> ...]
-//   → public/intro/01.webp, 02.webp, ... and their sizes in src/content/media.json
+//   → public/intro/01.jpg, 02.jpg, ... and their sizes in src/content/media.json
 
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -38,8 +38,8 @@ for (const k of Object.keys(manifest)) if (k.startsWith("/intro/")) delete manif
 for (const [i, id] of ids.entries()) {
   const raw = Buffer.from(await (await fetch(images[id])).arrayBuffer());
   const crop = Object.fromEntries(Object.entries(WINDOW).map(([k, v]) => [k, Math.round(v * SCALE)]));
-  const { data, info } = await sharp(raw).extract(crop).webp({ quality: 85 }).toBuffer({ resolveWithObject: true });
-  const name = `${String(i + 1).padStart(2, "0")}.webp`;
+  const { data, info } = await sharp(raw).extract(crop).flatten({ background: "#ffffff" }).jpeg({ quality: 88, mozjpeg: true }).toBuffer({ resolveWithObject: true });
+  const name = `${String(i + 1).padStart(2, "0")}.jpg`;
   await writeFile(path.join(dir, name), data);
   manifest[`/intro/${name}`] = { w: info.width, h: info.height, figma: id };
   console.log(`  ✓ ${id} → /intro/${name} ${info.width}x${info.height} (${Math.round(data.length / 1024)} KB)`);

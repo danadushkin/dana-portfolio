@@ -12,7 +12,8 @@ function Field({ name, label, as = "input", type = "text", autoComplete }: { nam
   return (
     <label className="relative block">
       {as === "textarea" ? (
-        <textarea name={name} required rows={3} placeholder=" " aria-label={label} className={`${field} resize-none`} />
+        // no underline under Message (Dana's note)
+        <textarea name={name} required rows={3} placeholder=" " aria-label={label} className={`${field} resize-none border-b-0`} />
       ) : (
         <input name={name} type={type} required autoComplete={autoComplete} placeholder=" " aria-label={label} className={field} />
       )}
@@ -43,7 +44,7 @@ export function ContactForm() {
   };
 
   return (
-    <form onSubmit={onSubmit} className="flex w-full flex-col gap-[25px] md:w-[24.6vw] md:min-w-[320px]">
+    <form onSubmit={onSubmit} className="flex w-full flex-col gap-[25px] md:w-[24.3vw] md:min-w-[320px]">
       <Field name="name" label="Name" autoComplete="name" />
       <Field name="email" label="Email" type="email" autoComplete="email" />
       <Field name="message" label="Message" as="textarea" />

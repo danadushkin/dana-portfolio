@@ -14,8 +14,9 @@ export function Shell({
   return (
     <div className="flex min-h-dvh flex-col px-3 md:h-dvh md:px-3">
       <Header current={current} />
-      <div className="mt-8 min-h-[24px] border-b border-line pb-[6px] uppercase md:mt-[clamp(28px,6.5vh,80px)]">
-        {sub}
+      <div className="mt-8 min-h-[26px] border-b border-line pb-[6px] uppercase md:h-[26px] md:mt-[clamp(28px,6.5vh,80px)]">
+        {sub /* fixed height: an empty bar (home) and a bar with text must be identical, or the
+           preview and the project page's first image end up 1px apart */}
       </div>
       <main className="mt-[10px] min-h-0 flex-1 pb-3">{children}</main>
     </div>

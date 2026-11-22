@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Tokens taken from Dana's Figma ("pp for cloud"): Geist Light 12px, black / #999 / #cecece on white. */
+/* Tokens taken from Dana's Figma ("pp for cloud"): Geist Light 13px (was 12 — Dana bumped every 12 to 13), black / #999 / #cecece on white. */
 :root {
   --bg: #ffffff;
   --fg: #000000;
@@ -37,7 +37,7 @@ body {
 body {
   font-family: var(--font-geist), system-ui, sans-serif;
   font-weight: 300;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.4;
   letter-spacing: -0.017em;
   transition: background-color 0.3s, color 0.3s;

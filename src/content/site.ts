@@ -9,12 +9,13 @@ export const site = {
     "I combine visual thinking and storytelling to create distinctive identities and engaging experiences, guided by thoughtful design, attention to detail and timeless aesthetics.",
     "For the past 9 years, I’ve been at Wix, taking on diverse roles that combine hands-on design and team leadership.",
   ],
-  portrait: "/work/about/01.webp",
+  portrait: "/work/about/01.jpg",
   contact: [
     { label: "Email", href: "mailto:danadushkin@gmail.com" },
     { label: "Linkedin", href: "https://www.linkedin.com/in/dana-dushkin-199b59136/" },
     { label: "Resume", href: "#" }, // TODO: PDF in /public or a link
+    // Dana: the number became the word "Phone" with the same arrow behaviour
+    { label: "Phone", href: "tel:+972526818161" },
   ],
-  phone: "+972 526818161",
   cta: "For projects, collaborations, more info or just say hello - let's get in touch.",
 };

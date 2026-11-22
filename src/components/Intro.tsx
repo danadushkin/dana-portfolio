@@ -41,6 +41,7 @@ export function Intro({
   const [expanded, setExpanded] = useState(false);
   const loaded = useRef(0);
   const started = useRef(false);
+  const startTop = useRef(0);
   const total = frames.length + 1; // frames + cover
 
   const finish = () => {
@@ -53,6 +54,7 @@ export function Intro({
     setArmed(true);
     const w = innerWidth * (443 / 1920);
     const h = innerHeight * (603 / 1080);
+    startTop.current = (h - (COVER_START * w) / coverRatio) / 2; // cover centred vertically, as in frame 1
     setBox({ left: (innerWidth - w) / 2, top: (innerHeight - h) / 2, width: w, height: h });
     const bail = setTimeout(finish, 9000); // never trap the visitor behind the intro
     const startAnyway = setTimeout(start, 2500); // slow network: start with what has loaded
@@ -71,11 +73,17 @@ export function Intro({
     setTimeout(expand, 150 + steps * STEP_MS + 350);
   }
 
+  // Grow to exactly the part of the panel that is visible: on short screens (a 13" laptop
+  // with browser bars) the panel's bottom is clipped by its column, and growing to the full
+  // panel made the picture look like it shrank back when the intro handed over.
   function expand() {
-    const r = target.current?.getBoundingClientRect();
-    if (!r) return finish();
+    const panel = target.current;
+    if (!panel) return finish();
+    const r = panel.getBoundingClientRect();
+    const clip = (panel.parentElement ?? panel).getBoundingClientRect();
+    const height = Math.min(r.bottom, clip.bottom) - r.top;
     setExpanded(true);
-    setBox({ left: r.left, top: r.top, width: r.width, height: r.height, transition: `all ${EXPAND_MS}ms ${EASE}` });
+    setBox({ left: r.left, top: r.top, width: r.width, height, transition: `all ${EXPAND_MS}ms ${EASE}` });
     setTimeout(finish, EXPAND_MS + 50);
   }
 
@@ -113,12 +121,16 @@ export function Intro({
               background: `linear-gradient(to bottom, ${coverEdges.top} 50%, ${coverEdges.bottom} 50%)`,
             }}
           >
+            {/* Centred in the small window; while the window grows it slides to the top edge,
+                because the panel shows the cover top-aligned (clipped at the bottom on short
+                screens). */}
             <div
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              className="absolute left-1/2 -translate-x-1/2"
               style={{
                 width: `${(expanded ? 1 : COVER_START) * 100}%`,
+                top: expanded ? 0 : startTop.current,
                 aspectRatio: String(coverRatio),
-                transition: expanded ? `width ${EXPAND_MS}ms ${EASE}` : undefined,
+                transition: expanded ? `width ${EXPAND_MS}ms ${EASE}, top ${EXPAND_MS}ms ${EASE}` : undefined,
               }}
             >
               {/* same sizes as the panel so this exact file is already cached there */}

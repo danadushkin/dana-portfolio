@@ -36,7 +36,7 @@ const videoOf = (v: string | VideoSpec | undefined) => {
   return { video: asset(v.src), ...(v.poster && { poster: asset(v.poster) }), ...(v.w && v.h && { w: v.w, h: v.h }) };
 };
 
-// Content refers to canonical paths ("/work/x/10.webp"); what gets published is the
+// Content refers to canonical paths ("/work/x/10.jpg"); what gets published is the
 // content-hashed file, so a changed picture always gets a fresh URL (see assets.ts).
 export const mediaItem = (p: Project, src: string): Media => ({
   src: asset(src),
@@ -49,7 +49,7 @@ export const coverOf = (p: Project): Media | undefined => {
   return first ? mediaItem(p, Array.isArray(first) ? first[0] : first) : undefined;
 };
 
-const img = (slug: string) => (n: number) => `/work/${slug}/${String(n).padStart(2, "0")}.webp`;
+const img = (slug: string) => (n: number) => `/work/${slug}/${String(n).padStart(2, "0")}.jpg`;
 const vid = (slug: string) => (n: number) => `/work/${slug}/${String(n).padStart(2, "0")}.mp4`;
 
 const placeholder = (n: number): Project => ({

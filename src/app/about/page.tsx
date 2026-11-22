@@ -11,21 +11,25 @@ export const metadata: Metadata = { title: "About" };
 
 const enter = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
-// Figma frame 929:100155: text (26px) at the left, portrait starting on the CONTACT column,
-// contact details pinned bottom-left like the home page.
+// Figma frame 929:100155, drawn at 1920px wide. On desktop the paragraph scales with the
+// screen (26px / 696px at 1920 → 1.354vw / 36.25vw) so on a 13" laptop it keeps the same
+// proportions to the portrait instead of crowding it (Dana's note).
 export default function About() {
   const size = (media as Record<string, { w: number; h: number }>)[site.portrait];
   const sub = (
     <div className="enter flex justify-between" style={enter(0)}>
       <span>About</span>
-      <Link href="/contact" className="hover:text-muted">Get in touch</Link>
+      <Link href="/" className="hover:text-muted">Back to index</Link>
     </div>
   );
   return (
     <Shell sub={sub}>
       <div className="flex h-full flex-col justify-between gap-16 md:pt-[33px]">
         <div className="flex flex-col gap-10 md:cols md:gap-0">
-          <div className="enter space-y-[1.2em] text-[20px] leading-[1.22] md:col-span-3 md:max-w-[696px] md:text-[26px] md:tracking-[-0.015em]" style={enter(1)}>
+          <div
+            className="enter space-y-[1.2em] text-[20px] leading-[1.22] tracking-[-0.015em] md:col-span-3 md:max-w-[36.25vw] md:text-[1.354vw]"
+            style={enter(1)}
+          >
             {site.about.map((para, i) => (
               <p key={i} className="whitespace-pre-line">{para}</p>
             ))}

@@ -36,7 +36,7 @@ export function HomeIndex({
     <div className="flex flex-col gap-10 md:grid md:h-full md:min-h-0 md:grid-cols-[33.7fr_66.3fr] md:gap-0">
       <Intro {...intro} target={panel} />
 
-      <div className="flex flex-col justify-between gap-12">
+      <div className="flex min-h-0 flex-col justify-between gap-6">
         {/* The list spans 74% of the column (Figma: rows end at x≈478 of 1920), and the
             name column starts at 41.7% of it — i.e. exactly under the bio paragraph. */}
         <ol className="uppercase md:w-[74%]">
