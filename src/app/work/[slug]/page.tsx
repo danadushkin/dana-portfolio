@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { LoopColumn } from "@/components/LoopColumn";
+import { SmoothColumn } from "@/components/SmoothColumn";
 import { LoopVideo } from "@/components/LoopVideo";
 import { Shell } from "@/components/Shell";
 import {
@@ -114,9 +114,9 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </dl>
         </aside>
 
-        <LoopColumn>
+        <SmoothColumn>
           <Rows p={p} />
-        </LoopColumn>
+        </SmoothColumn>
       </div>
     </Shell>
   );

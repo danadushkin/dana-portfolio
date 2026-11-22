@@ -66,7 +66,7 @@ export function Intro({ images, target }: { images: string[]; target: React.RefO
   if (!armed && started.current) return null;
 
   return (
-    <div className="intro-overlay fixed inset-0 z-50 bg-bg" aria-hidden>
+    <div className="intro-overlay fixed inset-0 z-50 overflow-hidden bg-bg" aria-hidden>
       {box && (
         <div className="absolute overflow-hidden" style={box}>
           {images.map((src, i) => (

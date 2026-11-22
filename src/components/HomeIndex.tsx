@@ -59,13 +59,14 @@ export function HomeIndex({
         <div className="hidden md:block" {...reveal(6 + projects.length)}>{contact}</div>
       </div>
 
-      {/* Preview locked to the cover ratio (Dana: 1260×861) so covers are never cropped:
-          as wide as the column allows, unless the height runs out first. */}
-      <div className="relative hidden [container-type:size] md:block">
+      {/* Preview = exactly the first image of a project page: full column width at the
+          cover's ratio, same top edge. On short screens the bottom is clipped (the
+          project page shows the rest as you scroll), so nothing jumps between pages. */}
+      <div className="relative hidden overflow-hidden md:block">
         <div
           ref={panel}
-          className="absolute left-0 top-0 w-[min(100cqw,calc(100cqh*var(--ratio)))] bg-panel"
-          style={{ aspectRatio: String(ratio), "--ratio": ratio } as React.CSSProperties}
+          className="absolute left-0 top-0 w-full bg-panel"
+          style={{ aspectRatio: String(ratio) }}
         >
         {projects.map((p, i) => {
           const cover = coverOf(p);
