@@ -77,7 +77,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const next = nextProject(p.slug);
 
   const sub = (
-    <div className="fade-in flex flex-wrap justify-between gap-x-6 gap-y-1 md:cols">
+    <div className="fade-in flex flex-wrap justify-between gap-x-6 gap-y-1 md:cols md:gap-0">
       <Link href="/" className="hover:text-muted">Back to index</Link>
       <Link href={`/work/${next.slug}`} className="group">
         Next <span className="text-muted group-hover:text-fg">{next.title}</span>

@@ -5,16 +5,23 @@ import { TlvClock } from "./TlvClock";
 export function ContactBlock({ id }: { id?: string }) {
   return (
     <div id={id} className="w-full max-w-[240px] text-muted">
-      <ul className="space-y-[6px] border-t border-line pt-4">
+      <ul className="space-y-[10px] border-t border-line pt-4">
         {site.contact.map((c) => (
           <li key={c.label}>
             <a
               href={c.href}
               target={c.href.startsWith("http") ? "_blank" : undefined}
               rel="noreferrer"
-              className="hover:text-fg"
+              className="group hover:text-fg"
             >
-              {c.label} <span aria-hidden>↗</span>
+              {c.label}{" "}
+              {/* the arrow nudges up-right on hover */}
+              <span
+                aria-hidden
+                className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-[3px] group-hover:-translate-y-[3px]"
+              >
+                ↗
+              </span>
             </a>
           </li>
         ))}

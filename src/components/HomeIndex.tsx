@@ -6,6 +6,13 @@ import { useRef, useState } from "react";
 import { coverOf, indexLabel, type Project } from "@/content/projects";
 import { Intro } from "./Intro";
 
+export type IntroConfig = {
+  frames: string[];
+  cover: string;
+  coverRatio: number;
+  coverEdges: { top: string; bottom: string };
+};
+
 const reveal = (i: number) => ({ "data-reveal": "", style: { "--i": i } as React.CSSProperties });
 
 // Index list on the left; hovering a row cross-fades the big preview on the right.
@@ -13,11 +20,11 @@ const reveal = (i: number) => ({ "data-reveal": "", style: { "--i": i } as React
 // through feels like the page simply opens up around the picture.
 export function HomeIndex({
   projects,
-  introImages,
+  intro,
   contact,
 }: {
   projects: Project[];
-  introImages: string[];
+  intro: IntroConfig;
   contact: React.ReactNode;
 }) {
   const [active, setActive] = useState(0);
@@ -27,15 +34,17 @@ export function HomeIndex({
 
   return (
     <div className="flex flex-col gap-10 md:grid md:h-full md:min-h-0 md:grid-cols-[33.7fr_66.3fr] md:gap-0">
-      <Intro images={introImages} target={panel} />
+      <Intro {...intro} target={panel} />
 
-      <div className="flex flex-col justify-between gap-12 md:pr-[8%]">
-        <ol className="uppercase">
+      <div className="flex flex-col justify-between gap-12">
+        {/* The list spans 74% of the column (Figma: rows end at x≈478 of 1920), and the
+            name column starts at 41.7% of it — i.e. exactly under the bio paragraph. */}
+        <ol className="uppercase md:w-[74%]">
           {projects.map((p, i) => {
             const on = i === active;
             const row = (
               <span
-                className={`flex border-b py-[6px] transition-colors duration-300 md:grid md:grid-cols-[10.4fr_23.3fr] ${
+                className={`flex border-b py-[6px] transition-colors duration-300 md:grid md:grid-cols-[41.7%_1fr] ${
                   on ? "border-fg/60 text-fg" : "border-line text-faint"
                 }`}
               >

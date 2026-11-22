@@ -107,14 +107,17 @@ html[data-intro="running"] {
     opacity 0.375s cubic-bezier(0.625, 0.05, 0, 1),
     background-color 0.375s cubic-bezier(0.625, 0.05, 0, 1),
     width 0.375s cubic-bezier(0.625, 0.05, 0, 1),
-    height 0.375s cubic-bezier(0.625, 0.05, 0, 1);
+    height 0.375s cubic-bezier(0.625, 0.05, 0, 1),
+    border-color 0.375s cubic-bezier(0.625, 0.05, 0, 1);
 }
 .cursor[data-visible] {
   opacity: 1;
 }
+/* Dana: over clickable things grow only a little (~20%) and drop the outline. */
 body:has(a:hover, button:hover, [data-cursor]:hover) .cursor {
-  width: 51px;
-  height: 51px;
+  width: 21px;
+  height: 21px;
+  border-color: transparent;
   background-color: color-mix(in srgb, var(--fg) 30%, transparent);
 }
 @media (hover: none), (pointer: coarse) {
