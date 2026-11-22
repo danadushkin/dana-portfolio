@@ -113,10 +113,10 @@ html[data-intro="running"] {
 .cursor[data-visible] {
   opacity: 1;
 }
-/* Dana: over clickable things grow only a little (~20%) and drop the outline. */
+/* Dana: over clickable things grow a little (17px → 21 → now 25px) and drop the outline. */
 body:has(a:hover, button:hover, [data-cursor]:hover) .cursor {
-  width: 21px;
-  height: 21px;
+  width: 25px;
+  height: 25px;
   border-color: transparent;
   background-color: color-mix(in srgb, var(--fg) 30%, transparent);
 }
@@ -124,6 +124,35 @@ body:has(a:hover, button:hover, [data-cursor]:hover) .cursor {
   .cursor {
     display: none;
   }
+}
+
+/* Project page entrance (reference: zitafernandez.com/collaborations/ware-store):
+   blocks rise 32px and fade in one after another; the title rises line-by-line from
+   behind a mask. Order comes from --i. The first image is deliberately left still so the
+   picture doesn't move when arriving from the index. */
+@keyframes enter-up {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+}
+@keyframes enter-mask {
+  from {
+    transform: translateY(105%);
+  }
+}
+.enter {
+  animation: enter-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(120ms + var(--i, 0) * 80ms);
+}
+.enter-mask {
+  display: block;
+  overflow: hidden;
+}
+.enter-mask > span {
+  display: block;
+  animation: enter-mask 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(120ms + var(--i, 0) * 80ms);
 }
 
 @keyframes fade-in {
@@ -139,7 +168,9 @@ body:has(a:hover, button:hover, [data-cursor]:hover) .cursor {
   [data-reveal] {
     transition: none;
   }
-  .fade-in {
+  .fade-in,
+  .enter,
+  .enter-mask > span {
     animation: none;
   }
 }

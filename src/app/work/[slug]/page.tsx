@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { SmoothColumn } from "@/components/SmoothColumn";
 import { BackToTop } from "@/components/BackToTop";
+import { Credits } from "@/components/Credits";
 import { LoopVideo } from "@/components/LoopVideo";
 import { Shell } from "@/components/Shell";
 import {
@@ -55,19 +56,27 @@ function Tile({ m, label, sizes, priority }: { m: Media; label: string; sizes: s
   );
 }
 
+// The first row stays still (it's where the home preview was); later rows rise in.
+const enter = (i: number) => ({ className: "enter", style: { "--i": i } as React.CSSProperties });
+
 function Rows({ p }: { p: Project }) {
   let n = 0;
   return p.rows.map((row, r) => {
+    const anim: { className?: string; style?: React.CSSProperties } = r === 0 ? {} : enter(3 + r);
     if (Array.isArray(row)) {
       return (
-        <div key={r} className="grid grid-cols-2 gap-[var(--gap)]">
+        <div key={r} style={anim.style} className={`grid grid-cols-2 gap-[var(--gap)] ${anim.className ?? ""}`}>
           {row.map((src) => (
             <Tile key={src} m={mediaItem(p, src)} label={`${p.title} — ${++n}`} sizes="(min-width: 768px) 33vw, 50vw" />
           ))}
         </div>
       );
     }
-    return <Tile key={r} m={mediaItem(p, row)} label={`${p.title} — ${++n}`} sizes="(min-width: 768px) 66vw, 100vw" priority={r === 0} />;
+    return (
+      <div key={r} {...anim}>
+        <Tile m={mediaItem(p, row)} label={`${p.title} — ${++n}`} sizes="(min-width: 768px) 66vw, 100vw" priority={r === 0} />
+      </div>
+    );
   });
 }
 
@@ -77,7 +86,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const next = nextProject(p.slug);
 
   const sub = (
-    <div className="fade-in flex flex-wrap justify-between gap-x-6 gap-y-1 md:cols md:gap-0">
+    <div className="enter flex flex-wrap justify-between gap-x-6 gap-y-1 md:cols md:gap-0" style={{ "--i": 0 } as React.CSSProperties}>
       <Link href="/" className="hover:text-muted">Back to index</Link>
       <Link href={`/work/${next.slug}`} className="group">
         Next <span className="text-muted group-hover:text-fg">{next.title}</span>
@@ -95,24 +104,21 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         style={{ "--gap": "clamp(8px, 0.83vw, 16px)" } as React.CSSProperties}
       >
         {/* Info — stays put on desktop while the column on the right scrolls */}
-        <aside className="fade-in flex flex-col justify-between gap-12 md:h-full md:pr-[4%] md:pt-[50px]">
+        <aside className="flex flex-col justify-between gap-12 md:h-full md:pr-[4%] md:pt-[50px]">
           <div className="max-w-[420px]">
-            <h1 className="text-[26px] leading-[1.1] tracking-[-0.015em]">{p.title}</h1>
-            <div className="mt-6 space-y-4">
+            <h1 className="enter-mask text-[26px] leading-[1.1] tracking-[-0.015em]" style={{ "--i": 1 } as React.CSSProperties}>
+              <span>{p.title}</span>
+            </h1>
+            <div className="enter mt-6 space-y-4" style={enter(2).style}>
               {p.description.map((para, i) => (
                 <Para key={i} p={para} />
               ))}
             </div>
-            <p className="mt-6 text-muted">{p.tags.join(", ")}</p>
+            <p className="enter mt-6 text-muted" style={enter(3).style}>{p.tags.join(", ")}</p>
           </div>
-          <dl className="grid w-fit grid-cols-[86px_1fr] gap-y-[6px]">
-            {p.meta.map((m) => (
-              <div key={m.label} className="contents">
-                <dt className="text-muted">{m.label}</dt>
-                <dd>{Array.isArray(m.value) ? m.value.map((v) => <span key={v} className="block">{v}</span>) : m.value}</dd>
-              </div>
-            ))}
-          </dl>
+          <div {...enter(4)}>
+            <Credits meta={p.meta} />
+          </div>
         </aside>
 
         <SmoothColumn>

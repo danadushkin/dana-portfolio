@@ -26,9 +26,12 @@ export function SmoothColumn({ children, className = "" }: { children: React.Rea
     let target = pos;
     let raf = 0;
     let written = el.scrollTop;
+    // Lets the info column react to scrolling (the credits table hides once you scroll).
+    const announce = () => window.dispatchEvent(new CustomEvent("column:scroll", { detail: el.scrollTop }));
     const write = () => {
       el.scrollTop = pos;
       written = el.scrollTop;
+      announce();
     };
     const tick = () => {
       const diff = target - pos;
@@ -43,6 +46,7 @@ export function SmoothColumn({ children, className = "" }: { children: React.Rea
       raf = requestAnimationFrame(tick);
     };
     const glideTo = (v: number) => {
+      cancelTween();
       target = clamp(v);
       if (reduced) {
         pos = target;
@@ -70,10 +74,38 @@ export function SmoothColumn({ children, className = "" }: { children: React.Rea
     };
     // Native scrolling (touch screens, scrollbar drag) moves the target along with it.
     const onScroll = () => {
-      if (!raf && Math.abs(el.scrollTop - written) > 1) pos = target = written = el.scrollTop;
+      if (!raf && !tween && Math.abs(el.scrollTop - written) > 1) pos = target = written = el.scrollTop;
+      if (!raf && !tween) announce();
     };
 
-    const toTop = () => glideTo(0); // from the "Back to top" button
+    // "Back to top" (Dana: slower than a normal scroll): a timed ease-in-out ride
+    // whose length grows with the distance, 1.4–2.6s. Any wheel input takes over.
+    let tween = 0;
+    function cancelTween() {
+      if (tween) cancelAnimationFrame(tween);
+      tween = 0;
+    }
+    const toTop = () => {
+      cancelAnimationFrame(raf);
+      raf = 0;
+      cancelTween();
+      const from = pos;
+      if (reduced || from < 1) {
+        pos = target = 0;
+        write();
+        return;
+      }
+      const duration = Math.min(2600, 1400 + from / 6);
+      const t0 = performance.now();
+      const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+      const step = (now: number) => {
+        const t = Math.min(1, (now - t0) / duration);
+        pos = target = from * (1 - ease(t));
+        write();
+        tween = t < 1 ? requestAnimationFrame(step) : 0;
+      };
+      tween = requestAnimationFrame(step);
+    };
 
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("keydown", onKey);
@@ -81,6 +113,7 @@ export function SmoothColumn({ children, className = "" }: { children: React.Rea
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       cancelAnimationFrame(raf);
+      cancelTween();
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("column:top", toTop);

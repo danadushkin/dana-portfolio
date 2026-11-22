@@ -5,7 +5,7 @@ import { TlvClock } from "./TlvClock";
 export function ContactBlock({ id }: { id?: string }) {
   return (
     <div id={id} className="w-full max-w-[240px] text-muted">
-      <ul className="space-y-[10px] border-t border-line pt-4">
+      <ul className="space-y-[12px] border-t border-line pt-4">
         {site.contact.map((c) => (
           <li key={c.label}>
             <a
