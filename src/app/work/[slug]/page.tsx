@@ -50,7 +50,9 @@ function Para({ p }: { p: Paragraph }) {
 function Tile({ m, label, sizes, priority }: { m: Media; label: string; sizes: string; priority?: boolean }) {
   return (
     <div className="relative w-full bg-panel" style={{ aspectRatio: `${m.w} / ${m.h}` }}>
-      <Image src={m.src} alt={label} fill sizes={sizes} priority={priority} className="object-cover" />
+      {/* eager, not lazy: rules out native lazy-loading inside the custom scroll column as a
+          cause of "an image never appeared on some computers" (the images are small WebPs) */}
+      <Image src={m.src} alt={label} fill sizes={sizes} {...(priority ? { priority: true } : { loading: "eager" as const })} className="object-cover" />
       {m.video && <LoopVideo src={m.video} poster={m.poster ?? m.src} label={label} />}
     </div>
   );

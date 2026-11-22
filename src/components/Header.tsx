@@ -20,7 +20,7 @@ export function Header({ current }: { current?: number }) {
         </p>
         <nav className="flex gap-6 md:contents">
           <Link href="/about" className="hover:text-muted" {...reveal(2)}>About</Link>
-          <Link href="/about#contact" className="hover:text-muted" {...reveal(3)}>Contact</Link>
+          <Link href="/contact" className="hover:text-muted" {...reveal(3)}>Contact</Link>
           {/* Last column: INDEX + counter on the left, the Light/Dark switch at the far right */}
           <span className="flex items-start justify-between gap-6" {...reveal(4)}>
             <span className="flex gap-2">

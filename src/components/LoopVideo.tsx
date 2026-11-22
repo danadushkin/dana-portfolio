@@ -17,7 +17,7 @@ export function LoopVideo({ src, poster, label }: { src: string; poster: string;
           v.pause();
         }
       },
-      { rootMargin: "0px 400px" },
+      { rootMargin: "400px 0px" }, // start a little before it scrolls into view
     );
     io.observe(v);
     return () => io.disconnect();

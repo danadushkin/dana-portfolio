@@ -113,10 +113,10 @@ html[data-intro="running"] {
 .cursor[data-visible] {
   opacity: 1;
 }
-/* Dana: over clickable things grow a little (17px → 21 → now 25px) and drop the outline. */
+/* Dana: over clickable things grow a little (17px → 21 → 25 → now 30px) and drop the outline. */
 body:has(a:hover, button:hover, [data-cursor]:hover) .cursor {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   border-color: transparent;
   background-color: color-mix(in srgb, var(--fg) 30%, transparent);
 }

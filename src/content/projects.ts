@@ -18,7 +18,7 @@ export type Project = {
   meta: { label: string; value: string | string[] }[];
   rows: Row[]; // the first row's image is the cover
   /** Image path → looping clip that replaces it (the image stays as the poster). */
-  videos?: Record<string, string | { src: string; poster: string }>;
+  videos?: Record<string, string | VideoSpec>;
   /** Placeholder rows keep the index at its designed length until real projects exist. */
   placeholder?: boolean;
 };
@@ -27,15 +27,21 @@ export type Media = { src: string; w: number; h: number; video?: string; poster?
 
 const sizes = media as Record<string, { w: number; h: number }>;
 
-const videoOf = (v: string | { src: string; poster: string } | undefined) =>
-  !v ? {} : typeof v === "string" ? { video: asset(v) } : { video: asset(v.src), poster: asset(v.poster) };
+/** A clip replacing an image; w/h = the clip's own size when its frame should follow it. */
+export type VideoSpec = { src: string; poster?: string; w?: number; h?: number };
+
+const videoOf = (v: string | VideoSpec | undefined) => {
+  if (!v) return {};
+  if (typeof v === "string") return { video: asset(v) };
+  return { video: asset(v.src), ...(v.poster && { poster: asset(v.poster) }), ...(v.w && v.h && { w: v.w, h: v.h }) };
+};
 
 // Content refers to canonical paths ("/work/x/10.webp"); what gets published is the
 // content-hashed file, so a changed picture always gets a fresh URL (see assets.ts).
 export const mediaItem = (p: Project, src: string): Media => ({
   src: asset(src),
   ...(sizes[src] ?? { w: 1600, h: 1080 }),
-  ...videoOf(p.videos?.[src]),
+  ...videoOf(p.videos?.[src]), // may override w/h with the clip's own proportions
 });
 
 export const coverOf = (p: Project): Media | undefined => {
@@ -119,9 +125,10 @@ export const projects: Project[] = [
     rows: [mon(1), mon(2), mon(3), mon(4), [mon(5), mon(6)], [mon(7), mon(8)], mon(9), [mon(10), mon(11)]],
     // "video 1" / "video 2" frames ← videos/montora_1.mp4, montora_2.mp4 (audio stripped).
     // Their first frame differs from the Figma still, so the poster is the clip's own first frame.
+    // Dana: full width, height to match the clip (16:9) so nothing is cropped top/bottom.
     videos: {
-      [mon(3)]: { src: monV(3), poster: "/work/montora-studio-two/03.poster.jpg" },
-      [mon(4)]: { src: monV(4), poster: "/work/montora-studio-two/04.poster.jpg" },
+      [mon(3)]: { src: monV(3), poster: "/work/montora-studio-two/03.poster.jpg", w: 1280, h: 720 },
+      [mon(4)]: { src: monV(4), poster: "/work/montora-studio-two/04.poster.jpg", w: 1280, h: 720 },
     },
   },
   {
