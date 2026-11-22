@@ -13,4 +13,5 @@ export const site = {
     { label: "Resume", href: "#" }, // TODO: PDF in /public or a link
   ],
   phone: "+972 526818161",
+  cta: "For projects, collaborations, more info or just say hello - let's get in touch.",
 };

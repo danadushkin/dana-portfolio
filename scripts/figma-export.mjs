@@ -11,7 +11,7 @@
 //       → replaces public/work/<slug>/ with those frames as 01.webp, 02.webp, ... (in the order given)
 //         and records each one's pixel size in src/content/media.json
 
-import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 
@@ -64,8 +64,9 @@ if (cmd === "list") {
   if (err) throw new Error(err);
 
   const dir = path.join("public", "work", slug);
-  await rm(dir, { recursive: true, force: true });
   await mkdir(dir, { recursive: true });
+  // Replace the old images only — videos (.mp4) in the same folder are kept.
+  for (const f of await readdir(dir)) if (f.endsWith(".webp")) await rm(path.join(dir, f));
 
   // Every image is re-encoded to WebP; its size goes into src/content/media.json
   // so the page can lay images out at the right aspect ratio before they load.

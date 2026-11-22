@@ -3,20 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { indexLabel, mediaOf, type Project } from "@/content/projects";
+import { coverOf, indexLabel, type Project } from "@/content/projects";
 import { Intro } from "./Intro";
 
 const reveal = (i: number) => ({ "data-reveal": "", style: { "--i": i } as React.CSSProperties });
 
-// Tells the project page it was entered from the index, so it plays the slide-in.
-// (sessionStorage only carries this one-shot flag between pages.)
-const markFromIndex = () => {
-  try {
-    sessionStorage.setItem("fromIndex", "1");
-  } catch {}
-};
-
 // Index list on the left; hovering a row cross-fades the big preview on the right.
+// The preview sits exactly where a project page shows its first image, so clicking
+// through feels like the page simply opens up around the picture.
 export function HomeIndex({
   projects,
   introImages,
@@ -28,6 +22,8 @@ export function HomeIndex({
 }) {
   const [active, setActive] = useState(0);
   const panel = useRef<HTMLDivElement>(null);
+  const first = projects.map(coverOf).find(Boolean);
+  const ratio = first ? first.w / first.h : 1260 / 861;
 
   return (
     <div className="flex flex-col gap-10 md:grid md:h-full md:min-h-0 md:grid-cols-[33.7fr_66.3fr] md:gap-0">
@@ -48,8 +44,14 @@ export function HomeIndex({
               </span>
             );
             return (
-              <li key={p.slug} {...reveal(6 + i)} onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)}>
-                {p.placeholder ? row : <Link href={`/work/${p.slug}`} onClick={markFromIndex}>{row}</Link>}
+              <li
+                key={p.slug}
+                {...reveal(6 + i)}
+                // placeholder rows have no picture, so they leave the current preview alone
+                onMouseEnter={p.placeholder ? undefined : () => setActive(i)}
+                onFocus={p.placeholder ? undefined : () => setActive(i)}
+              >
+                {p.placeholder ? row : <Link href={`/work/${p.slug}`}>{row}</Link>}
               </li>
             );
           })}
@@ -57,21 +59,21 @@ export function HomeIndex({
         <div className="hidden md:block" {...reveal(6 + projects.length)}>{contact}</div>
       </div>
 
-      {/* Preview locked to 1260×850 (Dana's cover size) so covers are never cropped:
+      {/* Preview locked to the cover ratio (Dana: 1260×861) so covers are never cropped:
           as wide as the column allows, unless the height runs out first. */}
       <div className="relative hidden [container-type:size] md:block">
         <div
           ref={panel}
-          className="absolute left-0 top-0 aspect-[1260/850] w-[min(100cqw,calc(100cqh*1260/850))] bg-panel"
+          className="absolute left-0 top-0 w-[min(100cqw,calc(100cqh*var(--ratio)))] bg-panel"
+          style={{ aspectRatio: String(ratio), "--ratio": ratio } as React.CSSProperties}
         >
         {projects.map((p, i) => {
-          const cover = mediaOf(p)[0];
+          const cover = coverOf(p);
           if (!cover) return null;
           return (
             <Link
               key={p.slug}
               href={`/work/${p.slug}`}
-              onClick={markFromIndex}
               tabIndex={-1}
               aria-hidden={i !== active}
               className={`absolute inset-0 transition-opacity duration-700 ease-out ${
@@ -90,7 +92,7 @@ export function HomeIndex({
         {projects
           .filter((p) => !p.placeholder)
           .map((p) => {
-            const cover = mediaOf(p)[0];
+            const cover = coverOf(p)!;
             return (
               <Link key={p.slug} href={`/work/${p.slug}`} className="block">
                 <Image src={cover.src} alt={p.title} width={cover.w} height={cover.h} sizes="100vw" className="h-auto w-full" />

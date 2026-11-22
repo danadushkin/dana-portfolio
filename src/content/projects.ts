@@ -2,17 +2,20 @@
 // Media comes from Figma via scripts/figma-export.mjs; sizes live in media.json.
 import media from "./media.json";
 
-export type Paragraph = string | { text: string; href: string }[];
+/** A paragraph: plain text, or text with inline links. "\n" inside text is a line break. */
+export type Paragraph = string | { text: string; href?: string }[];
+
+/** One row of the image column: a single full-width item, or two side by side. */
+export type Row = string | [string, string];
 
 export type Project = {
   slug: string;
   title: string;
   year: string;
-  summary: string;
+  description: Paragraph[];
   tags: string[];
   meta: { label: string; value: string | string[] }[];
-  sections: { heading: string; body: Paragraph[] }[];
-  media: string[]; // first item is the cover
+  rows: Row[]; // the first row's image is the cover
   /** Image path → looping clip that replaces it (the image stays as the poster). */
   videos?: Record<string, string>;
   /** Placeholder rows keep the index at its designed length until real projects exist. */
@@ -23,73 +26,79 @@ export type Media = { src: string; w: number; h: number; video?: string };
 
 const sizes = media as Record<string, { w: number; h: number }>;
 
-export function mediaOf(p: Project): Media[] {
-  return p.media.map((src) => ({ src, ...(sizes[src] ?? { w: 1600, h: 1080 }), video: p.videos?.[src] }));
-}
+export const mediaItem = (p: Project, src: string): Media => ({
+  src,
+  ...(sizes[src] ?? { w: 1600, h: 1080 }),
+  video: p.videos?.[src],
+});
 
-const workImages = (slug: string, n: number) =>
-  Array.from({ length: n }, (_, i) => `/work/${slug}/${String(i + 1).padStart(2, "0")}.webp`);
+export const coverOf = (p: Project): Media | undefined => {
+  const first = p.rows[0];
+  return first ? mediaItem(p, Array.isArray(first) ? first[0] : first) : undefined;
+};
+
+const img = (slug: string) => (n: number) => `/work/${slug}/${String(n).padStart(2, "0")}.webp`;
+const vid = (slug: string) => (n: number) => `/work/${slug}/${String(n).padStart(2, "0")}.mp4`;
 
 const placeholder = (n: number): Project => ({
   slug: `project-${n}`,
   title: "Name of Project",
   year: "",
-  summary: "",
+  description: [],
   tags: [],
   meta: [],
-  sections: [],
-  media: [],
+  rows: [],
   placeholder: true,
 });
 
+const wix = img("wix-harmony");
+const wixV = vid("wix-harmony");
+const mon = img("montora-studio-two");
+
 export const projects: Project[] = [
   {
+    // Figma: page frame 923:34333, image column x≈6191
     slug: "wix-harmony",
     title: "Wix Harmony",
-    year: "2026",
-    summary:
-      "Wix Harmony is Wix’s core product. I was part of the brand development team, shaping its identity and translating the product’s vision and capabilities into a distinctive visual language and cohesive marketing assets, reflecting its core values: Personal, Seamless, AI-forward and Advanced.",
+    year: "2025",
+    description: [
+      "Wix Harmony is Wix’s core product. I was part of the brand development team, shaping its identity and translating the product’s vision and capabilities into a distinctive visual language, web design, and cohesive marketing assets.",
+      [
+        {
+          text: "The process included designing UI components, product-inspired elements, image making, typography challenges, AI-generated imagery and motion.\nThe project also included web design and layout development for ",
+        },
+        { text: "Wix.com", href: "https://wix.com" },
+        { text: " main homepage and the " },
+        { text: "product launch lp", href: "https://www.wix.com/harmony" },
+        { text: "." },
+      ],
+    ],
     tags: ["Brand Development", "Visual Identity", "Design System", "Visual Storytelling"],
     meta: [
-      { label: "Year", value: "2026" },
+      { label: "Year", value: "2025" },
       { label: "Client", value: "Wix" },
-      { label: "Role", value: "Brand Designer" },
+      { label: "Role", value: "Visual Designer" },
       { label: "Team", value: "Brand R&D, Wix.com" },
-      { label: "Tools", value: ["Figma", "Weavy", "Midjourney"] },
+      { label: "Tools", value: ["Figma", "Photoshop", "Midjourney"] },
     ],
-    sections: [
-      {
-        heading: "Design Process",
-        body: [
-          "The process involved defining the visual language, exploring the product, and translating its complexity into a clear and engaging marketing language. I worked across different aspects of the visual identity, turning product insights into a cohesive and expressive brand experience.",
-          "This included designing UI components and product-inspired elements, developing a photography direction, creating custom imagery using AI tools, incorporating motion design, and building showcase websites that brought the brand values to life.",
-          [
-            { text: "The project also included web design, layout development and typography for ", href: "" },
-            { text: "Wix.com", href: "https://wix.com" },
-            { text: " main homepage and the ", href: "" },
-            { text: "product launch lp", href: "https://www.wix.com/harmony" },
-            { text: ".", href: "" },
-          ],
-        ],
-      },
-    ],
-    media: workImages("wix-harmony", 11),
+    rows: [wix(1), wix(2), [wix(3), wix(4)], wix(5), wix(6), wix(7), [wix(8), wix(9)], wix(10), wix(11)],
     // Sources in /videos (not committed). Re-encode with:
     // ffmpeg -i in.mp4 -an -vf "scale='min(1920,iw)':-2,fps=30" -c:v libx264 -preset slow -crf 24 -pix_fmt yuv420p -movflags +faststart out.mp4
     videos: {
-      "/work/wix-harmony/02.webp": "/work/wix-harmony/02.mp4", // cover for pp a.mp4
-      "/work/wix-harmony/06.webp": "/work/wix-harmony/06.mp4", // flower.mp4
-      "/work/wix-harmony/08.webp": "/work/wix-harmony/08.mp4", // lp.mp4
-      "/work/wix-harmony/09.webp": "/work/wix-harmony/09.mp4", // link1.mp4
+      [wix(2)]: wixV(2), // cover for pp a.mp4
+      [wix(4)]: wixV(4), // flower.mp4
+      [wix(8)]: wixV(8), // link1.mp4
+      [wix(10)]: wixV(10), // lp.mp4
     },
   },
   {
+    // Figma: page frame 923:38414, image column x≈8596
     slug: "montora-studio-two",
     title: "Montora - Studio Two",
     year: "2026",
-    // Copy from Figma frame 921:22657 (summary 921:22658, process text 922:28617).
-    summary:
-      "Montora is a fashion mini-brand created for the Studio Two launch video, for professional web creators. The brief was to develop a distinctive brand identity and website for a high-end travel fashion label, combining a tech-driven, cool, and futuristic aesthetic.",
+    description: [
+      "Montora is a fashion mini-brand created for Wix Studio Two launch video, aimed for professional web creators. The project involved developing a distinctive visual identity and website for a high-end, futuristic travel fashion label, combining a tech-driven aesthetic with a refined visual language.\nThe process involved fast-paced creative development, cross-team collaboration, and adapting to evolving creative needs.",
+    ],
     tags: ["Brand Development", "Visual Identity", "Typography", "Layout Design"],
     meta: [
       { label: "Year", value: "2026" },
@@ -98,16 +107,8 @@ export const projects: Project[] = [
       { label: "Team", value: "Wix Motion Studio" },
       { label: "Tools", value: ["Figma", "ChatGPT", "Midjourney"] },
     ],
-    sections: [
-      {
-        heading: "Design Process",
-        body: [
-          "The project included web design, layout development, and typography, alongside close collaboration with designers and animators from the Wix Motion Studio team.",
-          "I developed Montora’s visual identity and website, translating the brief into a cohesive brand experience.",
-        ],
-      },
-    ],
-    media: workImages("montora-studio-two", 6),
+    // 03 and 04 are the "video 1" / "video 2" frames — stills until the clips arrive.
+    rows: [mon(1), mon(2), mon(3), mon(4), [mon(5), mon(6)], [mon(7), mon(8)], [mon(9), mon(10)], mon(11)],
   },
   placeholder(3),
   placeholder(4),

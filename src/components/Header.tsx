@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { site } from "@/content/site";
 import { projects } from "@/content/projects";
+import { ThemeToggle } from "./ThemeToggle";
 
 const reveal = (i: number) => ({ "data-reveal": "", style: { "--i": i } as React.CSSProperties });
 
@@ -20,10 +21,16 @@ export function Header({ current }: { current?: number }) {
         <nav className="flex gap-6 md:contents">
           <Link href="/about" className="hover:text-muted" {...reveal(2)}>About</Link>
           <Link href="/about#contact" className="hover:text-muted" {...reveal(3)}>Contact</Link>
-          <span className="flex justify-between gap-6" {...reveal(4)}>
-            <Link href="/" className="hover:text-muted">Index</Link>
-            <span className="text-muted">
-              {now} - {total}
+          {/* Last column: INDEX + counter on the left, the Light/Dark switch at the far right */}
+          <span className="flex items-start justify-between gap-6" {...reveal(4)}>
+            <span className="flex gap-2">
+              <Link href="/" className="hover:text-muted">Index</Link>
+              <span className="text-muted">
+                {now} - {total}
+              </span>
+            </span>
+            <span className="hidden normal-case text-muted md:block">
+              <ThemeToggle />
             </span>
           </span>
         </nav>

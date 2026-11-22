@@ -1,10 +1,11 @@
 import { site } from "@/content/site";
 import { ThemeToggle } from "./ThemeToggle";
+import { TlvClock } from "./TlvClock";
 
 export function ContactBlock({ id }: { id?: string }) {
   return (
-    <div id={id} className="w-full max-w-[220px] border-t border-line pt-4 text-muted">
-      <ul className="space-y-[6px]">
+    <div id={id} className="w-full max-w-[240px] text-muted">
+      <ul className="space-y-[6px] border-t border-line pt-4">
         {site.contact.map((c) => (
           <li key={c.label}>
             <a
@@ -23,7 +24,14 @@ export function ContactBlock({ id }: { id?: string }) {
           </a>
         </li>
       </ul>
-      <ThemeToggle />
+      <p className="mt-10">
+        <TlvClock /> in TLV
+      </p>
+      <p className="mt-3">{site.cta}</p>
+      {/* The switch lives in the header on desktop; phones get it here. */}
+      <div className="mt-6 md:hidden">
+        <ThemeToggle />
+      </div>
     </div>
   );
 }

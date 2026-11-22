@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { site } from "@/content/site";
+import { CursorDot } from "@/components/CursorDot";
 import "./globals.css";
 
 const geist = Geist({ variable: "--font-geist", subsets: ["latin"], weight: ["300", "400"] });
@@ -22,7 +23,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className={`${geist.variable} antialiased`}>{children}</body>
+      <body className={`${geist.variable} antialiased`}>
+        {children}
+        <CursorDot />
+      </body>
     </html>
   );
 }

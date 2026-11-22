@@ -24,7 +24,7 @@ export function ThemeToggle() {
       onClick={toggle}
       role="switch"
       aria-checked={dark}
-      className="mt-[10px] flex items-center gap-3 hover:text-fg"
+      className="flex items-center gap-3 hover:text-fg"
     >
       {dark ? "Dark" : "Light"}
       <span className="relative h-[14px] w-[28px] rounded-full border border-faint">

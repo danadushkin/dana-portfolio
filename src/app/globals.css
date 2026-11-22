@@ -44,10 +44,10 @@ body {
 }
 
 /* Desktop column grid, measured from the 1920px frames:
-   name | bio | about | contact … | index + counter */
+   name | bio | about | contact … | index + counter … light switch */
 @utility cols {
   display: grid;
-  grid-template-columns: 10.4fr 23.3fr 13.6fr 45.7fr 7fr;
+  grid-template-columns: 10.4fr 23.3fr 13.6fr 38.7fr 14fr;
 }
 
 /* ---- Motion (behaviour modelled on the reference Dana picked) ---- */

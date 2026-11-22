@@ -8,7 +8,7 @@ const EXPAND_MS = 1100;
 
 /**
  * Home intro: a small centered window shows Dana's "opening frames" one after
- * another, lands on the first project's cover, then grows into the 1260×850
+ * another, lands on the first project's cover, then grows into the cover-sized
  * preview panel and hands over to the page. Armed by the inline script in layout.tsx.
  */
 export function Intro({ images, target }: { images: string[]; target: React.RefObject<HTMLDivElement | null> }) {
