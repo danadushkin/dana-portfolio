@@ -2,7 +2,7 @@
   "/intro/01.jpg": {
     "w": 1329,
     "h": 1809,
-    "figma": "921:22118"
+    "figma": "927:99321"
   },
   "/intro/02.jpg": {
     "w": 1329,
@@ -12,7 +12,17 @@
   "/intro/03.jpg": {
     "w": 1329,
     "h": 1809,
-    "figma": "927:99321"
+    "figma": "929:123834"
+  },
+  "/intro/04.jpg": {
+    "w": 1329,
+    "h": 1809,
+    "figma": "921:22118"
+  },
+  "/intro/05.jpg": {
+    "w": 1329,
+    "h": 1809,
+    "figma": "940:158164"
   },
   "/work/about/01.jpg": {
     "w": 528,
@@ -140,24 +150,44 @@
     "figma": "927:96745"
   },
   "/work/wix-events/01.jpg": {
-    "w": 2520,
-    "h": 1722,
-    "figma": "940:157576"
-  },
-  "/work/wix-events/02.jpg": {
     "w": 1244,
     "h": 1722,
     "figma": "939:157345"
   },
-  "/work/wix-events/03.jpg": {
+  "/work/wix-events/02.jpg": {
     "w": 1244,
     "h": 1722,
     "figma": "939:157426"
   },
+  "/work/wix-events/03.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "940:157576"
+  },
   "/work/wix-events/04.jpg": {
+    "w": 1244,
+    "h": 1722,
+    "figma": "940:157713"
+  },
+  "/work/wix-events/05.jpg": {
+    "w": 1244,
+    "h": 1722,
+    "figma": "940:157731"
+  },
+  "/work/wix-events/06.jpg": {
     "w": 2520,
     "h": 1722,
     "figma": "940:157585"
+  },
+  "/work/wix-events/07.jpg": {
+    "w": 1244,
+    "h": 1722,
+    "figma": "940:157634"
+  },
+  "/work/wix-events/08.jpg": {
+    "w": 1244,
+    "h": 1722,
+    "figma": "940:157652"
   },
   "/work/wix-harmony/01.jpg": {
     "w": 2520,

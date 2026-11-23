@@ -51,6 +51,12 @@ export const mediaItem = (p: Project, src: string): Media => ({
   ...videoOf(p.videos?.[src]), // may override w/h with the clip's own proportions
 });
 
+/** The whole first row (one item, or a pair) — what the home preview shows. */
+export const firstRowOf = (p: Project): Media[] => {
+  const first = p.rows[0];
+  return first ? (Array.isArray(first) ? first : [first]).map((src) => mediaItem(p, src)) : [];
+};
+
 export const coverOf = (p: Project): Media | undefined => {
   const first = p.rows[0];
   return first ? mediaItem(p, Array.isArray(first) ? first[0] : first) : undefined;
@@ -189,17 +195,26 @@ export const projects: Project[] = [
     videos: { [sw(2)]: swV(2), [sw(4)]: swV(4), [sw(7)]: swV(7) },
   },
   {
-    // Figma: page frame 939:157235 ("project 05"), image column x≈16118.
-    // Only the title and images are new in Figma — its text, tags and credits there are still
-    // a copy of Showcase Websites, so they are left out until Dana writes this project's own.
+    // Figma: page frame 939:157235 ("project 05"), image column x≈16107
     slug: "wix-events",
-    title: "Wix Events",
-    year: "",
-    description: [],
-    tags: [],
-    meta: [],
-    // the third tall image (940:157597) sits outside the column in Figma, so it isn't used
-    rows: [we(1), [we(2), we(3)], we(4)],
+    title: "Wix Conference & Events",
+    year: "2018-2019",
+    description: [
+      "I worked on a variety of physical brand experiences at Wix, including conferences, company events, print materials, and branded merchandise.",
+      "I also had full ownership of Wix Meetups. This included developing a dedicated visual identity, designing presentations and print materials, and overseeing production and execution worldwide.",
+    ],
+    tags: ["Event Branding", "Print Production", "Brand Experiences"],
+    meta: [
+      { label: "Year", value: "2018-2019" },
+      { label: "Client", value: "Wix Internal" },
+      { label: "Role", value: "Visual Designer" },
+      { label: "Team", value: "Design Dev" },
+      { label: "Tools", value: ["Illustrator", "Photoshop"] },
+    ],
+    textWidth: 410,
+    tagsWidth: 410,
+    // The first row is a pair (tote + menu), so the home preview shows the pair too.
+    rows: [[we(1), we(2)], we(3), [we(4), we(5)], we(6), [we(7), we(8)]],
   },
   placeholder(6),
   placeholder(7),

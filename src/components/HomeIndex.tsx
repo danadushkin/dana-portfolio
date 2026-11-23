@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { coverOf, indexLabel, type Project } from "@/content/projects";
+import { coverOf, firstRowOf, indexLabel, type Project } from "@/content/projects";
 import { Intro } from "./Intro";
 
 export type IntroConfig = {
@@ -78,8 +78,8 @@ export function HomeIndex({
           style={{ aspectRatio: String(ratio) }}
         >
         {projects.map((p, i) => {
-          const cover = coverOf(p);
-          if (!cover) return null;
+          const row = firstRowOf(p);
+          if (!row.length) return null;
           return (
             <Link
               key={p.slug}
@@ -90,7 +90,19 @@ export function HomeIndex({
                 i === active ? "opacity-100" : "pointer-events-none opacity-0"
               }`}
             >
-              <Image src={cover.src} alt={p.title} fill sizes="66vw" priority={i === 0} className="object-cover" />
+              {row.length === 1 ? (
+                <Image src={row[0].src} alt={p.title} fill sizes="66vw" priority={i === 0} className="object-cover" />
+              ) : (
+                // A pair, laid out exactly like the project page's first row (same gap, each
+                // at its own ratio); anything below the panel is clipped like a tall cover.
+                <div className="grid grid-cols-2 items-start gap-[clamp(8px,0.83vw,16px)]">
+                  {row.map((m) => (
+                    <div key={m.src} className="relative w-full bg-panel" style={{ aspectRatio: `${m.w} / ${m.h}` }}>
+                      <Image src={m.src} alt={p.title} fill sizes="33vw" className="object-cover" />
+                    </div>
+                  ))}
+                </div>
+              )}
             </Link>
           );
         })}

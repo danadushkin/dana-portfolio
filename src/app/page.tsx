@@ -25,10 +25,10 @@ async function edgeColors(src: string) {
 }
 
 // Intro = Dana's "opening frames" (public/intro, from scripts/figma-opening.mjs).
-// Frame 1 is the Harmony cover in a narrow window, so it plays last and grows into the
-// cover itself; the other frames play before it.
+// The LAST frame (Dana's "opening frame 8") is the Harmony cover in a narrow window: it is
+// rebuilt from the real cover and grows into it; the other frames play before it, in order.
 async function intro(): Promise<IntroConfig> {
-  const [, ...others] = Object.keys(media).filter((k) => k.startsWith("/intro/")).sort();
+  const others = Object.keys(media).filter((k) => k.startsWith("/intro/")).sort().slice(0, -1);
   const cover = coverOf(realProjects[0])!;
   return { frames: others.map(asset), cover: cover.src, coverRatio: cover.w / cover.h, coverEdges: await edgeColors(cover.src) };
 }
