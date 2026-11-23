@@ -107,16 +107,23 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       >
         {/* Info — stays put on desktop while the column on the right scrolls */}
         <aside className="flex flex-col justify-between gap-12 md:h-full md:pr-[4%] md:pt-[50px]">
-          <div className="max-w-[420px]">
+          {/* Description and tags keep Figma's text-box widths; if the column is narrower than
+              the box (small laptops), text and box shrink together so the lines still break
+              exactly as in the design. */}
+          <div className="md:[container-type:inline-size]">
             <h1 className="enter-mask text-[26px] leading-[1.1] tracking-[-0.015em]" style={{ "--i": 1 } as React.CSSProperties}>
               <span>{p.title}</span>
             </h1>
-            <div className="enter mt-6 space-y-4" style={enter(2).style}>
+            <div className="enter fit-box mt-6 space-y-[1.4em]" style={{ ...enter(2).style, "--box": p.textWidth ?? 402 } as React.CSSProperties}>
               {p.description.map((para, i) => (
                 <Para key={i} p={para} />
               ))}
             </div>
-            <p className="enter mt-6 text-muted" style={enter(3).style}>{p.tags.join(", ")}</p>
+            {p.tags.length > 0 && (
+              <p className="enter fit-box mt-6 text-muted" style={{ ...enter(3).style, "--box": p.tagsWidth ?? 410 } as React.CSSProperties}>
+                {p.tags.join(", ")}
+              </p>
+            )}
           </div>
           <div {...enter(4)}>
             <Credits meta={p.meta} />

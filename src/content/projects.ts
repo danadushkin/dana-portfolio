@@ -19,6 +19,13 @@ export type Project = {
   rows: Row[]; // the first row's image is the cover
   /** Image path → looping clip that replaces it (the image stays as the poster). */
   videos?: Record<string, string | VideoSpec>;
+  /**
+   * Widths (px) of the description / tags text boxes in Dana's Figma frame. With the same
+   * font and size, a fixed box width makes lines break exactly as in the design on any
+   * screen (Dana's note). Defaults: 402 / 410.
+   */
+  textWidth?: number;
+  tagsWidth?: number;
   /** Placeholder rows keep the index at its designed length until real projects exist. */
   placeholder?: boolean;
 };
@@ -69,6 +76,8 @@ const mon = img("montora-studio-two");
 const monV = vid("montora-studio-two");
 const sw = img("showcase-websites");
 const swV = vid("showcase-websites");
+const sitf = img("scrolling-into-the-future");
+const we = img("wix-events");
 
 export const projects: Project[] = [
   {
@@ -96,14 +105,17 @@ export const projects: Project[] = [
       { label: "Team", value: "Brand R&D, Wix.com" },
       { label: "Tools", value: ["Figma", "Photoshop", "Midjourney"] },
     ],
-    rows: [wix(1), wix(2), [wix(3), wix(4)], wix(5), wix(6), wix(7), [wix(8), wix(9)], wix(10), wix(11)],
+    textWidth: 439,
+    tagsWidth: 439,
+    // 05 = Dana's "new image" (936:150900), which replaced the Kleo and poppy images.
+    rows: [wix(1), wix(2), [wix(3), wix(4)], wix(5), wix(6), [wix(7), wix(8)], wix(9), wix(10)],
     // Sources in /videos (not committed). Re-encode with:
     // ffmpeg -i in.mp4 -an -vf "scale='min(1920,iw)':-2,fps=30" -c:v libx264 -preset slow -crf 24 -pix_fmt yuv420p -movflags +faststart out.mp4
     videos: {
       [wix(2)]: wixV(2), // cover for pp a.mp4
       [wix(4)]: wixV(4), // flower.mp4
-      [wix(8)]: wixV(8), // link1.mp4
-      [wix(10)]: wixV(10), // lp.mp4
+      [wix(7)]: wixV(7), // link1.mp4
+      [wix(9)]: wixV(9), // lp.mp4
     },
   },
   {
@@ -132,7 +144,32 @@ export const projects: Project[] = [
     },
   },
   {
-    // Figma: page frame 925:83305, image column x≈11079
+    // Figma: page frame 929:101108 ("project 03"), image column x≈11075
+    slug: "scrolling-into-the-future",
+    title: "Scrolling into the Future",
+    year: "2024",
+    description: [
+      [
+        { text: "‘Scrolling into the Future with 80s Vibes’", href: "https://www.wix.com/studio/design/inspiration/80s" },
+        {
+          text: " is a conceptual website demonstrating the scrolling capabilities of the new Wix Studio editor. Inspired by the technological breakthroughs of the 1980s, it presents key innovations through a playful, retro-inspired visual language.",
+        },
+      ],
+      "I developed the creative vision through in-depth conceptual and visual research, leading the project from content and design to animations and build. The website was featured at Wix conferences and webinars, entered web design competitions, and received a Muzli Honor Award.",
+    ],
+    tags: ["Web Design", "Concept Development", "Visual Research", "Storytelling"],
+    meta: [
+      { label: "Year", value: "2024" },
+      { label: "Client", value: "Wix Studio" },
+      { label: "Role", value: "Creative & Design" },
+      { label: "Team", value: "Wix Studio" },
+      { label: "Tools", value: ["Figma", "Photoshop", "Illustrator", "Midjourney"] },
+    ],
+    // 06 is the narrow "→ '80s VIBES →" strip (group 937:153757).
+    rows: [sitf(1), sitf(2), sitf(3), [sitf(4), sitf(5)], sitf(6)],
+  },
+  {
+    // Figma: page frame 925:83305 ("project 04"), image column x≈13556
     slug: "showcase-websites",
     title: "Showcase Websites",
     year: "2025-2026",
@@ -151,8 +188,19 @@ export const projects: Project[] = [
     // Sources: videos/demo1-3.mov (ProRes) — matched to their frames by comparing first frames.
     videos: { [sw(2)]: swV(2), [sw(4)]: swV(4), [sw(7)]: swV(7) },
   },
-  placeholder(4),
-  placeholder(5),
+  {
+    // Figma: page frame 939:157235 ("project 05"), image column x≈16118.
+    // Only the title and images are new in Figma — its text, tags and credits there are still
+    // a copy of Showcase Websites, so they are left out until Dana writes this project's own.
+    slug: "wix-events",
+    title: "Wix Events",
+    year: "",
+    description: [],
+    tags: [],
+    meta: [],
+    // the third tall image (940:157597) sits outside the column in Figma, so it isn't used
+    rows: [we(1), [we(2), we(3)], we(4)],
+  },
   placeholder(6),
   placeholder(7),
 ];

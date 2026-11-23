@@ -9,6 +9,7 @@
 //       → prints every page and its top-level frames with their node ids
 //   node scripts/figma-export.mjs export <slug> <nodeId> [<nodeId> ...] [--scale=2] [--format=png|jpg]
 //       → replaces public/work/<slug>/ with those frames as 01.jpg, 02.jpg, ... (in the order given)
+//         --clip renders exactly the frame bounds (for frames whose content spills outside)
 //         JPEG on purpose: when a screen asks for more pixels than the source has, the image
 //         optimiser serves the source file untouched — it must be a format every browser reads
 //         (WebP sources broke on older Macs).
@@ -62,7 +63,7 @@ if (cmd === "list") {
   const format = flags.format ?? "png";
   const scale = flags.scale ?? "2";
   const { images, err } = await api(
-    `/images/${FIGMA_FILE_KEY}?ids=${encodeURIComponent(ids.join(","))}&format=${format}&scale=${scale}`,
+    `/images/${FIGMA_FILE_KEY}?ids=${encodeURIComponent(ids.join(","))}&format=${format}&scale=${scale}${flags.clip ? "&use_absolute_bounds=true" : ""}`,
   );
   if (err) throw new Error(err);
 

@@ -74,6 +74,36 @@
     "h": 1244,
     "figma": "923:77123"
   },
+  "/work/scrolling-into-the-future/01.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "929:123633"
+  },
+  "/work/scrolling-into-the-future/02.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "929:123843"
+  },
+  "/work/scrolling-into-the-future/03.jpg": {
+    "w": 2520,
+    "h": 1950,
+    "figma": "929:124093"
+  },
+  "/work/scrolling-into-the-future/04.jpg": {
+    "w": 1244,
+    "h": 1244,
+    "figma": "929:139232"
+  },
+  "/work/scrolling-into-the-future/05.jpg": {
+    "w": 1244,
+    "h": 1244,
+    "figma": "929:140126"
+  },
+  "/work/scrolling-into-the-future/06.jpg": {
+    "w": 2520,
+    "h": 298,
+    "figma": "937:153757"
+  },
   "/work/showcase-websites/01.jpg": {
     "w": 2520,
     "h": 1722,
@@ -109,6 +139,26 @@
     "h": 1722,
     "figma": "927:96745"
   },
+  "/work/wix-events/01.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "940:157576"
+  },
+  "/work/wix-events/02.jpg": {
+    "w": 1244,
+    "h": 1722,
+    "figma": "939:157345"
+  },
+  "/work/wix-events/03.jpg": {
+    "w": 1244,
+    "h": 1722,
+    "figma": "939:157426"
+  },
+  "/work/wix-events/04.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "940:157585"
+  },
   "/work/wix-harmony/01.jpg": {
     "w": 2520,
     "h": 1722,
@@ -131,35 +181,30 @@
   },
   "/work/wix-harmony/05.jpg": {
     "w": 2520,
-    "h": 1700,
-    "figma": "917:19023"
+    "h": 1210,
+    "figma": "936:150900"
   },
   "/work/wix-harmony/06.jpg": {
-    "w": 2520,
-    "h": 1700,
-    "figma": "917:18313"
-  },
-  "/work/wix-harmony/07.jpg": {
     "w": 2520,
     "h": 927,
     "figma": "917:17843"
   },
-  "/work/wix-harmony/08.jpg": {
+  "/work/wix-harmony/07.jpg": {
     "w": 1244,
     "h": 1244,
     "figma": "917:18185"
   },
-  "/work/wix-harmony/09.jpg": {
+  "/work/wix-harmony/08.jpg": {
     "w": 1244,
     "h": 1244,
     "figma": "923:34922"
   },
-  "/work/wix-harmony/10.jpg": {
+  "/work/wix-harmony/09.jpg": {
     "w": 2520,
     "h": 1421,
     "figma": "917:19192"
   },
-  "/work/wix-harmony/11.jpg": {
+  "/work/wix-harmony/10.jpg": {
     "w": 2520,
     "h": 1418,
     "figma": "917:18279"

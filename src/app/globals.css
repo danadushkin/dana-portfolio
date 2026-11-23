@@ -14,7 +14,7 @@
   --fg: #f2f2f2;
   --muted: #8a8a8a;
   --faint: #4a4a4a;
-  --line: #262626;
+  --line: #ffffff; /* Dana: lines are white in dark mode */
   --panel: #1a1a1a;
 }
 
@@ -39,12 +39,23 @@ body {
   font-weight: 300;
   font-size: 13px;
   line-height: 1.4;
-  letter-spacing: -0.017em;
+  letter-spacing: -0.2px; /* Figma: -0.2 at 13px */
   transition: background-color 0.3s, color 0.3s;
 }
 
 /* Desktop column grid, measured from the 1920px frames:
    name | bio | about | contact … | index + counter … light switch */
+/* A text box of Figma width --box (unitless px) at 13px. In a narrower container it scales
+   down as a whole — width, font size and tracking together — so the line breaks never
+   change. Desktop only; phones wrap naturally. */
+@media (min-width: 768px) {
+  .fit-box {
+    width: min(calc(var(--box) * 1px), 100cqw);
+    font-size: min(13px, calc(100cqw * 13 / var(--box)));
+    letter-spacing: -0.0154em;
+  }
+}
+
 @utility cols {
   display: grid;
   grid-template-columns: 10.4fr 23.3fr 13.6fr 38.7fr 14fr;

@@ -15,7 +15,8 @@ export function Header({ current }: { current?: number }) {
           {site.name}
           <span className="block text-muted">{site.role}</span>
         </Link>
-        <p className="hidden max-w-[260px] normal-case text-muted md:block" {...reveal(1)}>
+        {/* 254px = the bio text box in Figma, so it wraps exactly like the design */}
+        <p className="hidden w-[254px] normal-case leading-[15.2px] text-muted md:block" {...reveal(1)}>
           {site.bio}
         </p>
         <nav className="flex gap-6 md:contents">

@@ -32,7 +32,8 @@ export function ContactBlock() {
       <p className="mt-[clamp(18px,6.1vh,66px)]">
         <TlvClock /> in TLV
       </p>
-      <p className="mt-4">{site.cta}</p>
+      {/* 222px wide, no tracking: the text box in Figma, so it breaks after "more info" */}
+      <p className="mt-4 w-[222px] leading-[15.2px] tracking-normal">{site.cta}</p>
       {/* The switch lives in the header on desktop; phones get it here. */}
       <div className="mt-6 md:hidden">
         <ThemeToggle />
