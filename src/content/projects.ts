@@ -83,6 +83,7 @@ const monV = vid("montora-studio-two");
 const sw = img("showcase-websites");
 const swV = vid("showcase-websites");
 const sitf = img("scrolling-into-the-future");
+const sitfV = vid("scrolling-into-the-future");
 const we = img("wix-events");
 
 export const projects: Project[] = [
@@ -173,6 +174,8 @@ export const projects: Project[] = [
     ],
     // 06 is the narrow "→ '80s VIBES →" strip (group 937:153757).
     rows: [sitf(1), sitf(2), sitf(3), [sitf(4), sitf(5)], sitf(6)],
+    // Sources: videos/80s web, phone, tetris, text marquee-.mp4 (matched by first frame).
+    videos: { [sitf(1)]: sitfV(1), [sitf(4)]: sitfV(4), [sitf(5)]: sitfV(5), [sitf(6)]: sitfV(6) },
   },
   {
     // Figma: page frame 925:83305 ("project 04"), image column x≈13556
