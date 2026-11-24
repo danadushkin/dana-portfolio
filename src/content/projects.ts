@@ -26,6 +26,10 @@ export type Project = {
    */
   textWidth?: number;
   tagsWidth?: number;
+  /** Letter-spacing (px at 13px) of the description in Figma when it isn't the usual -0.2. */
+  tracking?: number;
+  /** Shorter name for the index, the sub-bar and "Next" (Figma), when the page title is longer. */
+  short?: string;
   /** Placeholder rows keep the index at its designed length until real projects exist. */
   placeholder?: boolean;
 };
@@ -51,6 +55,9 @@ export const mediaItem = (p: Project, src: string): Media => ({
   ...videoOf(p.videos?.[src]), // may override w/h with the clip's own proportions
 });
 
+/** Grid columns for a pair: each image's share of the width, so both end up equally tall. */
+export const pairColumns = (ms: Media[]) => ms.map((m) => `${(m.w / m.h).toFixed(4)}fr`).join(" ");
+
 /** The whole first row (one item, or a pair) — what the home preview shows. */
 export const firstRowOf = (p: Project): Media[] => {
   const first = p.rows[0];
@@ -65,17 +72,6 @@ export const coverOf = (p: Project): Media | undefined => {
 const img = (slug: string) => (n: number) => `/work/${slug}/${String(n).padStart(2, "0")}.jpg`;
 const vid = (slug: string) => (n: number) => `/work/${slug}/${String(n).padStart(2, "0")}.mp4`;
 
-const placeholder = (n: number): Project => ({
-  slug: `project-${n}`,
-  title: "Name of Project",
-  year: "",
-  description: [],
-  tags: [],
-  meta: [],
-  rows: [],
-  placeholder: true,
-});
-
 const wix = img("wix-harmony");
 const wixV = vid("wix-harmony");
 const mon = img("montora-studio-two");
@@ -84,7 +80,8 @@ const sw = img("showcase-websites");
 const swV = vid("showcase-websites");
 const sitf = img("scrolling-into-the-future");
 const sitfV = vid("scrolling-into-the-future");
-const we = img("wix-events");
+const mu = img("wix-meetups");
+const dtn = img("dtn-conference");
 
 export const projects: Project[] = [
   {
@@ -114,15 +111,15 @@ export const projects: Project[] = [
     ],
     textWidth: 439,
     tagsWidth: 439,
-    // 05 = Dana's "new image" (936:150900), which replaced the Kleo and poppy images.
-    rows: [wix(1), wix(2), [wix(3), wix(4)], wix(5), wix(6), [wix(7), wix(8)], wix(9), wix(10)],
+    // 05 = Dana's "new image - updated" (941:162559), 06 = "kleo" (941:160311)
+    rows: [wix(1), wix(2), [wix(3), wix(4)], wix(5), wix(6), wix(7), [wix(8), wix(9)], wix(10), wix(11)],
     // Sources in /videos (not committed). Re-encode with:
     // ffmpeg -i in.mp4 -an -vf "scale='min(1920,iw)':-2,fps=30" -c:v libx264 -preset slow -crf 24 -pix_fmt yuv420p -movflags +faststart out.mp4
     videos: {
       [wix(2)]: wixV(2), // cover for pp a.mp4
       [wix(4)]: wixV(4), // flower.mp4
-      [wix(7)]: wixV(7), // link1.mp4
-      [wix(9)]: wixV(9), // lp.mp4
+      [wix(8)]: wixV(8), // link1.mp4
+      [wix(10)]: wixV(10), // lp.mp4
     },
   },
   {
@@ -134,6 +131,9 @@ export const projects: Project[] = [
       "Montora is a fashion mini-brand created for Wix Studio Two launch video, aimed for professional web creators. The project involved developing a distinctive visual identity and website for a high-end, futuristic travel fashion label, combining a tech-driven aesthetic with a refined visual language.\nThe process involved fast-paced creative development, cross-team collaboration, and adapting to evolving creative needs.",
     ],
     tags: ["Brand Development", "Visual Identity", "Typography", "Layout Design"],
+    textWidth: 440,
+    tagsWidth: 440,
+    tracking: -0.218,
     meta: [
       { label: "Year", value: "2026" },
       { label: "Client", value: "Wix Studio Two" },
@@ -198,29 +198,50 @@ export const projects: Project[] = [
     videos: { [sw(2)]: swV(2), [sw(4)]: swV(4), [sw(7)]: swV(7) },
   },
   {
-    // Figma: page frame 939:157235 ("project 05"), image column x≈16107
-    slug: "wix-events",
-    title: "Wix Conference & Events",
-    year: "2018-2019",
+    // Figma: page frame 942:163698 ("project 05"), image column x≈15993
+    slug: "wix-meetups",
+    title: "Wix Meetups",
+    year: "2019",
     description: [
-      "I worked on a variety of physical brand experiences at Wix, including conferences, company events, print materials, and branded merchandise.",
-      "I also had full ownership of Wix Meetups. This included developing a dedicated visual identity, designing presentations and print materials, and overseeing production and execution worldwide.",
+      "I had full ownership of Wix Meetups design, developing a dedicated visual identity and creating a cohesive visual experience across print materials, presentations, interior design, spatial design, and all branded assets.",
+      "My role also included overseeing production, logistics, coordination, and on-site execution of all events worldwide.",
     ],
     tags: ["Event Branding", "Print Production", "Brand Experiences"],
     meta: [
-      { label: "Year", value: "2018-2019" },
-      { label: "Client", value: "Wix Internal" },
-      { label: "Role", value: "Visual Designer" },
+      { label: "Year", value: "2019" },
+      { label: "Client", value: "Wix" },
+      { label: "Role", value: "Lead Designer" },
+      { label: "Team", value: "Design Dev" },
+      { label: "Tools", value: ["Illustrator", "Photoshop"] },
+    ],
+    textWidth: 353,
+    tagsWidth: 410,
+    tracking: -0.211,
+    // 07+08, 10+11, 12+13 are uneven pairs (412 + 834 in Figma): widths follow the images.
+    rows: [[mu(1), mu(2)], mu(3), [mu(4), mu(5)], mu(6), [mu(7), mu(8)], mu(9), [mu(10), mu(11)], [mu(12), mu(13)]],
+  },
+  {
+    // Figma: page frame 939:157235 ("project 06"), image column x≈18210
+    slug: "dtn-conference",
+    title: "DTN TLV conference",
+    short: "DTN conference",
+    year: "2018",
+    description: [
+      "Design Tools Net TLV was an industry event where I led the visual design across digital and physical touchpoints. This included designing the event website, developing visual assets, print materials and branded merchandise, and overseeing print production and on-site execution.",
+    ],
+    tags: ["Event Branding", "Print Production", "Brand Experiences"],
+    meta: [
+      { label: "Year", value: "2018" },
+      { label: "Client", value: "DTN" },
+      { label: "Role", value: "Lead Designer" },
       { label: "Team", value: "Design Dev" },
       { label: "Tools", value: ["Illustrator", "Photoshop"] },
     ],
     textWidth: 410,
     tagsWidth: 410,
-    // The first row is a pair (tote + menu), so the home preview shows the pair too.
-    rows: [[we(1), we(2)], we(3), [we(4), we(5)], we(6), [we(7), we(8)]],
+    tracking: -0.211,
+    rows: [dtn(1), [dtn(2), dtn(3)], dtn(4), [dtn(5), dtn(6)]],
   },
-  placeholder(6),
-  placeholder(7),
 ];
 
 export const realProjects = projects.filter((p) => !p.placeholder);
@@ -233,5 +254,8 @@ export function nextProject(slug: string) {
   const i = realProjects.findIndex((p) => p.slug === slug);
   return realProjects[(i + 1) % realProjects.length];
 }
+
+/** The name used in the index, the sub-bar and "Next". */
+export const shortTitle = (p: Project) => p.short ?? p.title;
 
 export const indexLabel = (i: number) => `${String(i + 1).padStart(2, "0")}.`;

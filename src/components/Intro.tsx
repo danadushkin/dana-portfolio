@@ -52,8 +52,12 @@ export function Intro({
   useEffect(() => {
     if (document.documentElement.dataset.intro !== "running") return;
     setArmed(true);
-    const w = innerWidth * (443 / 1920);
-    const h = innerHeight * (603 / 1080);
+    // Window = Figma's 443x603 at 1920 wide, always at exactly that ratio (it used to scale
+    // width and height separately, so on non-16:9 screens the pictures came out squashed).
+    // Scaled by the screen width; on unusually short screens it shrinks to stay ≤ 75% tall.
+    const s = Math.min(innerWidth / 1920, (innerHeight * 0.75) / 603);
+    const w = 443 * s;
+    const h = 603 * s;
     startTop.current = (h - (COVER_START * w) / coverRatio) / 2; // cover centred vertically, as in frame 1
     setBox({ left: (innerWidth - w) / 2, top: (innerHeight - h) / 2, width: w, height: h });
     const bail = setTimeout(finish, 9000); // never trap the visitor behind the intro

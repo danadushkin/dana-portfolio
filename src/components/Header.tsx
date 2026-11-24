@@ -9,7 +9,7 @@ export function Header({ current }: { current?: number }) {
   const total = String(projects.length).padStart(2, "0");
   const now = String((current ?? 0) + 1).padStart(2, "0");
   return (
-    <header className="border-t border-line pt-4 md:pt-5">
+    <header className="border-t border-line pt-4 md:pt-6">
       <div className="flex flex-wrap items-start justify-between gap-y-3 uppercase md:cols md:gap-y-0">
         <Link href="/" className="leading-tight" {...reveal(0)}>
           {site.name}

@@ -11,8 +11,10 @@ import {
   getProject,
   mediaItem,
   nextProject,
+  pairColumns,
   projects,
   realProjects,
+  shortTitle,
   type Media,
   type Paragraph,
   type Project,
@@ -66,10 +68,17 @@ function Rows({ p }: { p: Project }) {
   return p.rows.map((row, r) => {
     const anim: { className?: string; style?: React.CSSProperties } = r === 0 ? {} : enter(3 + r);
     if (Array.isArray(row)) {
+      // Column widths follow the two images' widths, so equal pairs split 50/50 and Dana's
+      // uneven pairs (412 + 834) keep their proportions, both at the same height.
+      const ms = row.map((src) => mediaItem(p, src));
       return (
-        <div key={r} style={anim.style} className={`grid grid-cols-2 gap-[var(--gap)] ${anim.className ?? ""}`}>
-          {row.map((src) => (
-            <Tile key={src} m={mediaItem(p, src)} label={`${p.title} — ${++n}`} sizes="(min-width: 768px) 33vw, 50vw" />
+        <div
+          key={r}
+          style={{ ...anim.style, gridTemplateColumns: pairColumns(ms) }}
+          className={`grid gap-[var(--gap)] ${anim.className ?? ""}`}
+        >
+          {ms.map((m) => (
+            <Tile key={m.src} m={m} label={`${p.title} — ${++n}`} sizes={`(min-width: 768px) ${Math.round((66 * m.w) / (ms[0].w + ms[1].w))}vw, 50vw`} />
           ))}
         </div>
       );
@@ -91,9 +100,9 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     <div className="enter flex flex-wrap justify-between gap-x-6 gap-y-1 md:cols md:gap-0" style={{ "--i": 0 } as React.CSSProperties}>
       <Link href="/" className="hover:text-muted">Back to index</Link>
       <Link href={`/work/${next.slug}`} className="group">
-        Next <span className="text-muted group-hover:text-fg">{next.title}</span>
+        Next <span className="text-muted group-hover:text-fg">{shortTitle(next)}</span>
       </Link>
-      <span className="hidden md:block">{p.title}</span>
+      <span className="hidden md:block">{shortTitle(p)}</span>
       <span className="hidden md:block" />
       <span className="hidden text-right md:block">{p.year}</span>
     </div>
@@ -102,11 +111,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   return (
     <Shell current={projects.indexOf(p)} sub={sub}>
       <div
-        className="flex flex-col gap-10 md:grid md:h-full md:min-h-0 md:grid-cols-[33.7fr_66.3fr] md:gap-0"
+        className="flex flex-col gap-10 md:grid md:h-full md:min-h-0 md:grid-cols-[636fr_1260fr] md:gap-0"
         style={{ "--gap": "clamp(8px, 0.83vw, 16px)" } as React.CSSProperties}
       >
         {/* Info — stays put on desktop while the column on the right scrolls */}
-        <aside className="flex flex-col justify-between gap-12 md:h-full md:pr-[4%] md:pt-[50px]">
+        <aside className="flex flex-col justify-between gap-12 md:h-full md:pr-[4%] md:pt-[52px]">
           {/* Description and tags keep Figma's text-box widths; if the column is narrower than
               the box (small laptops), text and box shrink together so the lines still break
               exactly as in the design. */}
@@ -114,13 +123,13 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <h1 className="enter-mask text-[26px] leading-[1.1] tracking-[-0.015em]" style={{ "--i": 1 } as React.CSSProperties}>
               <span>{p.title}</span>
             </h1>
-            <div className="enter fit-box mt-6 space-y-[1.4em]" style={{ ...enter(2).style, "--box": p.textWidth ?? 402 } as React.CSSProperties}>
+            <div className="enter fit-box mt-6 space-y-[1.4em]" style={{ ...enter(2).style, "--box": p.textWidth ?? 402, "--ls": p.tracking ?? -0.2 } as React.CSSProperties}>
               {p.description.map((para, i) => (
                 <Para key={i} p={para} />
               ))}
             </div>
             {p.tags.length > 0 && (
-              <p className="enter fit-box mt-6 text-muted" style={{ ...enter(3).style, "--box": p.tagsWidth ?? 410 } as React.CSSProperties}>
+              <p className="enter fit-box mt-6 text-muted" style={{ ...enter(3).style, "--box": p.tagsWidth ?? 410, "--ls": p.tracking ?? -0.2 } as React.CSSProperties}>
                 {p.tags.join(", ")}
               </p>
             )}

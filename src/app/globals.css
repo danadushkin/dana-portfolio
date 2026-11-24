@@ -14,7 +14,7 @@
   --fg: #f2f2f2;
   --muted: #8a8a8a;
   --faint: #4a4a4a;
-  --line: #ffffff; /* Dana: lines are white in dark mode */
+  --line: #cecece; /* Dana: light grey lines in dark mode (her light grey) */
   --panel: #1a1a1a;
 }
 
@@ -52,13 +52,13 @@ body {
   .fit-box {
     width: min(calc(var(--box) * 1px), 100cqw);
     font-size: min(13px, calc(100cqw * 13 / var(--box)));
-    letter-spacing: -0.0154em;
+    letter-spacing: calc(var(--ls, -0.2) / 13 * 1em); /* Figma tracking in px at 13px */
   }
 }
 
 @utility cols {
   display: grid;
-  grid-template-columns: 10.4fr 23.3fr 13.6fr 38.7fr 14fr;
+  grid-template-columns: 188fr 448fr 261fr 739fr 260fr; /* Figma px at 1920: 12|200|648|909|1648|1908 */
 }
 
 /* ---- Motion (behaviour modelled on the reference Dana picked) ---- */

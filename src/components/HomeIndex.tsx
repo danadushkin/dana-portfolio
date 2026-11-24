@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { coverOf, firstRowOf, indexLabel, type Project } from "@/content/projects";
+import { coverOf, firstRowOf, indexLabel, pairColumns, shortTitle, type Project } from "@/content/projects";
 import { Intro } from "./Intro";
 
 export type IntroConfig = {
@@ -33,23 +33,23 @@ export function HomeIndex({
   const ratio = first ? first.w / first.h : 1260 / 861;
 
   return (
-    <div className="flex flex-col gap-10 md:grid md:h-full md:min-h-0 md:grid-cols-[33.7fr_66.3fr] md:gap-0">
+    <div className="flex flex-col gap-10 md:grid md:h-full md:min-h-0 md:grid-cols-[636fr_1260fr] md:gap-0">
       <Intro {...intro} target={panel} />
 
       <div className="flex min-h-0 flex-col justify-between gap-6">
-        {/* The list spans 74% of the column (Figma: rows end at x≈478 of 1920), and the
-            name column starts at 41.7% of it — i.e. exactly under the bio paragraph. */}
-        <ol className="uppercase md:w-[74%]">
+        {/* Figma: rows are 467 of the column's 636px, and the names start 188px in — i.e.
+            exactly under the bio paragraph. */}
+        <ol className="uppercase md:w-[73.43%]">
           {projects.map((p, i) => {
             const on = i === active;
             const row = (
               <span
-                className={`flex border-b py-[6px] transition-colors duration-300 md:grid md:grid-cols-[41.7%_1fr] ${
+                className={`flex border-b py-[6px] transition-colors duration-300 md:grid md:grid-cols-[40.26%_1fr] ${
                   on ? "border-fg/60 text-fg" : "border-line text-faint"
                 }`}
               >
                 <span className="w-[32%] shrink-0 md:w-auto">{indexLabel(i)}</span>
-                <span>{p.placeholder ? "Name of Project" : p.title}</span>
+                <span>{p.placeholder ? "Name of Project" : shortTitle(p)}</span>
               </span>
             );
             return (
@@ -95,7 +95,7 @@ export function HomeIndex({
               ) : (
                 // A pair, laid out exactly like the project page's first row (same gap, each
                 // at its own ratio); anything below the panel is clipped like a tall cover.
-                <div className="grid grid-cols-2 items-start gap-[clamp(8px,0.83vw,16px)]">
+                <div className="grid items-start gap-[clamp(8px,0.83vw,16px)]" style={{ gridTemplateColumns: pairColumns(row) }}>
                   {row.map((m) => (
                     <div key={m.src} className="relative w-full bg-panel" style={{ aspectRatio: `${m.w} / ${m.h}` }}>
                       <Image src={m.src} alt={p.title} fill sizes="33vw" className="object-cover" />
@@ -118,7 +118,7 @@ export function HomeIndex({
             return (
               <Link key={p.slug} href={`/work/${p.slug}`} className="block">
                 <Image src={cover.src} alt={p.title} width={cover.w} height={cover.h} sizes="100vw" className="h-auto w-full" />
-                <span className="mt-2 block uppercase">{p.title}</span>
+                <span className="mt-2 block uppercase">{shortTitle(p)}</span>
               </Link>
             );
           })}

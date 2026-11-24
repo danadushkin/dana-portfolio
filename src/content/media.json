@@ -12,7 +12,7 @@
   "/intro/03.jpg": {
     "w": 1329,
     "h": 1809,
-    "figma": "929:123834"
+    "figma": "943:166483"
   },
   "/intro/04.jpg": {
     "w": 1329,
@@ -22,12 +22,47 @@
   "/intro/05.jpg": {
     "w": 1329,
     "h": 1809,
+    "figma": "929:123834"
+  },
+  "/intro/06.jpg": {
+    "w": 1329,
+    "h": 1809,
     "figma": "940:158164"
   },
   "/work/about/01.jpg": {
     "w": 528,
     "h": 711,
     "figma": "929:100782"
+  },
+  "/work/dtn-conference/01.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "940:157576"
+  },
+  "/work/dtn-conference/02.jpg": {
+    "w": 1244,
+    "h": 1722,
+    "figma": "939:157345"
+  },
+  "/work/dtn-conference/03.jpg": {
+    "w": 1244,
+    "h": 1722,
+    "figma": "939:157426"
+  },
+  "/work/dtn-conference/04.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "940:157585"
+  },
+  "/work/dtn-conference/05.jpg": {
+    "w": 1244,
+    "h": 1722,
+    "figma": "940:157713"
+  },
+  "/work/dtn-conference/06.jpg": {
+    "w": 1244,
+    "h": 1722,
+    "figma": "940:157731"
   },
   "/work/montora-studio-two/01.jpg": {
     "w": 2520,
@@ -149,46 +184,6 @@
     "h": 1722,
     "figma": "927:96745"
   },
-  "/work/wix-events/01.jpg": {
-    "w": 1244,
-    "h": 1722,
-    "figma": "939:157345"
-  },
-  "/work/wix-events/02.jpg": {
-    "w": 1244,
-    "h": 1722,
-    "figma": "939:157426"
-  },
-  "/work/wix-events/03.jpg": {
-    "w": 2520,
-    "h": 1722,
-    "figma": "940:157576"
-  },
-  "/work/wix-events/04.jpg": {
-    "w": 1244,
-    "h": 1722,
-    "figma": "940:157713"
-  },
-  "/work/wix-events/05.jpg": {
-    "w": 1244,
-    "h": 1722,
-    "figma": "940:157731"
-  },
-  "/work/wix-events/06.jpg": {
-    "w": 2520,
-    "h": 1722,
-    "figma": "940:157585"
-  },
-  "/work/wix-events/07.jpg": {
-    "w": 1244,
-    "h": 1722,
-    "figma": "940:157634"
-  },
-  "/work/wix-events/08.jpg": {
-    "w": 1244,
-    "h": 1722,
-    "figma": "940:157652"
-  },
   "/work/wix-harmony/01.jpg": {
     "w": 2520,
     "h": 1722,
@@ -212,31 +207,101 @@
   "/work/wix-harmony/05.jpg": {
     "w": 2520,
     "h": 1210,
-    "figma": "936:150900"
+    "figma": "941:162559"
   },
   "/work/wix-harmony/06.jpg": {
+    "w": 2520,
+    "h": 1700,
+    "figma": "941:160311"
+  },
+  "/work/wix-harmony/07.jpg": {
     "w": 2520,
     "h": 927,
     "figma": "917:17843"
   },
-  "/work/wix-harmony/07.jpg": {
+  "/work/wix-harmony/08.jpg": {
     "w": 1244,
     "h": 1244,
     "figma": "917:18185"
   },
-  "/work/wix-harmony/08.jpg": {
+  "/work/wix-harmony/09.jpg": {
     "w": 1244,
     "h": 1244,
     "figma": "923:34922"
   },
-  "/work/wix-harmony/09.jpg": {
+  "/work/wix-harmony/10.jpg": {
     "w": 2520,
     "h": 1421,
     "figma": "917:19192"
   },
-  "/work/wix-harmony/10.jpg": {
+  "/work/wix-harmony/11.jpg": {
     "w": 2520,
     "h": 1418,
     "figma": "917:18279"
+  },
+  "/work/wix-meetups/01.jpg": {
+    "w": 1244,
+    "h": 1722,
+    "figma": "942:162976"
+  },
+  "/work/wix-meetups/02.jpg": {
+    "w": 1244,
+    "h": 1722,
+    "figma": "943:165303"
+  },
+  "/work/wix-meetups/03.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "942:162971"
+  },
+  "/work/wix-meetups/04.jpg": {
+    "w": 1244,
+    "h": 1722,
+    "figma": "943:165384"
+  },
+  "/work/wix-meetups/05.jpg": {
+    "w": 1244,
+    "h": 1722,
+    "figma": "943:165402"
+  },
+  "/work/wix-meetups/06.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "942:163591"
+  },
+  "/work/wix-meetups/07.jpg": {
+    "w": 824,
+    "h": 1141,
+    "figma": "942:163559"
+  },
+  "/work/wix-meetups/08.jpg": {
+    "w": 1669,
+    "h": 1141,
+    "figma": "942:163558"
+  },
+  "/work/wix-meetups/09.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "943:165923"
+  },
+  "/work/wix-meetups/10.jpg": {
+    "w": 1669,
+    "h": 1141,
+    "figma": "942:163012"
+  },
+  "/work/wix-meetups/11.jpg": {
+    "w": 824,
+    "h": 1141,
+    "figma": "942:163014"
+  },
+  "/work/wix-meetups/12.jpg": {
+    "w": 824,
+    "h": 1141,
+    "figma": "943:165529"
+  },
+  "/work/wix-meetups/13.jpg": {
+    "w": 1669,
+    "h": 1141,
+    "figma": "943:165528"
   }
 }

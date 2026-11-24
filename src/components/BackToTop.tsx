@@ -13,7 +13,8 @@ export function BackToTop() {
     }
   };
   return (
-    <div className="flex justify-end pb-2 pt-1">
+    // Dana's example: ~69px of white between the last image and the label at 1920.
+    <div className="flex justify-end pt-[clamp(32px,2.76vw,53px)]">
       {/* uppercase on the button itself — buttons don't inherit text-transform */}
       <button type="button" onClick={onClick} className="uppercase hover:text-muted">
         Back to top

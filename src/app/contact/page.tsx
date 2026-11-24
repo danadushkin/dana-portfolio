@@ -8,12 +8,13 @@ export const metadata: Metadata = { title: "Contact" };
 
 const enter = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
-// Figma frame 929:100785 (updated): "Get In Touch" as a heading at the left, the form
-// starting on the ABOUT column, BACK TO INDEX at the right of the bar, contact details
+// Figma frames 929:100785 / 942:162874 (24/11): CONTACT | BACK TO INDEX in the bar, "Get In
+// Touch" as a heading at the left, the form starting on the ABOUT column, contact details
 // pinned bottom-left.
 export default function Contact() {
   const sub = (
-    <div className="enter flex justify-end" style={enter(0)}>
+    <div className="enter flex justify-between" style={enter(0)}>
+      <span>Contact</span>
       <Link href="/" className="hover:text-muted">Back to index</Link>
     </div>
   );
