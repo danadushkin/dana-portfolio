@@ -16,7 +16,7 @@ export function ContactBlock() {
           <li key={c.label}>
             <a
               href={c.href}
-              target={c.href.startsWith("http") ? "_blank" : undefined}
+              target={c.href.startsWith("http") || c.href.endsWith(".pdf") ? "_blank" : undefined}
               rel="noreferrer"
               className="group hover:text-fg"
             >

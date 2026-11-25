@@ -13,7 +13,7 @@ export const site = {
   contact: [
     { label: "Email", href: "mailto:danadushkin@gmail.com" },
     { label: "Linkedin", href: "https://www.linkedin.com/in/dana-dushkin-199b59136/" },
-    { label: "Resume", href: "#" }, // TODO: PDF in /public or a link
+    { label: "Resume", href: "/Dana-Dushkin-Resume.pdf" }, // Figma frame 965:50359, exported as PDF (vector text)
     // Dana: the number became the word "Phone" with the same arrow behaviour
     { label: "Phone", href: "tel:+972526818161" },
   ],

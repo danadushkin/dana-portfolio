@@ -110,8 +110,9 @@ export const projects: Project[] = [
     ],
     textWidth: 439,
     tagsWidth: 439,
-    // 05 = Dana's "new image - updated" (941:162559), 06 = "kleo" (941:160311)
-    rows: [wix(1), wix(2), [wix(3), wix(4)], wix(5), wix(6), wix(7), [wix(8), wix(9)], wix(10), wix(11)],
+    // 05 = Dana's "new image - updated" (941:162559), 06 = "kleo" (941:160311),
+    // 11 = rm_heros_layout5 (963:49823, "one before the end")
+    rows: [wix(1), wix(2), [wix(3), wix(4)], wix(5), wix(6), wix(7), [wix(8), wix(9)], wix(10), wix(11), wix(12)],
     // Sources in /videos (not committed). Re-encode with:
     // ffmpeg -i in.mp4 -an -vf "scale='min(1920,iw)':-2,fps=30" -c:v libx264 -preset slow -crf 24 -pix_fmt yuv420p -movflags +faststart out.mp4
     videos: {
