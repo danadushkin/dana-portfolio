@@ -71,7 +71,10 @@ export function HomeIndex({
       {/* Preview = exactly the first image of a project page: full column width at the
           cover's ratio, same top edge. On short screens the bottom is clipped (the
           project page shows the rest as you scroll), so nothing jumps between pages. */}
-      <div className="relative hidden overflow-hidden md:block">
+      {/* Same width cap as the project page's column, so the preview fits the visible height
+          and stays identical to the project's first image. */}
+      <div className="hidden md:block md:[container-type:size]">
+      <div className="relative h-full w-[min(100cqw,calc(100cqh*1260/861))] overflow-hidden">
         <div
           ref={panel}
           className="absolute left-0 top-0 w-full bg-panel"
@@ -107,6 +110,8 @@ export function HomeIndex({
           );
         })}
         </div>
+      </div>
+
       </div>
 
       {/* Mobile: covers stacked under the list */}

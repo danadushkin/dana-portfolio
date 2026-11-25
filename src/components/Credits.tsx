@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 
 // The Year / Client / Role / Team / Tools table. Dana: only this part of the project page
 // goes away once you scroll the images — with the soft fade (she tried "carried off by the
-// scroll" and asked for the fade back). Comes back at the top. Desktop only.
+// scroll" and asked for the fade back). A pure fade — the small 8px drop that went with it
+// read as a glitch (Dana 25/11). Comes back at the top. Desktop only.
 export function Credits({ meta }: { meta: { label: string; value: string | string[] }[] }) {
   const [hidden, setHidden] = useState(false);
 
@@ -16,8 +17,8 @@ export function Credits({ meta }: { meta: { label: string; value: string | strin
 
   return (
     <dl
-      className={`grid w-fit grid-cols-[86px_1fr] gap-y-[6px] transition-[opacity,transform] duration-500 ease-out ${
-        hidden ? "md:pointer-events-none md:translate-y-2 md:opacity-0" : ""
+      className={`grid w-fit grid-cols-[86px_1fr] gap-y-[6px] transition-opacity duration-500 ease-out ${
+        hidden ? "md:pointer-events-none md:opacity-0" : ""
       }`}
     >
       {meta.map((m) => (

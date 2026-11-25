@@ -55,7 +55,7 @@ function Tile({ m, label, sizes, priority }: { m: Media; label: string; sizes: s
       {/* eager, not lazy: rules out native lazy-loading inside the custom scroll column as a
           cause of "an image never appeared on some computers" (the images are small WebPs) */}
       <Image src={m.src} alt={label} fill sizes={sizes} {...(priority ? { priority: true } : { loading: "eager" as const })} className="object-cover" />
-      {m.video && <LoopVideo src={m.video} poster={m.poster ?? m.src} label={label} />}
+      {m.video && <LoopVideo src={m.video} poster={m.poster ?? m.src} label={label} sound={m.sound} />}
     </div>
   );
 }
@@ -111,7 +111,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   return (
     <Shell current={projects.indexOf(p)} sub={sub}>
       <div
-        className="flex flex-col gap-10 md:grid md:h-full md:min-h-0 md:grid-cols-[636fr_1260fr] md:gap-0"
+        className="flex flex-col gap-10 md:grid md:h-full md:min-h-0 md:grid-cols-[636fr_1260fr] md:gap-0 md:[container-type:size]"
         style={{ "--gap": "clamp(8px, 0.83vw, 16px)" } as React.CSSProperties}
       >
         {/* Info — stays put on desktop while the column on the right scrolls */}
@@ -139,7 +139,9 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </div>
         </aside>
 
-        <SmoothColumn>
+        {/* Dana 25/11: a full 1260x861 image must always fit the visible height (short
+            screens, bookmarks bar...), so the column narrows proportionally when needed. */}
+        <SmoothColumn className="md:w-[min(100%,calc(100cqh*1260/861))]">
           <Rows p={p} />
           <BackToTop />
         </SmoothColumn>

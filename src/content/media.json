@@ -12,19 +12,24 @@
   "/intro/03.jpg": {
     "w": 1329,
     "h": 1809,
-    "figma": "943:166483"
+    "figma": "929:123834"
   },
   "/intro/04.jpg": {
     "w": 1329,
     "h": 1809,
-    "figma": "921:22118"
+    "figma": "943:166483"
   },
   "/intro/05.jpg": {
     "w": 1329,
     "h": 1809,
-    "figma": "929:123834"
+    "figma": "951:179386"
   },
   "/intro/06.jpg": {
+    "w": 1329,
+    "h": 1809,
+    "figma": "921:22118"
+  },
+  "/intro/07.jpg": {
     "w": 1329,
     "h": 1809,
     "figma": "940:158164"
@@ -50,19 +55,79 @@
     "figma": "939:157426"
   },
   "/work/dtn-conference/04.jpg": {
+    "w": 1669,
+    "h": 1141,
+    "figma": "947:167309"
+  },
+  "/work/dtn-conference/05.jpg": {
+    "w": 824,
+    "h": 1141,
+    "figma": "947:167310"
+  },
+  "/work/dtn-conference/06.jpg": {
     "w": 2520,
     "h": 1722,
     "figma": "940:157585"
   },
-  "/work/dtn-conference/05.jpg": {
+  "/work/dtn-conference/07.jpg": {
     "w": 1244,
     "h": 1722,
     "figma": "940:157713"
   },
-  "/work/dtn-conference/06.jpg": {
+  "/work/dtn-conference/08.jpg": {
     "w": 1244,
     "h": 1722,
     "figma": "940:157731"
+  },
+  "/work/dtn-conference/09.jpg": {
+    "w": 824,
+    "h": 1141,
+    "figma": "947:167597"
+  },
+  "/work/dtn-conference/10.jpg": {
+    "w": 1669,
+    "h": 1141,
+    "figma": "947:167595"
+  },
+  "/work/dtn-conference/11.jpg": {
+    "w": 1669,
+    "h": 1141,
+    "figma": "947:167362"
+  },
+  "/work/dtn-conference/12.jpg": {
+    "w": 824,
+    "h": 1141,
+    "figma": "948:167773"
+  },
+  "/work/mkt-design-hub/01.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "951:172057"
+  },
+  "/work/mkt-design-hub/02.jpg": {
+    "w": 2520,
+    "h": 2480,
+    "figma": "951:179130"
+  },
+  "/work/mkt-design-hub/03.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "951:179178"
+  },
+  "/work/mkt-design-hub/04.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "951:179265"
+  },
+  "/work/mkt-design-hub/05.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "951:179278"
+  },
+  "/work/mkt-design-hub/06.jpg": {
+    "w": 2520,
+    "h": 1410,
+    "figma": "951:179284"
   },
   "/work/montora-studio-two/01.jpg": {
     "w": 2520,
@@ -177,7 +242,7 @@
   "/work/showcase-websites/06.jpg": {
     "w": 2520,
     "h": 1722,
-    "figma": "927:96210"
+    "figma": "944:166532"
   },
   "/work/showcase-websites/07.jpg": {
     "w": 2520,

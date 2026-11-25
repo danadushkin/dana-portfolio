@@ -38,7 +38,6 @@ const dana = site.contact.find((c) => c.href.startsWith("mailto:"))?.href.replac
  */
 export function ContactForm() {
   const [state, setState] = useState<State>("idle");
-  const [typing, setTyping] = useState(false); // SEND gets its underline once there's text
   const form = useRef<HTMLFormElement>(null);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -74,7 +73,6 @@ export function ContactForm() {
       if (!res.ok || !json.success) throw new Error(json.message || res.statusText);
       setState("sent");
       form.current?.reset();
-      setTyping(false);
     } catch {
       setState("error");
     }
@@ -84,7 +82,6 @@ export function ContactForm() {
     <form
       ref={form}
       onSubmit={onSubmit}
-      onInput={(e) => setTyping([...new FormData(e.currentTarget).values()].some((v) => String(v).trim() !== ""))}
       className="flex w-full flex-col gap-[25px] md:w-[24.3vw] md:min-w-[320px]">
       {/* honeypot: invisible to people, bots tend to fill it in */}
       <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
@@ -95,7 +92,7 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={state === "sending"}
-          className={`border-b pb-[3px] uppercase hover:text-muted disabled:opacity-50 ${typing ? "border-faint" : "border-transparent"}`}
+          className="pb-[4px] uppercase hover:text-muted disabled:opacity-50"
         >
           {state === "sending" ? "Sending…" : "Send"}
         </button>

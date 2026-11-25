@@ -34,17 +34,17 @@ export type Project = {
   placeholder?: boolean;
 };
 
-export type Media = { src: string; w: number; h: number; video?: string; poster?: string };
+export type Media = { src: string; w: number; h: number; video?: string; poster?: string; sound?: boolean };
 
 const sizes = media as Record<string, { w: number; h: number }>;
 
 /** A clip replacing an image; w/h = the clip's own size when its frame should follow it. */
-export type VideoSpec = { src: string; poster?: string; w?: number; h?: number };
+export type VideoSpec = { src: string; poster?: string; w?: number; h?: number; /** has audio: hover offers "enlarge + sound" */ sound?: boolean };
 
 const videoOf = (v: string | VideoSpec | undefined) => {
   if (!v) return {};
   if (typeof v === "string") return { video: asset(v) };
-  return { video: asset(v.src), ...(v.poster && { poster: asset(v.poster) }), ...(v.w && v.h && { w: v.w, h: v.h }) };
+  return { video: asset(v.src), ...(v.poster && { poster: asset(v.poster) }), ...(v.w && v.h && { w: v.w, h: v.h }), ...(v.sound && { sound: true }) };
 };
 
 // Content refers to canonical paths ("/work/x/10.jpg"); what gets published is the
@@ -81,6 +81,7 @@ const swV = vid("showcase-websites");
 const sitf = img("scrolling-into-the-future");
 const sitfV = vid("scrolling-into-the-future");
 const mu = img("wix-meetups");
+const hub = img("mkt-design-hub");
 const dtn = img("dtn-conference");
 
 export const projects: Project[] = [
@@ -96,8 +97,6 @@ export const projects: Project[] = [
           text: "The process included designing UI components, product-inspired elements, image making, typography challenges, AI-generated imagery and motion.\nThe project also included web design and layout development for ",
         },
         { text: "Wix.com", href: "https://wix.com" },
-        { text: " main homepage and the " },
-        { text: "product launch lp", href: "https://www.wix.com/harmony" },
         { text: "." },
       ],
     ],
@@ -142,12 +141,13 @@ export const projects: Project[] = [
       { label: "Tools", value: ["Figma", "ChatGPT", "Midjourney"] },
     ],
     rows: [mon(1), mon(2), mon(3), mon(4), [mon(5), mon(6)], [mon(7), mon(8)], mon(9), [mon(10), mon(11)]],
-    // "video 1" / "video 2" frames ← videos/montora_1.mp4, montora_2.mp4 (audio stripped).
+    // "video 1" / "video 2" frames ← videos/montora_1.mp4, montora_2.mp4 (with audio, AAC 128k).
     // Their first frame differs from the Figma still, so the poster is the clip's own first frame.
     // Dana: full width, height to match the clip (16:9) so nothing is cropped top/bottom.
     videos: {
-      [mon(3)]: { src: monV(3), poster: "/work/montora-studio-two/03.poster.jpg", w: 1280, h: 720 },
-      [mon(4)]: { src: monV(4), poster: "/work/montora-studio-two/04.poster.jpg", w: 1280, h: 720 },
+      // Dana 25/11: play silently in the column; on hover, enlarge with sound.
+      [mon(3)]: { src: monV(3), poster: "/work/montora-studio-two/03.poster.jpg", w: 1280, h: 720, sound: true },
+      [mon(4)]: { src: monV(4), poster: "/work/montora-studio-two/04.poster.jpg", w: 1280, h: 720, sound: true },
     },
   },
   {
@@ -198,6 +198,28 @@ export const projects: Project[] = [
     videos: { [sw(2)]: swV(2), [sw(4)]: swV(4), [sw(7)]: swV(7) },
   },
   {
+    // Figma: page frame 951:167818, image column x≈20438 — Dana's 7th project, placed 5th
+    slug: "mkt-design-hub",
+    title: "MKT Design Hub",
+    year: "2025",
+    description: [
+      "Design Hub is a marketing resource library that brings together essential creative assets, tools, and inspiration in one place.",
+      "I led the project from the research phase, identifying user needs and exploring ways to improve content discovery and accessibility. This involved extensive UX work, information architecture, and UI design, creating an intuitive and cohesive experience for marketing teams.",
+    ],
+    tags: ["UX", "UI", "Product Design", "Design Systems"],
+    meta: [
+      { label: "Year", value: "2025" },
+      { label: "Client", value: "Wix Marketing" },
+      { label: "Role", value: "Lead Designer" },
+      { label: "Team", value: "Core" },
+      { label: "Tools", value: ["Figma", "ChatGPT"] },
+    ],
+    textWidth: 397,
+    tagsWidth: 410,
+    tracking: -0.211,
+    rows: [1, 2, 3, 4, 5, 6].map(hub),
+  },
+  {
     // Figma: page frame 942:163698 ("project 05"), image column x≈15993
     slug: "wix-meetups",
     title: "Wix Meetups",
@@ -240,7 +262,7 @@ export const projects: Project[] = [
     textWidth: 410,
     tagsWidth: 410,
     tracking: -0.211,
-    rows: [dtn(1), [dtn(2), dtn(3)], dtn(4), [dtn(5), dtn(6)]],
+    rows: [dtn(1), [dtn(2), dtn(3)], [dtn(4), dtn(5)], dtn(6), [dtn(7), dtn(8)], [dtn(9), dtn(10)], [dtn(11), dtn(12)]],
   },
 ];
 
