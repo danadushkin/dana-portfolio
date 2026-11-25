@@ -7,7 +7,7 @@ import { asset } from "@/content/assets";
 import media from "@/content/media.json";
 import { site } from "@/content/site";
 
-export const metadata: Metadata = { title: "About" };
+export const metadata: Metadata = {};
 
 const enter = (i: number) => ({ "--i": i }) as React.CSSProperties;
 

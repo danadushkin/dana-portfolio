@@ -4,7 +4,7 @@ import { ContactBlock } from "@/components/ContactBlock";
 import { ContactForm } from "@/components/ContactForm";
 import { Shell } from "@/components/Shell";
 
-export const metadata: Metadata = { title: "Contact" };
+export const metadata: Metadata = {};
 
 const enter = (i: number) => ({ "--i": i }) as React.CSSProperties;
 

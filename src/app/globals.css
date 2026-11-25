@@ -102,7 +102,7 @@ html[data-intro="running"] {
 
 /* Cursor follower. Dana 25/11 (ref talashtar.com): a white dot blended with "difference",
    so whatever is under it shows inverted (black dot on white, white on dark, negative over
-   pictures); over clickable things it grows to 30px and inverts that whole area. Position
+   pictures); over clickable things it grows to 33px and inverts that whole area. Position
    comes from CursorDot.tsx; size changes ease here. */
 .cursor {
   position: fixed;
@@ -125,8 +125,8 @@ html[data-intro="running"] {
   opacity: 1;
 }
 body:has(a:hover, button:hover, [data-cursor]:hover, .zoom:hover) .cursor {
-  width: 30px;
-  height: 30px;
+  width: 33px; /* Dana: 10% bigger on hover (was 30) */
+  height: 33px;
 }
 @media (hover: none), (pointer: coarse) {
   .cursor {
@@ -163,7 +163,7 @@ body:has(a:hover, button:hover, [data-cursor]:hover, .zoom:hover) .cursor {
   animation-delay: calc(120ms + var(--i, 0) * 80ms);
 }
 
-/* Dana 25/11: hovering a project picture zooms 15% inside its frame (the frame keeps its
+/* Dana 25/11: hovering a project picture zooms 10% inside its frame (the frame keeps its
    size). Only the picture / clip scales — buttons laid over it stay put. */
 .zoom img,
 .zoom video {
@@ -172,7 +172,7 @@ body:has(a:hover, button:hover, [data-cursor]:hover, .zoom:hover) .cursor {
 @media (hover: hover) {
   .zoom:hover img,
   .zoom:hover video {
-    transform: scale(1.15);
+    transform: scale(1.1);
   }
 }
 

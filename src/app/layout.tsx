@@ -7,7 +7,7 @@ import "./globals.css";
 const geist = Geist({ variable: "--font-geist", subsets: ["latin"], weight: ["300", "400"] });
 
 export const metadata: Metadata = {
-  title: { default: `${site.name} — ${site.role}`, template: `%s — ${site.name}` },
+  title: site.name, // Dana: the browser tab shows just her name, on every page
   description: site.bio,
 };
 

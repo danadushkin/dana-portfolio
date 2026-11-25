@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const p = getProject((await params).slug);
   const first = p?.description[0];
   const text = typeof first === "string" ? first : first?.map((x) => x.text).join("");
-  return p ? { title: p.title, description: text } : {};
+  return p ? { description: text } : {}; // tab title stays "Dana Dushkin" (Dana)
 }
 
 function Para({ p }: { p: Paragraph }) {
