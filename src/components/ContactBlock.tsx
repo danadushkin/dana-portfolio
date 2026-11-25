@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { site } from "@/content/site";
 import { ThemeToggle } from "./ThemeToggle";
 import { TlvClock } from "./TlvClock";
@@ -5,6 +6,8 @@ import { TlvClock } from "./TlvClock";
 // Bottom-left contact details (Figma, 1920 frames: line, then Email / Linkedin / Resume /
 // Phone on a 33px rhythm, then the TLV clock and the call to action). Spacing tightens on
 // short screens so the page always fits without scrolling.
+const CTA_LINK = "let's get in touch";
+
 export function ContactBlock() {
   return (
     <div className="w-full max-w-[240px] text-muted">
@@ -33,7 +36,14 @@ export function ContactBlock() {
         <TlvClock /> in TLV
       </p>
       {/* 222px wide, no tracking: the text box in Figma, so it breaks after "more info" */}
-      <p className="mt-4 w-[222px] leading-[15.2px] tracking-normal">{site.cta}</p>
+      <p className="mt-4 w-[222px] leading-[15.2px] tracking-normal">
+        {/* Dana 25/11: "let's get in touch" is clickable */}
+        {site.cta.split(CTA_LINK)[0]}
+        <Link href="/contact" className="underline-offset-2 hover:underline">
+          {CTA_LINK}
+        </Link>
+        {site.cta.split(CTA_LINK)[1]}
+      </p>
       {/* The switch lives in the header on desktop; phones get it here. */}
       <div className="mt-6 md:hidden">
         <ThemeToggle />

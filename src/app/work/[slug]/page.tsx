@@ -51,7 +51,7 @@ function Para({ p }: { p: Paragraph }) {
 // One picture (or looping clip) at its own aspect ratio, so nothing is cropped.
 function Tile({ m, label, sizes, priority }: { m: Media; label: string; sizes: string; priority?: boolean }) {
   return (
-    <div className="relative w-full bg-panel" style={{ aspectRatio: `${m.w} / ${m.h}` }}>
+    <div className="zoom relative w-full overflow-hidden bg-panel" style={{ aspectRatio: `${m.w} / ${m.h}` }}>
       {/* eager, not lazy: rules out native lazy-loading inside the custom scroll column as a
           cause of "an image never appeared on some computers" (the images are small WebPs) */}
       <Image src={m.src} alt={label} fill sizes={sizes} {...(priority ? { priority: true } : { loading: "eager" as const })} className="object-cover" />
@@ -140,8 +140,9 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </aside>
 
         {/* Dana 25/11: a full 1260x861 image must always fit the visible height (short
-            screens, bookmarks bar...), so the column narrows proportionally when needed. */}
-        <SmoothColumn className="md:w-[min(100%,calc(100cqh*1260/861))]">
+            screens, bookmarks bar...), so the column narrows proportionally when needed —
+            keeping its right edge on the year, as in the design. */}
+        <SmoothColumn className="md:w-[min(100%,calc(100cqh*1260/861))] md:justify-self-end">
           <Rows p={p} />
           <BackToTop />
         </SmoothColumn>

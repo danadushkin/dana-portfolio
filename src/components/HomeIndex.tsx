@@ -49,7 +49,10 @@ export function HomeIndex({
                 }`}
               >
                 <span className="w-[32%] shrink-0 md:w-auto">{indexLabel(i)}</span>
-                <span>{p.placeholder ? "Name of Project" : shortTitle(p)}</span>
+                {/* Dana 25/11 (ref signature-portfolio): the name nudges 4px right on hover */}
+                <span className="transition-transform duration-300 ease-out group-hover:translate-x-[4px]">
+                  {p.placeholder ? "Name of Project" : shortTitle(p)}
+                </span>
               </span>
             );
             return (
@@ -60,7 +63,7 @@ export function HomeIndex({
                 onMouseEnter={p.placeholder ? undefined : () => setActive(i)}
                 onFocus={p.placeholder ? undefined : () => setActive(i)}
               >
-                {p.placeholder ? row : <Link href={`/work/${p.slug}`}>{row}</Link>}
+                {p.placeholder ? row : <Link href={`/work/${p.slug}`} className="group">{row}</Link>}
               </li>
             );
           })}
@@ -74,10 +77,10 @@ export function HomeIndex({
       {/* Same width cap as the project page's column, so the preview fits the visible height
           and stays identical to the project's first image. */}
       <div className="hidden md:block md:[container-type:size]">
-      <div className="relative h-full w-[min(100cqw,calc(100cqh*1260/861))] overflow-hidden">
+      <div className="relative ml-auto h-full w-[min(100cqw,calc(100cqh*1260/861))] overflow-hidden">
         <div
           ref={panel}
-          className="absolute left-0 top-0 w-full bg-panel"
+          className="absolute left-0 top-0 w-full overflow-hidden bg-panel"
           style={{ aspectRatio: String(ratio) }}
         >
         {projects.map((p, i) => {
@@ -89,7 +92,7 @@ export function HomeIndex({
               href={`/work/${p.slug}`}
               tabIndex={-1}
               aria-hidden={i !== active}
-              className={`absolute inset-0 transition-opacity duration-700 ease-out ${
+              className={`zoom absolute inset-0 transition-opacity duration-700 ease-out ${
                 i === active ? "opacity-100" : "pointer-events-none opacity-0"
               }`}
             >
@@ -100,7 +103,7 @@ export function HomeIndex({
                 // at its own ratio); anything below the panel is clipped like a tall cover.
                 <div className="grid items-start gap-[clamp(8px,0.83vw,16px)]" style={{ gridTemplateColumns: pairColumns(row) }}>
                   {row.map((m) => (
-                    <div key={m.src} className="relative w-full bg-panel" style={{ aspectRatio: `${m.w} / ${m.h}` }}>
+                    <div key={m.src} className="zoom relative w-full overflow-hidden bg-panel" style={{ aspectRatio: `${m.w} / ${m.h}` }}>
                       <Image src={m.src} alt={p.title} fill sizes="33vw" className="object-cover" />
                     </div>
                   ))}

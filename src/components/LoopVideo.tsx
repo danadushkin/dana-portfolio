@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 // Silent looping clip that only plays (and only downloads) while on screen.
-// With `sound` (Montora's two films, Dana 25/11): hovering shows "Play with sound", which
+// With `sound` (Montora's two films, Dana 25/11): hovering shows "Play with sound" (bottom
+// right, white outline), which
 // opens the clip large, unmuted, from where it was — Esc / click outside closes it.
 export function LoopVideo({ src, poster, label, sound }: { src: string; poster: string; label: string; sound?: boolean }) {
   const ref = useRef<HTMLVideoElement>(null);
@@ -41,11 +42,11 @@ export function LoopVideo({ src, poster, label, sound }: { src: string; poster: 
         className="absolute inset-0 h-full w-full object-cover"
       />
       {sound && (
-        <div className="group absolute inset-0 flex items-end justify-start p-[clamp(10px,1vw,18px)]">
+        <div className="group absolute inset-0 flex items-end justify-end p-[clamp(10px,1vw,18px)]">
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="rounded-full bg-black/55 px-3 py-[6px] uppercase text-white opacity-0 backdrop-blur-sm transition-opacity duration-300 hover:bg-black/70 focus-visible:opacity-100 group-hover:opacity-100"
+            className="rounded-full border border-white bg-black/55 px-3 py-[6px] uppercase text-white opacity-0 backdrop-blur-sm transition-opacity duration-300 hover:bg-black/70 focus-visible:opacity-100 group-hover:opacity-100"
           >
             Play with sound ↗
           </button>

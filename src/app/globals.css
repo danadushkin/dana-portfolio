@@ -100,8 +100,10 @@ html[data-intro="running"] {
   animation: wipe-up 0.42s cubic-bezier(0.7, 0, 0.25, 1) both;
 }
 
-/* Cursor follower (zitafernandez.com): solid dot that becomes a translucent ring over
-   anything clickable. Position comes from CursorDot.tsx; size/colour changes ease here. */
+/* Cursor follower. Dana 25/11 (ref talashtar.com): a white dot blended with "difference",
+   so whatever is under it shows inverted (black dot on white, white on dark, negative over
+   pictures); over clickable things it grows to 30px and inverts that whole area. Position
+   comes from CursorDot.tsx; size changes ease here. */
 .cursor {
   position: fixed;
   left: 0;
@@ -110,26 +112,21 @@ html[data-intro="running"] {
   width: 17px;
   height: 17px;
   border-radius: 9999px;
-  border: 1px solid var(--fg);
-  background-color: var(--fg);
+  background-color: #fff;
+  mix-blend-mode: difference;
   pointer-events: none;
   opacity: 0;
   transition:
     opacity 0.375s cubic-bezier(0.625, 0.05, 0, 1),
-    background-color 0.375s cubic-bezier(0.625, 0.05, 0, 1),
     width 0.375s cubic-bezier(0.625, 0.05, 0, 1),
-    height 0.375s cubic-bezier(0.625, 0.05, 0, 1),
-    border-color 0.375s cubic-bezier(0.625, 0.05, 0, 1);
+    height 0.375s cubic-bezier(0.625, 0.05, 0, 1);
 }
 .cursor[data-visible] {
   opacity: 1;
 }
-/* Dana: over clickable things grow a little (17px → 21 → 25 → now 30px) and drop the outline. */
-body:has(a:hover, button:hover, [data-cursor]:hover) .cursor {
+body:has(a:hover, button:hover, [data-cursor]:hover, .zoom:hover) .cursor {
   width: 30px;
   height: 30px;
-  border-color: transparent;
-  background-color: color-mix(in srgb, var(--fg) 30%, transparent);
 }
 @media (hover: none), (pointer: coarse) {
   .cursor {
@@ -164,6 +161,19 @@ body:has(a:hover, button:hover, [data-cursor]:hover) .cursor {
   display: block;
   animation: enter-mask 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: calc(120ms + var(--i, 0) * 80ms);
+}
+
+/* Dana 25/11: hovering a project picture zooms 15% inside its frame (the frame keeps its
+   size). Only the picture / clip scales — buttons laid over it stay put. */
+.zoom img,
+.zoom video {
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (hover: hover) {
+  .zoom:hover img,
+  .zoom:hover video {
+    transform: scale(1.15);
+  }
 }
 
 @keyframes fade-in {

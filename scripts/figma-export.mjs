@@ -62,10 +62,16 @@ if (cmd === "list") {
   }
   const format = flags.format ?? "png";
   const scale = flags.scale ?? "2";
-  const { images, err } = await api(
-    `/images/${FIGMA_FILE_KEY}?ids=${encodeURIComponent(ids.join(","))}&format=${format}&scale=${scale}${flags.clip ? "&use_absolute_bounds=true" : ""}`,
-  );
-  if (err) throw new Error(err);
+  // One render request per node: heavy frames can take 1-2 minutes each at Figma, and a
+  // single batched request then outlives fetch's 5-minute header timeout.
+  const images = {};
+  for (const id of ids) {
+    const r = await api(
+      `/images/${FIGMA_FILE_KEY}?ids=${encodeURIComponent(id)}&format=${format}&scale=${scale}${flags.clip ? "&use_absolute_bounds=true" : ""}`,
+    );
+    if (r.err) throw new Error(r.err);
+    images[id] = r.images[id];
+  }
 
   const dir = path.join("public", "work", slug);
   await mkdir(dir, { recursive: true });
