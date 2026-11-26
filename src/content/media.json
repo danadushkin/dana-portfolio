@@ -232,17 +232,27 @@
   "/work/showcase-websites/05.jpg": {
     "w": 2520,
     "h": 1722,
-    "figma": "926:92829"
+    "figma": "978:19606"
   },
   "/work/showcase-websites/06.jpg": {
     "w": 2520,
     "h": 1722,
-    "figma": "944:166532"
+    "figma": "978:20287"
   },
   "/work/showcase-websites/07.jpg": {
     "w": 2520,
     "h": 1722,
     "figma": "927:96745"
+  },
+  "/work/showcase-websites/08.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "927:96210"
+  },
+  "/work/showcase-websites/09.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "978:23581"
   },
   "/work/wix-harmony/01.jpg": {
     "w": 2520,
@@ -276,30 +286,35 @@
   },
   "/work/wix-harmony/07.jpg": {
     "w": 2520,
-    "h": 927,
-    "figma": "917:17843"
+    "h": 1210,
+    "figma": "978:19441"
   },
   "/work/wix-harmony/08.jpg": {
-    "w": 1244,
-    "h": 1244,
-    "figma": "917:18185"
+    "w": 2520,
+    "h": 927,
+    "figma": "917:17843"
   },
   "/work/wix-harmony/09.jpg": {
     "w": 1244,
     "h": 1244,
-    "figma": "923:34922"
+    "figma": "917:18185"
   },
   "/work/wix-harmony/10.jpg": {
+    "w": 1244,
+    "h": 1244,
+    "figma": "923:34922"
+  },
+  "/work/wix-harmony/11.jpg": {
     "w": 2520,
     "h": 1421,
     "figma": "917:19192"
   },
-  "/work/wix-harmony/11.jpg": {
+  "/work/wix-harmony/12.jpg": {
     "w": 2520,
     "h": 1210,
     "figma": "963:49823"
   },
-  "/work/wix-harmony/12.jpg": {
+  "/work/wix-harmony/13.jpg": {
     "w": 2520,
     "h": 1418,
     "figma": "917:18279"

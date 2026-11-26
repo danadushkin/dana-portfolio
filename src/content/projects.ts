@@ -111,8 +111,8 @@ export const projects: Project[] = [
     textWidth: 439,
     tagsWidth: 439,
     // 05 = Dana's "new image - updated" (941:162559), 06 = "kleo" (941:160311),
-    // 11 = rm_heros_layout5 (963:49823, "one before the end")
-    rows: [wix(1), wix(2), [wix(3), wix(4)], wix(5), wix(6), wix(7), [wix(8), wix(9)], wix(10), wix(11), wix(12)],
+    // 07 = newimageforharmony (978:19441), 12 = rm_heros_layout5 (963:49823)
+    rows: [wix(1), wix(2), [wix(3), wix(4)], wix(5), wix(6), wix(7), wix(8), [wix(9), wix(10)], wix(11), wix(12), wix(13)],
     // Sources in /videos (not committed). Re-encode with:
     // ffmpeg -i in.mp4 -an -vf "scale='min(1920,iw)':-2,fps=30" -c:v libx264 -preset slow -crf 24 -pix_fmt yuv420p -movflags +faststart out.mp4
     videos: {
@@ -120,8 +120,8 @@ export const projects: Project[] = [
       // differently, which showed as a jump when playback started (Dana 26/11, orange clip).
       [wix(2)]: { src: wixV(2), poster: "/work/wix-harmony/02.poster.jpg" }, // cover for pp a.mp4
       [wix(4)]: wixV(4), // flower.mp4
-      [wix(8)]: wixV(8), // link1.mp4
-      [wix(10)]: { src: wixV(10), poster: "/work/wix-harmony/10.poster.jpg" }, // lp.mp4
+      [wix(9)]: wixV(9), // link1.mp4
+      [wix(11)]: { src: wixV(11), poster: "/work/wix-harmony/11.poster.jpg" }, // lp.mp4
     },
   },
   {
@@ -243,7 +243,7 @@ export const projects: Project[] = [
       { label: "Team", value: "Brand R&D" },
       { label: "Tools", value: ["Figma", "Illustrator", "Midjourney", "Weavy"] },
     ],
-    rows: [1, 2, 3, 4, 5, 6, 7].map(sw),
+    rows: [1, 2, 3, 4, 5, 6, 7, 8, 9].map(sw), // Dana 26/11 20:00: three new, one removed
     // Sources: videos/demo1-3.mov (ProRes) — matched to their frames by comparing first frames.
     videos: { [sw(2)]: swV(2), [sw(4)]: swV(4), [sw(7)]: swV(7) },
   },

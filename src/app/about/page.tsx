@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ContactBlock, MobileFooter } from "@/components/ContactBlock";
 import { Shell } from "@/components/Shell";
+import { HomeTopLink } from "@/components/HomeTopLink";
 import { asset } from "@/content/assets";
 import media from "@/content/media.json";
 import { site } from "@/content/site";
@@ -51,7 +52,7 @@ export default function About() {
           <ContactBlock />
         </div>
         <MobileFooter>
-          <Link href="/">Back to index</Link>
+          <HomeTopLink>Back to index</HomeTopLink>
         </MobileFooter>
       </div>
     </Shell>

@@ -166,7 +166,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <SmoothColumn className="md:w-[min(100%,calc(100cqh*1260/861))] md:justify-self-end">
           <Rows p={p} />
           {/* Phones (Figma 970:17934): NEXT + project name on the left, BACK TO TOP on the right */}
-          <div className="flex items-end justify-between pt-[22px] text-[12px] uppercase md:justify-end md:pt-[clamp(32px,2.76vw,53px)] md:text-[13px]">
+          <div className="flex items-end justify-between pb-[21px] pt-[22px] text-[12px] uppercase md:pb-0 md:justify-end md:pt-[clamp(32px,2.76vw,53px)] md:text-[13px]">
             <Link href={`/work/${next.slug}`} className="group md:hidden">
               Next <span className="text-muted group-hover:text-fg">{shortTitle(next)}</span>
             </Link>

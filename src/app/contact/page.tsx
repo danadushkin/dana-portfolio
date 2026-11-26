@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ContactBlock, MobileFooter } from "@/components/ContactBlock";
 import { ContactForm } from "@/components/ContactForm";
 import { Shell } from "@/components/Shell";
+import { HomeTopLink } from "@/components/HomeTopLink";
 
 export const metadata: Metadata = {};
 
@@ -34,7 +35,7 @@ export default function Contact() {
           <ContactBlock />
         </div>
         <MobileFooter>
-          <Link href="/">Back to index</Link>
+          <HomeTopLink>Back to index</HomeTopLink>
         </MobileFooter>
       </div>
     </Shell>

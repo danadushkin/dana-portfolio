@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { HOME_TOP_KEY } from "./HomeTopLink";
 import { coverOf, firstRowOf, indexLabel, pairColumns, shortTitle, type Project } from "@/content/projects";
 import { Intro } from "./Intro";
 import { BackToTop } from "./BackToTop";
@@ -31,6 +32,17 @@ export function HomeIndex({
   contact: React.ReactNode;
 }) {
   const [active, setActive] = useState(0);
+
+  // Arriving via "Back to index" (phones): start at the very top, whatever the browser restored.
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem(HOME_TOP_KEY)) {
+        sessionStorage.removeItem(HOME_TOP_KEY);
+        window.scrollTo(0, 0);
+        requestAnimationFrame(() => window.scrollTo(0, 0));
+      }
+    } catch {}
+  }, []);
   const panel = useRef<HTMLDivElement>(null);
   const first = projects.map(coverOf).find(Boolean);
   const ratio = first ? first.w / first.h : 1260 / 861;
