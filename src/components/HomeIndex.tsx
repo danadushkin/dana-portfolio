@@ -49,8 +49,8 @@ export function HomeIndex({
                 }`}
               >
                 <span className="w-[32%] shrink-0 md:w-auto">{indexLabel(i)}</span>
-                {/* Dana 25/11 (ref signature-portfolio): the name nudges 4px right on hover */}
-                <span className="transition-transform duration-300 ease-out group-hover:translate-x-[4px]">
+                {/* Dana (ref signature-portfolio): the name nudges right on hover — 6px (26/11: a bit more) */}
+                <span className="transition-transform duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-[6px]">
                   {p.placeholder ? "Name of Project" : shortTitle(p)}
                 </span>
               </span>

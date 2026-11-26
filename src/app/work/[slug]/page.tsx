@@ -51,7 +51,7 @@ function Para({ p }: { p: Paragraph }) {
 // One picture (or looping clip) at its own aspect ratio, so nothing is cropped.
 function Tile({ m, label, sizes, priority }: { m: Media; label: string; sizes: string; priority?: boolean }) {
   return (
-    <div className="zoom relative w-full overflow-hidden bg-panel" style={{ aspectRatio: `${m.w} / ${m.h}` }}>
+    <div className="relative w-full overflow-hidden bg-panel" style={{ aspectRatio: `${m.w} / ${m.h}` }}>
       {/* eager, not lazy: rules out native lazy-loading inside the custom scroll column as a
           cause of "an image never appeared on some computers" (the images are small WebPs) */}
       <Image src={m.src} alt={label} fill sizes={sizes} {...(priority ? { priority: true } : { loading: "eager" as const })} className="object-cover" />

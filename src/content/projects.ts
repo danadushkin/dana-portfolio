@@ -218,7 +218,7 @@ export const projects: Project[] = [
     textWidth: 397,
     tagsWidth: 410,
     tracking: -0.211,
-    rows: [1, 2, 3, 4, 5, 6].map(hub),
+    rows: [1, 2, 3, 4, 5].map(hub),
   },
   {
     // Figma: page frame 942:163698 ("project 05"), image column x≈15993
