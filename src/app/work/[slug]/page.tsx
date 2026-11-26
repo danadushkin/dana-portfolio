@@ -54,7 +54,8 @@ function Tile({ m, label, sizes, priority }: { m: Media; label: string; sizes: s
     <div className="relative w-full overflow-hidden bg-panel" style={{ aspectRatio: `${m.w} / ${m.h}` }}>
       {/* eager, not lazy: rules out native lazy-loading inside the custom scroll column as a
           cause of "an image never appeared on some computers" (the images are small WebPs) */}
-      <Image src={m.src} alt={label} fill sizes={sizes} {...(priority ? { priority: true } : { loading: "eager" as const })} className="object-cover" />
+      {/* under a clip, show the clip's own first frame (its poster) so nothing jumps when it starts */}
+      <Image src={m.video && m.poster ? m.poster : m.src} alt={label} fill sizes={sizes} {...(priority ? { priority: true } : { loading: "eager" as const })} className="object-cover" />
       {m.video && <LoopVideo src={m.video} poster={m.poster ?? m.src} label={label} sound={m.sound} />}
     </div>
   );

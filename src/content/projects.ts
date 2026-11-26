@@ -116,10 +116,12 @@ export const projects: Project[] = [
     // Sources in /videos (not committed). Re-encode with:
     // ffmpeg -i in.mp4 -an -vf "scale='min(1920,iw)':-2,fps=30" -c:v libx264 -preset slow -crf 24 -pix_fmt yuv420p -movflags +faststart out.mp4
     videos: {
-      [wix(2)]: wixV(2), // cover for pp a.mp4
+      // 02 / 10: the poster is the clip's own first frame — the Figma still is framed
+      // differently, which showed as a jump when playback started (Dana 26/11, orange clip).
+      [wix(2)]: { src: wixV(2), poster: "/work/wix-harmony/02.poster.jpg" }, // cover for pp a.mp4
       [wix(4)]: wixV(4), // flower.mp4
       [wix(8)]: wixV(8), // link1.mp4
-      [wix(10)]: wixV(10), // lp.mp4
+      [wix(10)]: { src: wixV(10), poster: "/work/wix-harmony/10.poster.jpg" }, // lp.mp4
     },
   },
   {
@@ -222,6 +224,8 @@ export const projects: Project[] = [
     tagsWidth: 410,
     tracking: -0.211,
     rows: [1, 2, 3, 4, 5].map(hub),
+    // 03 ← videos/design hub.mp4 (Dana 26/11), matched to the still by its first frame
+    videos: { [hub(3)]: { src: vid("mkt-design-hub")(3), poster: "/work/mkt-design-hub/03.poster.jpg" } },
   },
   {
     // Figma: page frame 925:83305 ("project 04"), image column x≈13556
