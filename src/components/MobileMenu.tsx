@@ -54,7 +54,7 @@ export function MobileMenu() {
               </div>
             </div>
             <p className="mt-[39px] w-[214px] leading-[15.2px] text-muted">{site.bio}</p>
-            <ol className="mt-[65px] uppercase">
+            <ol className="mt-[41px] uppercase">
               {items.map((it, i) => (
                 <li key={it.href}>
                   <Link href={it.href} onClick={close} className="index-row flex justify-between border-b border-line">

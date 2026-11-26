@@ -20,7 +20,7 @@ export function Shell({
            preview and the project page's first image end up 1px apart */}
       </div>
       {/* Figma at 1920x1080: top line y=12, texts y=37, sub-bar line y=195, image y=207 */}
-      <main className="mt-[39px] min-h-0 flex-1 pb-[18px] md:mt-3 md:pb-3">{children}</main>
+      <main className="mt-[39px] flex min-h-0 flex-1 flex-col pb-[18px] md:mt-3 md:block md:pb-3">{children}</main>
     </div>
   );
 }

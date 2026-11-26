@@ -5,13 +5,13 @@ import { site } from "@/content/site";
 
 // Figma 929:100785 / 942:162874 ("when texting"): the label stays on the left, what the
 // visitor types appears beside it in grey (26px Light), lines (#cecece) under Name and Email.
-const big = "text-[26px] leading-[32px] tracking-[-0.43px]";
+const big = "text-[18px] leading-[22.1px] tracking-[-0.43px] md:text-[26px] md:leading-[32px]"; // phones: 18px (Figma 977:19136)
 
 function Field({ name, label, as = "input", type = "text", autoComplete }: { name: string; label: string; as?: "input" | "textarea"; type?: string; autoComplete?: string }) {
   const control = `min-w-0 flex-1 bg-transparent text-muted outline-none ${big}`;
   return (
-    <label className={`flex items-start ${as === "textarea" ? "" : "border-b border-faint pb-[7px]"}`}>
-      <span className={`w-[120px] shrink-0 ${big}`}>
+    <label className={`flex items-start ${as === "textarea" ? "" : "border-b border-faint pb-[17px] md:pb-[7px]"}`}>
+      <span className={`w-[88px] shrink-0 md:w-[120px] ${big}`}>
         {label}
         <span className="text-faint">*</span>
       </span>
@@ -88,7 +88,7 @@ export function ContactForm() {
       <Field name="name" label="Name" autoComplete="name" />
       <Field name="email" label="Email" type="email" autoComplete="email" />
       <Field name="message" label="Message" as="textarea" />
-      <div className="-mt-[10px] flex items-center gap-6">
+      <div className="-mt-[13px] flex flex-row-reverse items-center justify-between gap-6 md:-mt-[10px] md:flex-row md:justify-start">
         <button
           type="submit"
           disabled={state === "sending"}

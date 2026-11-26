@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ContactBlock } from "@/components/ContactBlock";
+import { ContactBlock, MobileFooter } from "@/components/ContactBlock";
 import { ContactForm } from "@/components/ContactForm";
 import { Shell } from "@/components/Shell";
 
@@ -20,8 +20,9 @@ export default function Contact() {
   );
   return (
     <Shell sub={sub}>
-      <div className="flex h-full flex-col justify-between gap-16 md:pt-[33px]">
-        <div className="flex flex-col gap-10 md:cols md:gap-0">
+      {/* Phones (Figma 977:19136): heading, form, links + BACK TO INDEX at the bottom */}
+      <div className="flex flex-1 flex-col justify-between gap-6 md:h-full md:gap-16 md:pt-[33px]">
+        <div className="flex flex-col gap-[42px] md:cols md:gap-0">
           <h1 className="enter text-[26px] leading-[1.2] tracking-[-0.015em] md:col-span-2" style={enter(1)}>
             Get In Touch
           </h1>
@@ -29,9 +30,12 @@ export default function Contact() {
             <ContactForm />
           </div>
         </div>
-        <div className="enter" style={enter(3)}>
+        <div className="enter hidden md:block" style={enter(3)}>
           <ContactBlock />
         </div>
+        <MobileFooter>
+          <Link href="/">Back to index</Link>
+        </MobileFooter>
       </div>
     </Shell>
   );

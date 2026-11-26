@@ -31,8 +31,28 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return p ? { description: text } : {}; // tab title stays "Dana Dushkin" (Dana)
 }
 
+// Phones: keep each line's last two words together so no word is left alone on the last
+// line (Dana: "language", "award", "worldwide"). Desktop keeps Figma's exact breaks.
+function Glue({ text }: { text: string }) {
+  return text.split("\n").map((line, i, all) => {
+    const m = line.match(/^(.*\S)\s+(\S+\s+\S+)$/);
+    return (
+      <span key={i}>
+        {m ? (
+          <>
+            {m[1]} <span className="whitespace-nowrap md:whitespace-normal">{m[2]}</span>
+          </>
+        ) : (
+          line
+        )}
+        {i < all.length - 1 && "\n"}
+      </span>
+    );
+  });
+}
+
 function Para({ p }: { p: Paragraph }) {
-  if (typeof p === "string") return <p className="whitespace-pre-line">{p}</p>;
+  if (typeof p === "string") return <p className="whitespace-pre-line"><Glue text={p} /></p>;
   return (
     <p className="whitespace-pre-line">
       {p.map((part, i) =>
@@ -41,7 +61,7 @@ function Para({ p }: { p: Paragraph }) {
             {part.text}
           </a>
         ) : (
-          <span key={i}>{part.text}</span>
+          <span key={i}>{i === p.length - 1 ? <Glue text={part.text} /> : part.text}</span>
         ),
       )}
     </p>
@@ -112,7 +132,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   return (
     <Shell current={projects.indexOf(p)} sub={sub}>
       <div
-        className="flex flex-col gap-8 [--gap:4px] md:grid md:h-full md:min-h-0 md:grid-cols-[636fr_1260fr] md:gap-0 md:[--gap:clamp(8px,0.83vw,16px)] md:[container-type:size]"
+        className="flex flex-col gap-8 [--gap:14px] md:grid md:h-full md:min-h-0 md:grid-cols-[636fr_1260fr] md:gap-0 md:[--gap:clamp(8px,0.83vw,16px)] md:[container-type:size]"
       >
         {/* Info — stays put on desktop while the column on the right scrolls */}
         {/* Phones (Figma 970:17934): title, text, tags, credits, then a line and the pictures */}
@@ -130,8 +150,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               ))}
             </div>
             {p.tags.length > 0 && (
-              <p className="enter fit-box mt-6 max-w-[284px] text-muted md:max-w-none" style={{ ...enter(3).style, "--box": p.tagsWidth ?? 410, "--ls": p.tracking ?? -0.2 } as React.CSSProperties}>
-                {p.tags.join(", ")}
+              <p className="enter fit-box mt-6 max-w-[326px] text-muted md:max-w-none" style={{ ...enter(3).style, "--box": p.tagsWidth ?? 410, "--ls": p.tracking ?? -0.2 } as React.CSSProperties}>
+                <Glue text={p.tags.join(", ")} />
               </p>
             )}
           </div>
@@ -145,7 +165,13 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             keeping its right edge on the year, as in the design. */}
         <SmoothColumn className="md:w-[min(100%,calc(100cqh*1260/861))] md:justify-self-end">
           <Rows p={p} />
-          <BackToTop />
+          {/* Phones (Figma 970:17934): NEXT + project name on the left, BACK TO TOP on the right */}
+          <div className="flex items-end justify-between pt-[22px] text-[12px] uppercase md:justify-end md:pt-[clamp(32px,2.76vw,53px)] md:text-[13px]">
+            <Link href={`/work/${next.slug}`} className="group md:hidden">
+              Next <span className="text-muted group-hover:text-fg">{shortTitle(next)}</span>
+            </Link>
+            <BackToTop className="" />
+          </div>
         </SmoothColumn>
       </div>
     </Shell>

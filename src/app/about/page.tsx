@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ContactBlock } from "@/components/ContactBlock";
+import { ContactBlock, MobileFooter } from "@/components/ContactBlock";
 import { Shell } from "@/components/Shell";
 import { asset } from "@/content/assets";
 import media from "@/content/media.json";
@@ -24,10 +24,11 @@ export default function About() {
   );
   return (
     <Shell sub={sub}>
-      <div className="flex h-full flex-col justify-between gap-16 md:pt-[33px]">
-        <div className="flex flex-col gap-10 md:cols md:gap-0">
+      {/* Phones (Figma 977:19091): 18px text, the portrait below, links + BACK TO INDEX at the bottom */}
+      <div className="flex flex-1 flex-col justify-between gap-6 md:h-full md:gap-16 md:pt-[33px]">
+        <div className="flex flex-col gap-[39px] md:cols md:gap-0">
           <div
-            className="enter space-y-[1.2em] text-[20px] leading-[1.22] tracking-[-0.015em] md:col-span-3 md:max-w-[36.25vw] md:text-[1.354vw]"
+            className="enter max-w-[308px] space-y-[19.6px] text-[18px] leading-[19.6px] tracking-[-0.4px] md:col-span-3 md:max-w-[36.25vw] md:space-y-[1.2em] md:text-[1.354vw] md:leading-[1.22] md:tracking-[-0.015em]"
             style={enter(1)}
           >
             {site.about.map((para, i) => (
@@ -42,13 +43,16 @@ export default function About() {
               height={size.h}
               sizes="(min-width: 768px) 10vw, 40vw"
               priority
-              className="h-auto w-[40vw] md:w-[9.17vw]"
+              className="h-auto w-[122px] md:w-[9.17vw]"
             />
           </div>
         </div>
-        <div className="enter" style={enter(3)}>
+        <div className="enter hidden md:block" style={enter(3)}>
           <ContactBlock />
         </div>
+        <MobileFooter>
+          <Link href="/">Back to index</Link>
+        </MobileFooter>
       </div>
     </Shell>
   );

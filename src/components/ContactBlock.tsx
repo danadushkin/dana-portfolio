@@ -15,7 +15,7 @@ export function ContactLinks({ className = "space-y-[18px]" }: { className?: str
         <li key={c.label}>
           <a
             href={c.href}
-            target={c.href.startsWith("http") || c.href.endsWith(".pdf") ? "_blank" : undefined}
+            target="_blank"
             rel="noreferrer"
             className="group hover:text-fg"
           >
@@ -31,6 +31,16 @@ export function ContactLinks({ className = "space-y-[18px]" }: { className?: str
         </li>
       ))}
     </ul>
+  );
+}
+
+/** Phones (Figma mobile frames): contact links at the bottom left, one action on the right. */
+export function MobileFooter({ children }: { children?: React.ReactNode }) {
+  return (
+    <div className="mt-auto flex items-end justify-between pt-8 text-muted md:hidden">
+      <ContactLinks />
+      <span className="text-[12px] uppercase leading-[15.2px] text-fg">{children}</span>
+    </div>
   );
 }
 
