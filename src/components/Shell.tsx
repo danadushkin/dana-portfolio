@@ -12,14 +12,15 @@ export function Shell({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-dvh flex-col px-3 md:h-dvh md:px-3 md:pt-3">
+    <div className="flex min-h-dvh flex-col px-[14px] pt-[18px] md:h-dvh md:px-3 md:pt-3">
       <Header current={current} />
-      <div className="mt-8 min-h-[26px] border-b border-line pb-[6px] uppercase md:h-[26px] md:mt-[clamp(28px,6.6vh,80px)]">
+      {/* phones have no sub-bar (Figma mobile frames) */}
+      <div className="hidden border-b border-line pb-[6px] uppercase md:mt-[clamp(28px,6.6vh,80px)] md:block md:h-[26px]">
         {sub /* fixed height: an empty bar (home) and a bar with text must be identical, or the
            preview and the project page's first image end up 1px apart */}
       </div>
       {/* Figma at 1920x1080: top line y=12, texts y=37, sub-bar line y=195, image y=207 */}
-      <main className="mt-3 min-h-0 flex-1 pb-3">{children}</main>
+      <main className="mt-[39px] min-h-0 flex-1 pb-[18px] md:mt-3 md:pb-3">{children}</main>
     </div>
   );
 }

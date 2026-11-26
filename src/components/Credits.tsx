@@ -17,7 +17,7 @@ export function Credits({ meta }: { meta: { label: string; value: string | strin
 
   return (
     <dl
-      className={`grid w-fit grid-cols-[86px_1fr] gap-y-[6px] transition-opacity duration-500 ease-out ${
+      className={`grid w-fit grid-cols-[86px_1fr] gap-y-[7.8px] transition-opacity duration-500 ease-out ${
         hidden ? "md:pointer-events-none md:opacity-0" : ""
       }`}
     >

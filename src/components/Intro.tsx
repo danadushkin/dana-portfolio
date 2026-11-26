@@ -101,7 +101,15 @@ export function Intro({
   return (
     <div className="intro-overlay fixed inset-0 z-50 overflow-hidden bg-bg" aria-hidden>
       {box && (
-        <div className="absolute overflow-hidden" style={box}>
+        // Once the last frame is in, the box carries its edge colours too, so nothing but the
+        // same colour can show through anti-aliased edges while it grows (Dana 26/11).
+        <div
+          className="absolute overflow-hidden"
+          style={{
+            ...box,
+            ...(shown > frames.length && { background: `linear-gradient(to bottom, ${coverEdges.top} 50%, ${coverEdges.bottom} 50%)` }),
+          }}
+        >
           {frames.map((src, i) => (
             <Image
               key={src}
@@ -111,7 +119,8 @@ export function Intro({
               sizes="30vw"
               priority
               onLoad={onLoad}
-              className={`object-cover ${i < shown ? "wipe-up" : "invisible"}`}
+              // hidden once the last frame grows: nothing may show through its edges (Dana 26/11: grey seams)
+              className={`object-cover ${i < shown && !expanded ? "wipe-up" : "invisible"}`}
               style={{ zIndex: i }}
             />
           ))}

@@ -40,44 +40,44 @@
     "figma": "929:100782"
   },
   "/work/dtn-conference/01.jpg": {
-    "w": 2520,
-    "h": 1722,
-    "figma": "940:157576"
-  },
-  "/work/dtn-conference/02.jpg": {
-    "w": 1244,
-    "h": 1722,
-    "figma": "939:157345"
-  },
-  "/work/dtn-conference/03.jpg": {
-    "w": 1244,
-    "h": 1722,
-    "figma": "939:157426"
-  },
-  "/work/dtn-conference/04.jpg": {
-    "w": 1669,
-    "h": 1141,
-    "figma": "947:167309"
-  },
-  "/work/dtn-conference/05.jpg": {
-    "w": 824,
-    "h": 1141,
-    "figma": "947:167310"
-  },
-  "/work/dtn-conference/06.jpg": {
-    "w": 2520,
-    "h": 1722,
-    "figma": "940:157585"
-  },
-  "/work/dtn-conference/07.jpg": {
     "w": 1244,
     "h": 1722,
     "figma": "940:157713"
   },
-  "/work/dtn-conference/08.jpg": {
+  "/work/dtn-conference/02.jpg": {
     "w": 1244,
     "h": 1722,
     "figma": "940:157731"
+  },
+  "/work/dtn-conference/03.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "940:157576"
+  },
+  "/work/dtn-conference/04.jpg": {
+    "w": 1244,
+    "h": 1722,
+    "figma": "939:157345"
+  },
+  "/work/dtn-conference/05.jpg": {
+    "w": 1244,
+    "h": 1722,
+    "figma": "939:157426"
+  },
+  "/work/dtn-conference/06.jpg": {
+    "w": 1669,
+    "h": 1141,
+    "figma": "947:167309"
+  },
+  "/work/dtn-conference/07.jpg": {
+    "w": 824,
+    "h": 1141,
+    "figma": "947:167310"
+  },
+  "/work/dtn-conference/08.jpg": {
+    "w": 2520,
+    "h": 1722,
+    "figma": "940:157585"
   },
   "/work/dtn-conference/09.jpg": {
     "w": 824,
@@ -112,7 +112,7 @@
   "/work/mkt-design-hub/03.jpg": {
     "w": 2520,
     "h": 1722,
-    "figma": "951:179278"
+    "figma": "951:172057"
   },
   "/work/mkt-design-hub/04.jpg": {
     "w": 2520,

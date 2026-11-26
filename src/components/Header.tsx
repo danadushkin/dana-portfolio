@@ -2,6 +2,7 @@ import Link from "next/link";
 import { site } from "@/content/site";
 import { projects } from "@/content/projects";
 import { ThemeToggle } from "./ThemeToggle";
+import { MobileMenu } from "./MobileMenu";
 
 const reveal = (i: number) => ({ "data-reveal": "", style: { "--i": i } as React.CSSProperties });
 
@@ -10,8 +11,8 @@ export function Header({ current }: { current?: number }) {
   const now = String((current ?? 0) + 1).padStart(2, "0");
   return (
     <header className="border-t border-line pt-4 md:pt-6">
-      <div className="flex flex-wrap items-start justify-between gap-y-3 uppercase md:cols md:gap-y-0">
-        <Link href="/" className="leading-tight" {...reveal(0)}>
+      <div className="flex items-start justify-between uppercase md:cols">
+        <Link href="/" className="mobile-name" {...reveal(0)}>
           {site.name}
           <span className="block text-muted">{site.role}</span>
         </Link>
@@ -19,7 +20,12 @@ export function Header({ current }: { current?: number }) {
         <p className="hidden w-[254px] normal-case leading-[15.2px] text-muted md:block" {...reveal(1)}>
           {site.bio}
         </p>
-        <nav className="flex gap-6 md:contents">
+        {/* Phones (Figma mobile frames): just INDEX and MENU on the right */}
+        <div className="flex gap-[26px] md:hidden">
+          <Link href="/">Index</Link>
+          <MobileMenu />
+        </div>
+        <nav className="hidden md:contents">
           <Link href="/about" className="hover:text-muted" {...reveal(2)}>About</Link>
           <Link href="/contact" className="hover:text-muted" {...reveal(3)}>Contact</Link>
           {/* Last column: INDEX + counter on the left, the Light/Dark switch at the far right */}

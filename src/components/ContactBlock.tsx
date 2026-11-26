@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { site } from "@/content/site";
-import { ThemeToggle } from "./ThemeToggle";
 import { TlvClock } from "./TlvClock";
 
 // Bottom-left contact details (Figma, 1920 frames: line, then Email / Linkedin / Resume /
@@ -8,30 +7,38 @@ import { TlvClock } from "./TlvClock";
 // short screens so the page always fits without scrolling.
 const CTA_LINK = "let's get in touch";
 
+/** Email / Linkedin / Resume / Phone with the nudging arrow. Phones: 33px rhythm (Figma). */
+export function ContactLinks({ className = "space-y-[18px]" }: { className?: string }) {
+  return (
+    <ul className={`leading-[15.2px] tracking-normal ${className}`}>
+      {site.contact.map((c) => (
+        <li key={c.label}>
+          <a
+            href={c.href}
+            target={c.href.startsWith("http") || c.href.endsWith(".pdf") ? "_blank" : undefined}
+            rel="noreferrer"
+            className="group hover:text-fg"
+          >
+            {c.label}{" "}
+            {/* the arrow nudges up-right on hover */}
+            <span
+              aria-hidden
+              className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-[3px] group-hover:-translate-y-[3px]"
+            >
+              ↗
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function ContactBlock() {
   return (
-    <div className="w-full max-w-[240px] text-muted">
-      <ul className="space-y-[clamp(8px,1.7vh,18px)] border-t border-line pt-[clamp(10px,1.8vh,19px)]">
-        {site.contact.map((c) => (
-          <li key={c.label}>
-            <a
-              href={c.href}
-              target={c.href.startsWith("http") || c.href.endsWith(".pdf") ? "_blank" : undefined}
-              rel="noreferrer"
-              className="group hover:text-fg"
-            >
-              {c.label}{" "}
-              {/* the arrow nudges up-right on hover */}
-              <span
-                aria-hidden
-                className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-[3px] group-hover:-translate-y-[3px]"
-              >
-                ↗
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
+    // bottom margin: in Figma the text ends 35px above the frame's edge (main adds 12)
+    <div className="w-full max-w-[240px] text-muted md:pb-[clamp(0px,2.1vh,23px)]">
+      <ContactLinks className="space-y-[clamp(8px,1.7vh,18px)] border-t border-line pt-[clamp(10px,1.8vh,19px)]" />
       <p className="mt-[clamp(18px,6.1vh,66px)]">
         <TlvClock /> in TLV
       </p>
@@ -44,10 +51,6 @@ export function ContactBlock() {
         </Link>
         {site.cta.split(CTA_LINK)[1]}
       </p>
-      {/* The switch lives in the header on desktop; phones get it here. */}
-      <div className="mt-6 md:hidden">
-        <ThemeToggle />
-      </div>
     </div>
   );
 }

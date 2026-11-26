@@ -56,6 +56,42 @@ body {
   }
 }
 
+/* Index rows (Figma, desktop and phone alike): 13px from a line to the next name, 26px from
+   the name to its own line — 39px per row. The first row starts flush with the picture. */
+.index-row {
+  padding-top: 12px;
+  padding-bottom: 11.8px;
+  line-height: 14.2px;
+}
+li:first-child > .index-row,
+li:first-child > a > .index-row {
+  padding-top: 0;
+}
+/* Desktop: exactly 39px per row at 1080 tall; on short laptop screens the rows tighten
+   with the height so the home page still fits without scrolling. */
+@media (min-width: 768px) {
+  .index-row {
+    padding-top: clamp(6px, 1.111vh, 12px);
+    padding-bottom: clamp(6px, 1.093vh, 11.8px);
+  }
+  li:first-child > a > .index-row {
+    padding-top: 1px; /* first name at y=208 under the picture's 207 */
+  }
+}
+/* Phone header name: 14.625px caps in Figma, 21px apart. */
+.mobile-name {
+  font-size: 14.625px;
+  line-height: 21px;
+  letter-spacing: -0.23px;
+}
+@media (min-width: 768px) {
+  .mobile-name {
+    font-size: inherit;
+    line-height: 1.25;
+    letter-spacing: inherit;
+  }
+}
+
 @utility cols {
   display: grid;
   grid-template-columns: 188fr 448fr 261fr 739fr 260fr; /* Figma px at 1920: 12|200|648|909|1648|1908 */

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export function ThemeToggle() {
+export function ThemeToggle({ className = "" }: { className?: string }) {
   const [dark, setDark] = useState(false);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export function ThemeToggle() {
       onClick={toggle}
       role="switch"
       aria-checked={dark}
-      className="flex items-center gap-3 hover:text-fg"
+      className={`flex items-center gap-3 hover:text-fg ${className}`}
     >
       {dark ? "Dark" : "Light"}
       <span className="relative h-[14px] w-[28px] rounded-full border border-faint">

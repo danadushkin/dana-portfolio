@@ -5,6 +5,9 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { coverOf, firstRowOf, indexLabel, pairColumns, shortTitle, type Project } from "@/content/projects";
 import { Intro } from "./Intro";
+import { BackToTop } from "./BackToTop";
+import { ContactLinks } from "./ContactBlock";
+import { site } from "@/content/site";
 
 export type IntroConfig = {
   frames: string[];
@@ -33,10 +36,12 @@ export function HomeIndex({
   const ratio = first ? first.w / first.h : 1260 / 861;
 
   return (
-    <div className="flex flex-col gap-10 md:grid md:h-full md:min-h-0 md:grid-cols-[636fr_1260fr] md:gap-0">
+    <div className="flex flex-col md:grid md:h-full md:min-h-0 md:grid-cols-[636fr_1260fr]">
       <Intro {...intro} target={panel} />
 
       <div className="flex min-h-0 flex-col justify-between gap-6">
+        {/* Phones: the bio sits here, between the header and the list (Figma 969:2221) */}
+        <p className="-mb-6 w-[214px] pb-[41px] leading-[15.2px] text-muted md:hidden">{site.bio}</p>
         {/* Figma: rows are 467 of the column's 636px, and the names start 188px in — i.e.
             exactly under the bio paragraph. */}
         <ol className="uppercase md:w-[73.43%]">
@@ -44,11 +49,11 @@ export function HomeIndex({
             const on = i === active;
             const row = (
               <span
-                className={`flex border-b py-[6px] transition-colors duration-300 md:grid md:grid-cols-[40.26%_1fr] ${
-                  on ? "border-fg/60 text-fg" : "border-line text-faint"
+                className={`index-row flex justify-between border-b transition-colors duration-300 md:grid md:grid-cols-[40.26%_1fr] md:justify-normal ${
+                  on ? "border-line text-fg md:border-fg/60" : "border-line text-fg md:text-faint"
                 }`}
               >
-                <span className="w-[32%] shrink-0 md:w-auto">{indexLabel(i)}</span>
+                <span>{indexLabel(i)}</span>
                 {/* Dana (ref signature-portfolio): the name nudges right on hover — 6px (26/11: a bit more) */}
                 <span className="transition-transform duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-[6px]">
                   {p.placeholder ? "Name of Project" : shortTitle(p)}
@@ -117,20 +122,37 @@ export function HomeIndex({
 
       </div>
 
-      {/* Mobile: covers stacked under the list */}
-      <div className="flex flex-col gap-8 md:hidden">
-        {projects
-          .filter((p) => !p.placeholder)
-          .map((p) => {
-            const cover = coverOf(p)!;
-            return (
-              <Link key={p.slug} href={`/work/${p.slug}`} className="block">
-                <Image src={cover.src} alt={p.title} width={cover.w} height={cover.h} sizes="100vw" className="h-auto w-full" />
-                <span className="mt-2 block uppercase">{shortTitle(p)}</span>
-              </Link>
-            );
-          })}
-        {contact}
+      {/* Phones (Figma 969:2221): each project's first row of pictures, then a number / name
+          row like the index; contact links and BACK TO TOP at the bottom. */}
+      <div className="md:hidden">
+        <div className="mt-[46px] flex flex-col gap-[39px]">
+          {projects
+            .filter((p) => !p.placeholder)
+            .map((p) => {
+              const row = firstRowOf(p);
+              return (
+                <Link key={p.slug} href={`/work/${p.slug}`} className="block uppercase">
+                  {row.length === 1 ? (
+                    <Image src={row[0].src} alt={p.title} width={row[0].w} height={row[0].h} sizes="100vw" className="h-auto w-full bg-panel" />
+                  ) : (
+                    <span className="grid gap-[6px]" style={{ gridTemplateColumns: pairColumns(row) }}>
+                      {row.map((m) => (
+                        <Image key={m.src} src={m.src} alt={p.title} width={m.w} height={m.h} sizes="50vw" className="h-auto w-full bg-panel" />
+                      ))}
+                    </span>
+                  )}
+                  <span className="index-row flex justify-between border-b border-line" style={{ paddingTop: 11, paddingBottom: 11 }}>
+                    <span>{indexLabel(projects.indexOf(p))}</span>
+                    <span>{shortTitle(p)}</span>
+                  </span>
+                </Link>
+              );
+            })}
+        </div>
+        <div className="mt-[43px] flex items-end justify-between text-muted">
+          <ContactLinks />
+          <BackToTop className="text-[12px] uppercase leading-[15.2px] text-fg" />
+        </div>
       </div>
     </div>
   );

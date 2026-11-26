@@ -179,24 +179,27 @@ export const projects: Project[] = [
     videos: { [sitf(1)]: sitfV(1), [sitf(4)]: sitfV(4), [sitf(5)]: sitfV(5), [sitf(6)]: sitfV(6) },
   },
   {
-    // Figma: page frame 925:83305 ("project 04"), image column x≈13556
-    slug: "showcase-websites",
-    title: "Showcase Websites",
-    year: "2025-2026",
+    // Figma: page frame 942:163698 ("project 05"), image column x≈15993
+    slug: "wix-meetups",
+    title: "Wix Meetups",
+    year: "2019",
     description: [
-      "A collection of showcase websites created for Wix. Each website features a distinct mini-brand with its own visual identity, custom logo, unique typography and website design. All imagery was created using various AI tools, exploring diverse visual styles and creative directions.",
+      "I had full ownership of Wix Meetups design, developing a dedicated visual identity and creating a cohesive visual experience across print materials, presentations, interior design, spatial design, and all branded assets.",
+      "My role also included overseeing production, logistics, coordination, and on-site execution of all events worldwide.",
     ],
-    tags: ["Visual Identity", "Web Design", "AI Image Making"],
+    tags: ["Event Branding", "Print Production", "Brand Experiences"],
     meta: [
-      { label: "Year", value: "2025-26" },
+      { label: "Year", value: "2019" },
       { label: "Client", value: "Wix" },
-      { label: "Role", value: "Brand Designer" },
-      { label: "Team", value: "Brand R&D" },
-      { label: "Tools", value: ["Figma", "Illustrator", "Midjourney", "Weavy"] },
+      { label: "Role", value: "Lead Designer" },
+      { label: "Team", value: "Design Dev" },
+      { label: "Tools", value: ["Illustrator", "Photoshop"] },
     ],
-    rows: [1, 2, 3, 4, 5, 6, 7].map(sw),
-    // Sources: videos/demo1-3.mov (ProRes) — matched to their frames by comparing first frames.
-    videos: { [sw(2)]: swV(2), [sw(4)]: swV(4), [sw(7)]: swV(7) },
+    textWidth: 353,
+    tagsWidth: 410,
+    tracking: -0.211,
+    // 07+08, 10+11, 12+13 are uneven pairs (412 + 834 in Figma): widths follow the images.
+    rows: [[mu(1), mu(2)], mu(3), [mu(4), mu(5)], mu(6), [mu(7), mu(8)], mu(9), [mu(10), mu(11)], [mu(12), mu(13)]],
   },
   {
     // Figma: page frame 951:167818, image column x≈20438 — Dana's 7th project, placed 5th
@@ -221,27 +224,24 @@ export const projects: Project[] = [
     rows: [1, 2, 3, 4, 5].map(hub),
   },
   {
-    // Figma: page frame 942:163698 ("project 05"), image column x≈15993
-    slug: "wix-meetups",
-    title: "Wix Meetups",
-    year: "2019",
+    // Figma: page frame 925:83305 ("project 04"), image column x≈13556
+    slug: "showcase-websites",
+    title: "Showcase Websites",
+    year: "2025-2026",
     description: [
-      "I had full ownership of Wix Meetups design, developing a dedicated visual identity and creating a cohesive visual experience across print materials, presentations, interior design, spatial design, and all branded assets.",
-      "My role also included overseeing production, logistics, coordination, and on-site execution of all events worldwide.",
+      "A collection of showcase websites created for Wix. Each website features a distinct mini-brand with its own visual identity, custom logo, unique typography and website design. All imagery was created using various AI tools, exploring diverse visual styles and creative directions.",
     ],
-    tags: ["Event Branding", "Print Production", "Brand Experiences"],
+    tags: ["Visual Identity", "Web Design", "AI Image Making"],
     meta: [
-      { label: "Year", value: "2019" },
+      { label: "Year", value: "2025-26" },
       { label: "Client", value: "Wix" },
-      { label: "Role", value: "Lead Designer" },
-      { label: "Team", value: "Design Dev" },
-      { label: "Tools", value: ["Illustrator", "Photoshop"] },
+      { label: "Role", value: "Brand Designer" },
+      { label: "Team", value: "Brand R&D" },
+      { label: "Tools", value: ["Figma", "Illustrator", "Midjourney", "Weavy"] },
     ],
-    textWidth: 353,
-    tagsWidth: 410,
-    tracking: -0.211,
-    // 07+08, 10+11, 12+13 are uneven pairs (412 + 834 in Figma): widths follow the images.
-    rows: [[mu(1), mu(2)], mu(3), [mu(4), mu(5)], mu(6), [mu(7), mu(8)], mu(9), [mu(10), mu(11)], [mu(12), mu(13)]],
+    rows: [1, 2, 3, 4, 5, 6, 7].map(sw),
+    // Sources: videos/demo1-3.mov (ProRes) — matched to their frames by comparing first frames.
+    videos: { [sw(2)]: swV(2), [sw(4)]: swV(4), [sw(7)]: swV(7) },
   },
   {
     // Figma: page frame 939:157235 ("project 06"), image column x≈18210
@@ -263,7 +263,8 @@ export const projects: Project[] = [
     textWidth: 410,
     tagsWidth: 410,
     tracking: -0.211,
-    rows: [dtn(1), [dtn(2), dtn(3)], [dtn(4), dtn(5)], dtn(6), [dtn(7), dtn(8)], [dtn(9), dtn(10)], [dtn(11), dtn(12)]],
+    // Dana 26/11: the first row is now the pair (lanyard + t-shirt)
+    rows: [[dtn(1), dtn(2)], dtn(3), [dtn(4), dtn(5)], [dtn(6), dtn(7)], dtn(8), [dtn(9), dtn(10)], [dtn(11), dtn(12)]],
   },
 ];
 

@@ -111,11 +111,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   return (
     <Shell current={projects.indexOf(p)} sub={sub}>
       <div
-        className="flex flex-col gap-10 md:grid md:h-full md:min-h-0 md:grid-cols-[636fr_1260fr] md:gap-0 md:[container-type:size]"
-        style={{ "--gap": "clamp(8px, 0.83vw, 16px)" } as React.CSSProperties}
+        className="flex flex-col gap-8 [--gap:4px] md:grid md:h-full md:min-h-0 md:grid-cols-[636fr_1260fr] md:gap-0 md:[--gap:clamp(8px,0.83vw,16px)] md:[container-type:size]"
       >
         {/* Info — stays put on desktop while the column on the right scrolls */}
-        <aside className="flex flex-col justify-between gap-12 md:h-full md:pr-[4%] md:pt-[52px]">
+        {/* Phones (Figma 970:17934): title, text, tags, credits, then a line and the pictures */}
+        <aside className="flex flex-col justify-between gap-[22px] border-b border-line pb-[28px] md:h-full md:gap-12 md:border-0 md:pb-0 md:pr-[4%] md:pt-[52px]">
           {/* Description and tags keep Figma's text-box widths; if the column is narrower than
               the box (small laptops), text and box shrink together so the lines still break
               exactly as in the design. */}
@@ -123,13 +123,13 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <h1 className="enter-mask text-[26px] leading-[1.1] tracking-[-0.015em]" style={{ "--i": 1 } as React.CSSProperties}>
               <span>{p.title}</span>
             </h1>
-            <div className="enter fit-box mt-6 space-y-[1.4em]" style={{ ...enter(2).style, "--box": p.textWidth ?? 402, "--ls": p.tracking ?? -0.2 } as React.CSSProperties}>
+            <div className="enter fit-box mt-6 max-w-[330px] space-y-[1.4em] md:max-w-none" style={{ ...enter(2).style, "--box": p.textWidth ?? 402, "--ls": p.tracking ?? -0.2 } as React.CSSProperties}>
               {p.description.map((para, i) => (
                 <Para key={i} p={para} />
               ))}
             </div>
             {p.tags.length > 0 && (
-              <p className="enter fit-box mt-6 text-muted" style={{ ...enter(3).style, "--box": p.tagsWidth ?? 410, "--ls": p.tracking ?? -0.2 } as React.CSSProperties}>
+              <p className="enter fit-box mt-6 max-w-[284px] text-muted md:max-w-none" style={{ ...enter(3).style, "--box": p.tagsWidth ?? 410, "--ls": p.tracking ?? -0.2 } as React.CSSProperties}>
                 {p.tags.join(", ")}
               </p>
             )}
