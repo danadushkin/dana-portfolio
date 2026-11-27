@@ -16,6 +16,7 @@ export type IntroConfig = {
   cover: string;
   coverRatio: number;
   coverEdges: { top: string; bottom: string };
+  ext?: { src: string; top: number; height: number }; // cover with its background continued (fractions of the cover height)
 };
 
 const reveal = (i: number) => ({ "data-reveal": "", style: { "--i": i } as React.CSSProperties });
@@ -33,6 +34,7 @@ export function HomeIndex({
   contact: React.ReactNode;
 }) {
   const [active, setActive] = useState(0);
+  const [hovering, setHovering] = useState(false); // a row is hovered: show its tag on the preview
 
   // Arriving via "Back to index" (phones): start at the very top, whatever the browser restored.
   useEffect(() => {
@@ -59,7 +61,7 @@ export function HomeIndex({
         <p className="-mb-6 w-[214px] pb-[41px] leading-[15.2px] text-muted md:hidden">{site.bio}</p>
         {/* Figma: rows are 467 of the column's 636px, and the names start 188px in — i.e.
             exactly under the bio paragraph. */}
-        <ol className="uppercase md:w-[73.43%]">
+        <ol className="uppercase md:w-[73.43%]" onMouseLeave={() => setHovering(false)} onBlur={() => setHovering(false)}>
           {projects.map((p, i) => {
             const on = i === active;
             const row = (
@@ -80,8 +82,8 @@ export function HomeIndex({
                 key={p.slug}
                 {...reveal(6 + i)}
                 // placeholder rows have no picture, so they leave the current preview alone
-                onMouseEnter={p.placeholder ? undefined : () => setActive(i)}
-                onFocus={p.placeholder ? undefined : () => setActive(i)}
+                onMouseEnter={p.placeholder ? undefined : () => (setActive(i), setHovering(true))}
+                onFocus={p.placeholder ? undefined : () => (setActive(i), setHovering(true))}
               >
                 {p.placeholder ? row : <Link href={`/work/${p.slug}`} className="group">{row}</Link>}
               </li>
@@ -138,6 +140,21 @@ export function HomeIndex({
             </Link>
           );
         })}
+        {/* Dana 27/11 (Figma 991:27823…): hovering a project shows its tag, top right of the
+            preview — 20px in, a light green pill (home page only, so not on project pages) */}
+        {projects.map((p, i) =>
+          p.tag ? (
+            <span
+              key={p.slug}
+              aria-hidden
+              className={`pointer-events-none absolute right-5 top-5 z-10 rounded-full bg-[#dff994] px-4 py-[3px] text-[13px] font-light leading-[15.2px] tracking-[-0.2px] text-black transition-opacity duration-300 ${
+                hovering && i === active ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              {p.tag}
+            </span>
+          ) : null,
+        )}
         </div>
       </div>
 

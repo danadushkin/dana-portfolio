@@ -28,12 +28,16 @@ async function edgeColors(src: string) {
 // The LAST frame (Dana's "opening frame 11", was 8) is the Harmony cover in a narrow window: it is
 // rebuilt from the real cover and grows into it; the other frames play before it, in order.
 async function intro(): Promise<IntroConfig> {
-  const others = Object.keys(media).filter((k) => k.startsWith("/intro/")).sort().slice(0, -1);
+  const others = Object.keys(media).filter((k) => /^\/intro\/\d\d\./.test(k)).sort().slice(0, -1);
   const cover = coverOf(realProjects[0])!;
   // Dana 27/11: with a cover clip (Harmony), the intro ends on the clip's first frame (opening
   // frame 11), which the home preview then plays from.
   const still = homeCoverOf(realProjects[0])?.poster ?? cover.src;
-  return { frames: others.map(asset), cover: still, coverRatio: cover.w / cover.h, coverEdges: await edgeColors(still) };
+  // ...with the room above / below it filled by the cover's own background, continued
+  // (scripts/intro-cover.mjs), so the window has the video's exact light (Dana 27/11).
+  const e = (media as Record<string, { w: number; h: number; pad?: number }>)["/intro/ext.jpg"];
+  const ext = e?.pad ? { src: asset("/intro/ext.jpg"), top: -e.pad / (e.h - 2 * e.pad), height: e.h / (e.h - 2 * e.pad) } : undefined;
+  return { frames: others.map(asset), cover: still, coverRatio: cover.w / cover.h, coverEdges: await edgeColors(still), ext };
 }
 
 export default async function Home() {

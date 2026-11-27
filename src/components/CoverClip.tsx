@@ -89,7 +89,9 @@ export function HandoffClip({ cover, slug, src, label }: { cover: HomeCover; slu
       if (s && Date.now() - s.at < FRESH_MS) start = s.t + (Date.now() - s.at) / 1000;
     } catch {}
     const t0 = performance.now();
-    const MIN_MS = 1200; // let the cover run a moment so the page has settled first
+    // let the cover run a moment so the page has settled first — just a beat when the clip
+    // starts from its beginning (Scrolling: the project page shows the full clip)
+    const MIN_MS = cover.handoff ? 1200 : 250;
 
     const seekCover = () => {
       // with a still to fade to, the cover plays once to its end (that end is the still)

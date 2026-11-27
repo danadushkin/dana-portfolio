@@ -30,6 +30,8 @@ export type Project = {
   tracking?: number;
   /** Shorter name for the index, the sub-bar and "Next" (Figma), when the page title is longer. */
   short?: string;
+  /** Label on the home preview while its row is hovered (Dana 27/11, Figma 991:27823…). */
+  tag?: string;
   /** Placeholder rows keep the index at its designed length until real projects exist. */
   placeholder?: boolean;
   /**
@@ -100,6 +102,7 @@ export const projects: Project[] = [
   {
     // Figma: page frame 923:34333, image column x≈6191
     slug: "wix-harmony",
+    tag: "Brand Development",
     title: "Wix Harmony",
     year: "2025",
     description: [
@@ -142,6 +145,7 @@ export const projects: Project[] = [
   {
     // Figma: page frame 923:38414, image column x≈8596
     slug: "montora-studio-two",
+    tag: "Visual Identity",
     title: "Montora - Studio Two",
     year: "2026",
     description: [
@@ -171,6 +175,7 @@ export const projects: Project[] = [
   {
     // Figma: page frame 929:101108 ("project 03"), image column x≈11075
     slug: "scrolling-into-the-future",
+    tag: "Concept & Web Design",
     title: "Scrolling into the Future",
     year: "2024",
     description: [
@@ -194,12 +199,14 @@ export const projects: Project[] = [
     rows: [sitf(1), sitf(2), sitf(3), [sitf(4), sitf(5)], sitf(6)],
     // Sources: videos/80s web, phone, tetris, text marquee-.mp4 (matched by first frame).
     videos: { [sitf(1)]: sitfV(1), [sitf(4)]: sitfV(4), [sitf(5)]: sitfV(5), [sitf(6)]: sitfV(6) },
-    // videos/80s_cover.mp4 = the site's landing view; it looks like 01.mp4 at 2.4s
-    homeCover: { src: sitfV(0), poster: "/work/scrolling-into-the-future/00.poster.jpg", handoff: 2.4 },
+    // videos/80s_cover.mp4 = the site's landing view. Dana 27/11: the project page shows the
+    // FULL clip, so the cover only bridges the click-through and fades straight into 01 from 0s.
+    homeCover: { src: sitfV(0), poster: "/work/scrolling-into-the-future/00.poster.jpg", handoff: 0 },
   },
   {
     // Figma: page frame 942:163698 ("project 05"), image column x≈15993
     slug: "wix-meetups",
+    tag: "Event Design",
     title: "Wix Meetups",
     year: "2019",
     description: [
@@ -223,6 +230,7 @@ export const projects: Project[] = [
   {
     // Figma: page frame 951:167818, image column x≈20438 — Dana's 7th project, placed 5th
     slug: "mkt-design-hub",
+    tag: "Product Design",
     title: "MKT Design Hub",
     year: "2025",
     description: [
@@ -247,6 +255,7 @@ export const projects: Project[] = [
   {
     // Figma: page frame 925:83305 ("project 04"), image column x≈13556
     slug: "showcase-websites",
+    tag: "Visual Identity",
     title: "Showcase Websites",
     year: "2025-2026",
     description: [
@@ -267,6 +276,7 @@ export const projects: Project[] = [
   {
     // Figma: page frame 939:157235 ("project 06"), image column x≈18210
     slug: "dtn-conference",
+    tag: "Event Design",
     title: "DTN TLV conference",
     short: "DTN conference",
     year: "2018",

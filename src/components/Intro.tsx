@@ -27,6 +27,7 @@ export function Intro({
   cover,
   coverRatio,
   coverEdges,
+  ext,
   target,
   mobileTarget,
 }: {
@@ -34,6 +35,7 @@ export function Intro({
   cover: string; // first project's cover (same file the panel shows)
   coverRatio: number;
   coverEdges: { top: string; bottom: string }; // fill above / below the cover
+  ext?: { src: string; top: number; height: number }; // the cover with its own background continued above / below
   target: React.RefObject<HTMLDivElement | null>;
   mobileTarget?: React.RefObject<HTMLElement | null>; // phones: the first cover in the list
 }) {
@@ -44,7 +46,7 @@ export function Intro({
   const loaded = useRef(0);
   const started = useRef(false);
   const startTop = useRef(0);
-  const total = frames.length + 1; // frames + cover
+  const total = frames.length + 1 + (ext ? 1 : 0); // frames + cover (+ its extension)
 
   const finish = () => {
     delete document.documentElement.dataset.intro;
@@ -150,6 +152,14 @@ export function Intro({
                 transition: expanded ? `width ${EXPAND_MS}ms ${EASE}, top ${EXPAND_MS}ms ${EASE}` : undefined,
               }}
             >
+              {/* Dana 27/11: above / below the cover, its own background continued (no flat fills,
+                  so no lighting jump as it grows); positioned in cover heights, so it stays
+                  aligned with the cover throughout the growth */}
+              {ext && (
+                <div className="absolute left-0 w-full" style={{ top: `${ext.top * 100}%`, height: `${ext.height * 100}%` }}>
+                  <Image src={ext.src} alt="" fill sizes="(max-width: 767px) 61vw, 30vw" priority onLoad={onLoad} className="object-cover" />
+                </div>
+              )}
               {/* same sizes as the panel so this exact file is already cached there */}
               <Image src={cover} alt="" fill sizes="(max-width: 767px) 100vw, 66vw" priority onLoad={onLoad} className="object-cover" />
             </div>

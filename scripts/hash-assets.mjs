@@ -14,7 +14,8 @@ import path from "node:path";
 
 const ROOTS = ["public/work", "public/intro"];
 // "10.webp", "03.poster.jpg", "02.mp4" — optionally already carrying a hash
-const NAME = /^(\d\d(?:\.poster)?)(?:\.([0-9a-f]{8}))?\.(webp|jpg|png|mp4)$/;
+// "ext.jpg" = the intro's last frame built from the home cover (scripts/intro-cover.mjs)
+const NAME = /^(\d\d(?:\.poster)?|ext)(?:\.([0-9a-f]{8}))?\.(webp|jpg|png|mp4)$/;
 
 const out = {};
 let renamed = 0;

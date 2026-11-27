@@ -34,6 +34,12 @@
     "h": 1809,
     "figma": "986:25940"
   },
+  "/intro/ext.jpg": {
+    "w": 1260,
+    "h": 1350,
+    "pad": 244,
+    "from": "/work/wix-harmony/00.poster.jpg"
+  },
   "/work/about/01.jpg": {
     "w": 528,
     "h": 711,
