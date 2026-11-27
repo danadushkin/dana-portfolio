@@ -102,9 +102,13 @@ export function HandoffClip({ cover, slug, src, label }: { cover: HomeCover; slu
     else c.addEventListener("loadedmetadata", seekCover, { once: true });
 
     if (!v) {
+      // a still: Harmony's cover ends on it (fade at the end); with handoff 0 (Showcase, a
+      // different picture) fade to it right after arrival
       const onEnd = () => setFading(true);
+      const soon = cover.handoff === 0 ? setTimeout(onEnd, MIN_MS) : undefined;
       c.addEventListener("ended", onEnd);
       return () => {
+        clearTimeout(soon);
         c.removeEventListener("loadedmetadata", seekCover);
         c.removeEventListener("ended", onEnd);
       };

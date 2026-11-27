@@ -38,7 +38,8 @@ export type Project = {
    * A looping clip shown instead of the cover on the home page only (Dana 27/11: Scrolling, Harmony).
    * On the project page it keeps playing from where the home preview was, then cross-fades
    * into the first row's own clip at `handoff` seconds (the moment that looks the same), or —
-   * without `handoff` — plays to its end and fades to the first still.
+   * without `handoff` — plays to its end and fades to the first still (with
+   * `handoff: 0` and a still, it fades to the still right away).
    */
   homeCover?: { src: string; poster: string; handoff?: number };
 };
@@ -199,7 +200,7 @@ export const projects: Project[] = [
     rows: [sitf(1), sitf(2), sitf(3), [sitf(4), sitf(5)], sitf(6)],
     // Sources: videos/80s web, phone, tetris, text marquee-.mp4 (matched by first frame).
     videos: { [sitf(1)]: sitfV(1), [sitf(4)]: sitfV(4), [sitf(5)]: sitfV(5), [sitf(6)]: sitfV(6) },
-    // videos/80s_cover.mp4 = the site's landing view. Dana 27/11: the project page shows the
+    // videos/80_cover_fixed.mp4 (was 80s_cover.mp4) = the site's landing view. Dana 27/11: the project page shows the
     // FULL clip, so the cover only bridges the click-through and fades straight into 01 from 0s.
     homeCover: { src: sitfV(0), poster: "/work/scrolling-into-the-future/00.poster.jpg", handoff: 0 },
   },
@@ -272,6 +273,9 @@ export const projects: Project[] = [
     rows: [1, 2, 3, 4, 5, 6, 7, 8, 9].map(sw), // Dana 26/11 20:00: three new, one removed
     // Sources: videos/demo1-3.mov (ProRes) — matched to their frames by comparing first frames.
     videos: { [sw(2)]: swV(2), [sw(4)]: swV(4), [sw(7)]: swV(7) },
+    // videos/cover_showcase.mp4 (Dana 27/11): home cover only; its flowers differ from the 01
+    // still, so on the project page it just bridges the click and fades to 01 right away.
+    homeCover: { src: swV(0), poster: "/work/showcase-websites/00.poster.jpg", handoff: 0 },
   },
   {
     // Figma: page frame 939:157235 ("project 06"), image column x≈18210
