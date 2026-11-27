@@ -10,7 +10,7 @@ export function Header({ current }: { current?: number }) {
   const total = String(projects.length).padStart(2, "0");
   const now = String((current ?? 0) + 1).padStart(2, "0");
   return (
-    <header className="border-t border-line pt-4 md:pt-6">
+    <header className="border-t border-line pt-4 md:pt-5">
       <div className="flex items-start justify-between uppercase md:cols">
         <Link href="/" className="mobile-name" {...reveal(0)}>
           {site.name}

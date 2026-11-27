@@ -46,7 +46,7 @@ export function LoopVideo({ src, poster, label, sound }: { src: string; poster: 
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="rounded-full border border-white bg-black/55 px-3 py-[6px] uppercase text-white opacity-0 backdrop-blur-sm transition-opacity duration-300 hover:bg-white hover:text-black focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100"
+            className="rounded-full border border-white bg-black/55 px-[10px] py-[5px] text-[11px] uppercase md:px-3 md:py-[6px] md:text-[13px] text-white opacity-0 backdrop-blur-sm transition-opacity duration-300 hover:bg-white hover:text-black focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100"
           >
             Play with sound ↗
           </button>
