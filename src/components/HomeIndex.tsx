@@ -146,7 +146,7 @@ export function HomeIndex({
       {/* Phones (Figma 969:2221): each project's first row of pictures, then a number / name
           row like the index; contact links and BACK TO TOP at the bottom. */}
       <div className="md:hidden">
-        <div className="mt-[46px] flex flex-col gap-[39px]">
+        <div className="mt-[15px] flex flex-col gap-[39px]">
           {projects
             .filter((p) => !p.placeholder)
             .map((p) => {
