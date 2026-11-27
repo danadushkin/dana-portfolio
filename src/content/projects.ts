@@ -32,6 +32,12 @@ export type Project = {
   short?: string;
   /** Placeholder rows keep the index at its designed length until real projects exist. */
   placeholder?: boolean;
+  /**
+   * A looping clip shown instead of the cover on the home page only (Dana 27/11, Scrolling).
+   * On the project page it keeps playing from where the home preview was, then cross-fades
+   * into the first row's own clip at `handoff` seconds — the moment that looks the same.
+   */
+  homeCover?: { src: string; poster: string; handoff: number };
 };
 
 export type Media = { src: string; w: number; h: number; video?: string; poster?: string; sound?: boolean };
@@ -63,6 +69,11 @@ export const firstRowOf = (p: Project): Media[] => {
   const first = p.rows[0];
   return first ? (Array.isArray(first) ? first : [first]).map((src) => mediaItem(p, src)) : [];
 };
+
+export type HomeCover = { video: string; poster: string; handoff: number };
+
+export const homeCoverOf = (p: Project): HomeCover | undefined =>
+  p.homeCover && { video: asset(p.homeCover.src), poster: asset(p.homeCover.poster), handoff: p.homeCover.handoff };
 
 export const coverOf = (p: Project): Media | undefined => {
   const first = p.rows[0];
@@ -179,6 +190,8 @@ export const projects: Project[] = [
     rows: [sitf(1), sitf(2), sitf(3), [sitf(4), sitf(5)], sitf(6)],
     // Sources: videos/80s web, phone, tetris, text marquee-.mp4 (matched by first frame).
     videos: { [sitf(1)]: sitfV(1), [sitf(4)]: sitfV(4), [sitf(5)]: sitfV(5), [sitf(6)]: sitfV(6) },
+    // videos/80s_cover.mp4 = the site's landing view; it looks like 01.mp4 at 2.4s
+    homeCover: { src: sitfV(0), poster: "/work/scrolling-into-the-future/00.poster.jpg", handoff: 2.4 },
   },
   {
     // Figma: page frame 942:163698 ("project 05"), image column x≈15993

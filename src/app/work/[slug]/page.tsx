@@ -6,15 +6,18 @@ import { SmoothColumn } from "@/components/SmoothColumn";
 import { BackToTop } from "@/components/BackToTop";
 import { Credits } from "@/components/Credits";
 import { LoopVideo } from "@/components/LoopVideo";
+import { HandoffClip } from "@/components/CoverClip";
 import { Shell } from "@/components/Shell";
 import {
   getProject,
+  homeCoverOf,
   mediaItem,
   nextProject,
   pairColumns,
   projects,
   realProjects,
   shortTitle,
+  type HomeCover,
   type Media,
   type Paragraph,
   type Project,
@@ -69,14 +72,20 @@ function Para({ p }: { p: Paragraph }) {
 }
 
 // One picture (or looping clip) at its own aspect ratio, so nothing is cropped.
-function Tile({ m, label, sizes, priority }: { m: Media; label: string; sizes: string; priority?: boolean }) {
+function Tile({ m, label, sizes, priority, cover, slug }: { m: Media; label: string; sizes: string; priority?: boolean; cover?: HomeCover; slug?: string }) {
+  const handoff = cover && m.video && slug;
   return (
     <div className="relative w-full overflow-hidden bg-panel" style={{ aspectRatio: `${m.w} / ${m.h}` }}>
       {/* eager, not lazy: rules out native lazy-loading inside the custom scroll column as a
           cause of "an image never appeared on some computers" (the images are small WebPs) */}
-      {/* under a clip, show the clip's own first frame (its poster) so nothing jumps when it starts */}
-      <Image src={m.video && m.poster ? m.poster : m.src} alt={label} fill sizes={sizes} {...(priority ? { priority: true } : { loading: "eager" as const })} className="object-cover" />
-      {m.video && <LoopVideo src={m.video} poster={m.poster ?? m.src} label={label} sound={m.sound} />}
+      {/* under a clip, show the clip's own first frame (its poster) so nothing jumps when it starts;
+          under the home cover clip (Scrolling), that clip's first frame */}
+      <Image src={handoff ? cover.poster : m.video && m.poster ? m.poster : m.src} alt={label} fill sizes={sizes} {...(priority ? { priority: true } : { loading: "eager" as const })} className="object-cover" />
+      {handoff ? (
+        <HandoffClip cover={cover} slug={slug} src={m.video!} label={label} />
+      ) : (
+        m.video && <LoopVideo src={m.video} poster={m.poster ?? m.src} label={label} sound={m.sound} />
+      )}
     </div>
   );
 }
@@ -106,7 +115,13 @@ function Rows({ p }: { p: Project }) {
     }
     return (
       <div key={r} {...anim}>
-        <Tile m={mediaItem(p, row)} label={`${p.title} — ${++n}`} sizes="(min-width: 768px) 66vw, 100vw" priority={r === 0} />
+        <Tile
+          m={mediaItem(p, row)}
+          label={`${p.title} — ${++n}`}
+          sizes="(min-width: 768px) 66vw, 100vw"
+          priority={r === 0}
+          {...(r === 0 && { cover: homeCoverOf(p), slug: p.slug })}
+        />
       </div>
     );
   });

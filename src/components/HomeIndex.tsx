@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { HOME_TOP_KEY } from "./HomeTopLink";
-import { coverOf, firstRowOf, indexLabel, pairColumns, shortTitle, type Project } from "@/content/projects";
+import { coverOf, firstRowOf, homeCoverOf, indexLabel, pairColumns, shortTitle, type Project } from "@/content/projects";
+import { HomeCoverVideo } from "./CoverClip";
 import { Intro } from "./Intro";
 import { BackToTop } from "./BackToTop";
 import { ContactLinks } from "./ContactBlock";
@@ -113,7 +114,13 @@ export function HomeIndex({
                 i === active ? "opacity-100" : "pointer-events-none opacity-0"
               }`}
             >
-              {row.length === 1 ? (
+              {homeCoverOf(p) ? (
+                // Dana 27/11: this project's home cover is a clip (its first frame underneath)
+                <>
+                  <Image src={homeCoverOf(p)!.poster} alt={p.title} fill sizes="66vw" priority={i === 0} className="object-cover" />
+                  <HomeCoverVideo cover={homeCoverOf(p)!} slug={p.slug} label={p.title} active={i === active} />
+                </>
+              ) : row.length === 1 ? (
                 <Image src={row[0].src} alt={p.title} fill sizes="66vw" priority={i === 0} className="object-cover" />
               ) : (
                 // A pair, laid out exactly like the project page's first row (same gap, each
@@ -144,7 +151,12 @@ export function HomeIndex({
               const row = firstRowOf(p);
               return (
                 <Link key={p.slug} href={`/work/${p.slug}`} className="block uppercase">
-                  {row.length === 1 ? (
+                  {homeCoverOf(p) ? (
+                    <span className="relative block w-full bg-panel" style={{ aspectRatio: `${row[0].w} / ${row[0].h}` }}>
+                      <Image src={homeCoverOf(p)!.poster} alt={p.title} fill sizes="100vw" className="object-cover" />
+                      <HomeCoverVideo cover={homeCoverOf(p)!} slug={p.slug} label={p.title} />
+                    </span>
+                  ) : row.length === 1 ? (
                     <Image src={row[0].src} alt={p.title} width={row[0].w} height={row[0].h} sizes="100vw" className="h-auto w-full bg-panel" />
                   ) : (
                     <span className="grid gap-[6px]" style={{ gridTemplateColumns: pairColumns(row) }}>
