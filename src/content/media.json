@@ -32,7 +32,7 @@
   "/intro/07.jpg": {
     "w": 1329,
     "h": 1809,
-    "figma": "940:158164"
+    "figma": "986:25940"
   },
   "/work/about/01.jpg": {
     "w": 528,
@@ -265,24 +265,24 @@
     "figma": "917:17684"
   },
   "/work/wix-harmony/03.jpg": {
-    "w": 1244,
-    "h": 1244,
-    "figma": "917:18935"
-  },
-  "/work/wix-harmony/04.jpg": {
-    "w": 1244,
-    "h": 1244,
-    "figma": "917:17999"
-  },
-  "/work/wix-harmony/05.jpg": {
     "w": 2520,
     "h": 1210,
     "figma": "941:162559"
   },
-  "/work/wix-harmony/06.jpg": {
+  "/work/wix-harmony/04.jpg": {
     "w": 2520,
     "h": 1700,
     "figma": "941:160311"
+  },
+  "/work/wix-harmony/05.jpg": {
+    "w": 1244,
+    "h": 1244,
+    "figma": "985:25726"
+  },
+  "/work/wix-harmony/06.jpg": {
+    "w": 1244,
+    "h": 1244,
+    "figma": "985:25540"
   },
   "/work/wix-harmony/07.jpg": {
     "w": 2520,

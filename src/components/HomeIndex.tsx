@@ -45,12 +45,14 @@ export function HomeIndex({
     } catch {}
   }, []);
   const panel = useRef<HTMLDivElement>(null);
+  const mobilePanel = useRef<HTMLSpanElement>(null); // phones: the intro grows into the first cover
   const first = projects.map(coverOf).find(Boolean);
+  const firstReal = projects.find((p) => !p.placeholder);
   const ratio = first ? first.w / first.h : 1260 / 861;
 
   return (
     <div className="flex flex-col md:grid md:h-full md:min-h-0 md:grid-cols-[636fr_1260fr]">
-      <Intro {...intro} target={panel} />
+      <Intro {...intro} target={panel} mobileTarget={mobilePanel} />
 
       <div className="flex min-h-0 flex-col justify-between gap-6">
         {/* Phones: the bio sits here, between the header and the list (Figma 969:2221) */}
@@ -152,7 +154,7 @@ export function HomeIndex({
               return (
                 <Link key={p.slug} href={`/work/${p.slug}`} className="block uppercase">
                   {homeCoverOf(p) ? (
-                    <span className="relative block w-full bg-panel" style={{ aspectRatio: `${row[0].w} / ${row[0].h}` }}>
+                    <span ref={p === firstReal ? mobilePanel : undefined} className="relative block w-full bg-panel" style={{ aspectRatio: `${row[0].w} / ${row[0].h}` }}>
                       <Image src={homeCoverOf(p)!.poster} alt={p.title} fill sizes="100vw" className="object-cover" />
                       <HomeCoverVideo cover={homeCoverOf(p)!} slug={p.slug} label={p.title} />
                     </span>

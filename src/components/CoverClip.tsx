@@ -3,17 +3,33 @@
 import { useEffect, useRef, useState } from "react";
 import type { HomeCover } from "@/content/projects";
 
-// Dana 27/11 (Scrolling): a cover clip plays on the home page only. On the project page the
-// same clip carries on from where the home preview was, then cross-fades into the project's
-// own first clip at the moment where both look the same, so the switch is not noticed.
+// Dana 27/11: a cover clip plays on the home page only (Scrolling, Harmony). On the project
+// page the same clip carries on from where the home preview was, then cross-fades into the
+// first tile's own content, so the switch is not noticed:
+//  - into the tile's clip at `handoff` seconds, the moment where both look the same (Scrolling);
+//  - into the tile's still once the cover has played to its end (Harmony: the cover ends on it).
 
 const key = (slug: string) => `cover:${slug}`;
 const FRESH_MS = 5000; // a saved position older than this didn't come from a click-through
 
-/** Plays while `active` (desktop preview) and on screen; remembers its position on leave. */
+/** True once the home intro is over (or never ran). */
+function useIntroDone() {
+  const [done, setDone] = useState(false);
+  useEffect(() => {
+    const html = document.documentElement;
+    if (!html.dataset.intro) return setDone(true);
+    const mo = new MutationObserver(() => !html.dataset.intro && setDone(true));
+    mo.observe(html, { attributes: true, attributeFilter: ["data-intro"] });
+    return () => mo.disconnect();
+  }, []);
+  return done;
+}
+
+/** Plays while `active` (desktop preview) and on screen, after the intro; remembers its position. */
 export function HomeCoverVideo({ cover, slug, label, active = true }: { cover: HomeCover; slug: string; label: string; active?: boolean }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [inView, setInView] = useState(false);
+  const introDone = useIntroDone();
 
   useEffect(() => {
     const v = ref.current;
@@ -37,9 +53,9 @@ export function HomeCoverVideo({ cover, slug, label, active = true }: { cover: H
   useEffect(() => {
     const v = ref.current;
     if (!v) return;
-    if (active && inView) v.play().catch(() => {});
+    if (active && inView && introDone) v.play().catch(() => {});
     else v.pause();
-  }, [active, inView]);
+  }, [active, inView, introDone]);
 
   return (
     <video
@@ -49,15 +65,15 @@ export function HomeCoverVideo({ cover, slug, label, active = true }: { cover: H
       muted
       loop
       playsInline
-      preload="none"
+      preload={active ? "auto" : "none"}
       aria-label={label}
       className="absolute inset-0 h-full w-full object-cover"
     />
   );
 }
 
-/** Project page, first tile: the cover clip, then a cross-fade into the tile's own clip. */
-export function HandoffClip({ cover, slug, src, label }: { cover: HomeCover; slug: string; src: string; label: string }) {
+/** Project page, first tile: the cover clip, then a cross-fade into the tile's own clip or still. */
+export function HandoffClip({ cover, slug, src, label }: { cover: HomeCover; slug: string; src?: string; label: string }) {
   const coverRef = useRef<HTMLVideoElement>(null);
   const clipRef = useRef<HTMLVideoElement>(null);
   const [fading, setFading] = useState(false);
@@ -65,7 +81,7 @@ export function HandoffClip({ cover, slug, src, label }: { cover: HomeCover; slu
 
   useEffect(() => {
     const c = coverRef.current!;
-    const v = clipRef.current!;
+    const v = clipRef.current;
     let start = 0;
     try {
       const s = JSON.parse(sessionStorage.getItem(key(slug)) ?? "null");
@@ -76,11 +92,21 @@ export function HandoffClip({ cover, slug, src, label }: { cover: HomeCover; slu
     const MIN_MS = 1200; // let the cover run a moment so the page has settled first
 
     const seekCover = () => {
-      if (c.duration) c.currentTime = start % c.duration;
+      // with a still to fade to, the cover plays once to its end (that end is the still)
+      if (c.duration) c.currentTime = v ? start % c.duration : Math.min(start % c.duration, c.duration - 0.05);
       c.play().catch(() => {});
     };
     if (c.readyState >= 1) seekCover();
     else c.addEventListener("loadedmetadata", seekCover, { once: true });
+
+    if (!v) {
+      const onEnd = () => setFading(true);
+      c.addEventListener("ended", onEnd);
+      return () => {
+        c.removeEventListener("loadedmetadata", seekCover);
+        c.removeEventListener("ended", onEnd);
+      };
+    }
 
     let timer: ReturnType<typeof setTimeout> | undefined;
     const ready = () => {
@@ -90,7 +116,7 @@ export function HandoffClip({ cover, slug, src, label }: { cover: HomeCover; slu
       }, Math.max(0, MIN_MS - (performance.now() - t0)));
     };
     const seekClip = () => {
-      v.currentTime = cover.handoff;
+      v.currentTime = cover.handoff ?? 0;
       v.addEventListener("seeked", ready, { once: true });
     };
     if (v.readyState >= 1) seekClip();
@@ -104,11 +130,12 @@ export function HandoffClip({ cover, slug, src, label }: { cover: HomeCover; slu
     };
   }, [cover.handoff, slug]);
 
-  // After the hand-off the clip behaves like every other one: plays only while on screen.
+  // After the hand-off a clip behaves like every other one: plays only while on screen.
   useEffect(() => {
     if (!done) return;
     coverRef.current?.pause();
-    const v = clipRef.current!;
+    const v = clipRef.current;
+    if (!v) return;
     const io = new IntersectionObserver(([e]) => (e.isIntersecting ? v.play().catch(() => {}) : v.pause()), { rootMargin: "400px 0px" });
     io.observe(v);
     return () => io.disconnect();
@@ -116,14 +143,14 @@ export function HandoffClip({ cover, slug, src, label }: { cover: HomeCover; slu
 
   return (
     <>
-      <video ref={clipRef} src={src} muted loop playsInline preload="auto" aria-label={label} className="absolute inset-0 h-full w-full object-cover" />
+      {src && <video ref={clipRef} src={src} muted loop playsInline preload="auto" aria-label={label} className="absolute inset-0 h-full w-full object-cover" />}
       {!done && (
         <video
           ref={coverRef}
           src={cover.video}
           poster={cover.poster}
           muted
-          loop
+          loop={Boolean(src)}
           playsInline
           preload="auto"
           aria-hidden

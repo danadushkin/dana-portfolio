@@ -33,11 +33,12 @@ export type Project = {
   /** Placeholder rows keep the index at its designed length until real projects exist. */
   placeholder?: boolean;
   /**
-   * A looping clip shown instead of the cover on the home page only (Dana 27/11, Scrolling).
+   * A looping clip shown instead of the cover on the home page only (Dana 27/11: Scrolling, Harmony).
    * On the project page it keeps playing from where the home preview was, then cross-fades
-   * into the first row's own clip at `handoff` seconds — the moment that looks the same.
+   * into the first row's own clip at `handoff` seconds (the moment that looks the same), or —
+   * without `handoff` — plays to its end and fades to the first still.
    */
-  homeCover?: { src: string; poster: string; handoff: number };
+  homeCover?: { src: string; poster: string; handoff?: number };
 };
 
 export type Media = { src: string; w: number; h: number; video?: string; poster?: string; sound?: boolean };
@@ -70,7 +71,7 @@ export const firstRowOf = (p: Project): Media[] => {
   return first ? (Array.isArray(first) ? first : [first]).map((src) => mediaItem(p, src)) : [];
 };
 
-export type HomeCover = { video: string; poster: string; handoff: number };
+export type HomeCover = { video: string; poster: string; handoff?: number };
 
 export const homeCoverOf = (p: Project): HomeCover | undefined =>
   p.homeCover && { video: asset(p.homeCover.src), poster: asset(p.homeCover.poster), handoff: p.homeCover.handoff };
@@ -121,19 +122,22 @@ export const projects: Project[] = [
     ],
     textWidth: 439,
     tagsWidth: 439,
-    // 05 = Dana's "new image - updated" (941:162559), 06 = "kleo" (941:160311),
-    // 07 = newimageforharmony (978:19441), 12 = rm_heros_layout5 (963:49823)
-    rows: [wix(1), wix(2), [wix(3), wix(4)], wix(5), wix(6), wix(7), wix(8), [wix(9), wix(10)], wix(11), wix(12), wix(13)],
+    // 03 = Dana's "new image - updated" (941:162559), 04 = "kleo" (941:160311), 05/06 = the
+    // pair (moved down, Dana 27/11), 07 = newimageforharmony (978:19441), 12 = rm_heros_layout5
+    rows: [wix(1), wix(2), wix(3), wix(4), [wix(5), wix(6)], wix(7), wix(8), [wix(9), wix(10)], wix(11), wix(12), wix(13)],
     // Sources in /videos (not committed). Re-encode with:
     // ffmpeg -i in.mp4 -an -vf "scale='min(1920,iw)':-2,fps=30" -c:v libx264 -preset slow -crf 24 -pix_fmt yuv420p -movflags +faststart out.mp4
     videos: {
       // 02 / 10: the poster is the clip's own first frame — the Figma still is framed
       // differently, which showed as a jump when playback started (Dana 26/11, orange clip).
       [wix(2)]: { src: wixV(2), poster: "/work/wix-harmony/02.poster.jpg" }, // cover for pp a.mp4
-      [wix(4)]: wixV(4), // flower.mp4
+      [wix(6)]: wixV(6), // flower.mp4
       [wix(9)]: wixV(9), // link1.mp4
       [wix(11)]: { src: wixV(11), poster: "/work/wix-harmony/11.poster.jpg" }, // lp.mp4
     },
+    // videos/Harmony_cover.mp4 (Dana 27/11): the home cover; the intro ends on its first frame
+    // (opening frame 11). Its last frame is the 01 still, which the project page fades to.
+    homeCover: { src: wixV(0), poster: "/work/wix-harmony/00.poster.jpg" },
   },
   {
     // Figma: page frame 923:38414, image column x≈8596

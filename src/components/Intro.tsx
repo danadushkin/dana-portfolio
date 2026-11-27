@@ -28,12 +28,14 @@ export function Intro({
   coverRatio,
   coverEdges,
   target,
+  mobileTarget,
 }: {
   frames: string[]; // shown first, in order
   cover: string; // first project's cover (same file the panel shows)
   coverRatio: number;
   coverEdges: { top: string; bottom: string }; // fill above / below the cover
   target: React.RefObject<HTMLDivElement | null>;
+  mobileTarget?: React.RefObject<HTMLElement | null>; // phones: the first cover in the list
 }) {
   const [armed, setArmed] = useState(false);
   const [shown, setShown] = useState(0); // how many layers have wiped in
@@ -55,7 +57,9 @@ export function Intro({
     // Window = Figma's 443x603 at 1920 wide, always at exactly that ratio (it used to scale
     // width and height separately, so on non-16:9 screens the pictures came out squashed).
     // Scaled by the screen width; on unusually short screens it shrinks to stay ≤ 75% tall.
-    const s = Math.min(innerWidth / 1920, (innerHeight * 0.75) / 603);
+    // Phones (Dana 27/11, Figma "opening frames" 986:25888): the window is 218 of 360px wide.
+    const phone = innerWidth < 768;
+    const s = Math.min(phone ? (innerWidth * 218) / 360 / 443 : innerWidth / 1920, (innerHeight * 0.75) / 603);
     const w = 443 * s;
     const h = 603 * s;
     startTop.current = (h - (COVER_START * w) / coverRatio) / 2; // cover centred vertically, as in frame 1
@@ -81,7 +85,7 @@ export function Intro({
   // with browser bars) the panel's bottom is clipped by its column, and growing to the full
   // panel made the picture look like it shrank back when the intro handed over.
   function expand() {
-    const panel = target.current;
+    const panel = innerWidth < 768 ? mobileTarget?.current : target.current;
     if (!panel) return finish();
     const r = panel.getBoundingClientRect();
     const clip = (panel.parentElement ?? panel).getBoundingClientRect();
@@ -116,7 +120,7 @@ export function Intro({
               src={src}
               alt=""
               fill
-              sizes="30vw"
+              sizes="(max-width: 767px) 61vw, 30vw"
               priority
               onLoad={onLoad}
               // hidden once the last frame grows: nothing may show through its edges (Dana 26/11: grey seams)
@@ -147,7 +151,7 @@ export function Intro({
               }}
             >
               {/* same sizes as the panel so this exact file is already cached there */}
-              <Image src={cover} alt="" fill sizes="66vw" priority onLoad={onLoad} className="object-cover" />
+              <Image src={cover} alt="" fill sizes="(max-width: 767px) 100vw, 66vw" priority onLoad={onLoad} className="object-cover" />
             </div>
           </div>
         </div>
