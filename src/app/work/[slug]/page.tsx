@@ -6,7 +6,7 @@ import { SmoothColumn } from "@/components/SmoothColumn";
 import { BackToTop } from "@/components/BackToTop";
 import { Credits } from "@/components/Credits";
 import { LoopVideo } from "@/components/LoopVideo";
-import { HandoffClip } from "@/components/CoverClip";
+import { ResumeClip } from "@/components/CoverClip";
 import { Shell } from "@/components/Shell";
 import {
   getProject,
@@ -73,17 +73,16 @@ function Para({ p }: { p: Paragraph }) {
 
 // One picture (or looping clip) at its own aspect ratio, so nothing is cropped.
 function Tile({ m, label, sizes, priority, cover, slug }: { m: Media; label: string; sizes: string; priority?: boolean; cover?: HomeCover; slug?: string }) {
-  const handoff = cover && slug;
+  const resume = cover?.onProject === "loop" && slug; // the home cover clip carries on, looping
   return (
     <div className="relative w-full overflow-hidden bg-panel" style={{ aspectRatio: `${m.w} / ${m.h}` }}>
       {/* eager, not lazy: rules out native lazy-loading inside the custom scroll column as a
           cause of "an image never appeared on some computers" (the images are small WebPs) */}
       {/* under a clip, show the clip's own first frame (its poster) so nothing jumps when it starts;
-          under a home cover clip: its first frame before a clip (Scrolling), the still itself
-          when the cover fades to it (Harmony) */}
-      <Image src={handoff && m.video ? cover.poster : m.video && m.poster ? m.poster : m.src} alt={label} fill sizes={sizes} {...(priority ? { priority: true } : { loading: "eager" as const })} className="object-cover" />
-      {handoff ? (
-        <HandoffClip cover={cover} slug={slug} src={m.video} label={label} />
+          under the home cover clip carrying on (Harmony, Showcase), that clip's first frame */}
+      <Image src={resume ? cover.poster : m.video && m.poster ? m.poster : m.src} alt={label} fill sizes={sizes} {...(priority ? { priority: true } : { loading: "eager" as const })} className="object-cover" />
+      {resume ? (
+        <ResumeClip cover={cover} slug={slug} label={label} />
       ) : (
         m.video && <LoopVideo src={m.video} poster={m.poster ?? m.src} label={label} sound={m.sound} />
       )}

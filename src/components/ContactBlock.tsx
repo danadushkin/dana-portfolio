@@ -19,14 +19,21 @@ export function ContactLinks({ className = "space-y-[18px]" }: { className?: str
             rel="noreferrer"
             className="group hover:text-fg"
           >
-            {c.label}{" "}
-            {/* the arrow nudges up-right on hover */}
-            <span
+            {c.label}
+            {/* Dana 28/11: the arrow as in Figma — a fine 5.2px line arrow, 5.8px after the word
+                (the ↗ glyph was bigger and closer). It nudges up-right on hover. */}
+            <svg
               aria-hidden
-              className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-[3px] group-hover:-translate-y-[3px]"
+              viewBox="0 0 5.2 5.2"
+              width="5.2"
+              height="5.2"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="0.5"
+              className="ml-[5.8px] inline-block align-[0.5px] transition-transform duration-300 ease-out group-hover:translate-x-[3px] group-hover:-translate-y-[3px]"
             >
-              ↗
-            </span>
+              <path d="M0.25 4.95 4.95 0.25M1.3 0.25h3.65v3.65" />
+            </svg>
           </a>
         </li>
       ))}

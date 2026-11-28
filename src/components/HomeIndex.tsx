@@ -141,13 +141,13 @@ export function HomeIndex({
           );
         })}
         {/* Dana 27/11 (Figma 991:27823…): hovering a project shows its tag, top right of the
-            preview — 20px in, a light green pill (home page only, so not on project pages) */}
+            preview — 20px in, a light green pill, 11px text (28/11: smaller) (home page only, so not on project pages) */}
         {projects.map((p, i) =>
           p.tag ? (
             <span
               key={p.slug}
               aria-hidden
-              className={`pointer-events-none absolute right-5 top-5 z-10 rounded-full bg-[#dff994] px-4 py-[3px] text-[13px] font-light leading-[15.2px] tracking-[-0.2px] text-black transition-opacity duration-300 ${
+              className={`pointer-events-none absolute right-5 top-5 z-10 rounded-full bg-[#dff994] px-[13px] py-[3px] text-[11px] font-light leading-[12.87px] tracking-[-0.2px] text-black transition-opacity duration-300 ${
                 hovering && i === active ? "opacity-100" : "opacity-0"
               }`}
             >

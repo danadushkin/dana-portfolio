@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-const STEP_MS = 400; // time each frame holds before the next wipes over it (Dana 26/11: faster, ~the reference's pace)
+const STEP_MS = 260; // time each frame holds before the next wipes over it (Dana 28/11: the whole run 1s faster — 7 steps, 400 → 260ms)
 const EXPAND_MS = 1100;
 const EASE = "cubic-bezier(0.76, 0, 0.24, 1)";
 

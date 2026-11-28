@@ -35,13 +35,12 @@ export type Project = {
   /** Placeholder rows keep the index at its designed length until real projects exist. */
   placeholder?: boolean;
   /**
-   * A looping clip shown instead of the cover on the home page only (Dana 27/11: Scrolling, Harmony).
-   * On the project page it keeps playing from where the home preview was, then cross-fades
-   * into the first row's own clip at `handoff` seconds (the moment that looks the same), or —
-   * without `handoff` — plays to its end and fades to the first still (with
-   * `handoff: 0` and a still, it fades to the still right away).
+   * A looping clip shown instead of the cover on the home page (Dana 27/11). On the project
+   * page: "loop" keeps playing it as the first tile, resumed from where the home preview was
+   * (Harmony, Showcase); "own" shows the project's own first clip from its start (Scrolling:
+   * its page must show the full clip).
    */
-  homeCover?: { src: string; poster: string; handoff?: number };
+  homeCover?: { src: string; poster: string; onProject: "loop" | "own" };
 };
 
 export type Media = { src: string; w: number; h: number; video?: string; poster?: string; sound?: boolean };
@@ -74,10 +73,10 @@ export const firstRowOf = (p: Project): Media[] => {
   return first ? (Array.isArray(first) ? first : [first]).map((src) => mediaItem(p, src)) : [];
 };
 
-export type HomeCover = { video: string; poster: string; handoff?: number };
+export type HomeCover = { video: string; poster: string; onProject: "loop" | "own" };
 
 export const homeCoverOf = (p: Project): HomeCover | undefined =>
-  p.homeCover && { video: asset(p.homeCover.src), poster: asset(p.homeCover.poster), handoff: p.homeCover.handoff };
+  p.homeCover && { video: asset(p.homeCover.src), poster: asset(p.homeCover.poster), onProject: p.homeCover.onProject };
 
 export const coverOf = (p: Project): Media | undefined => {
   const first = p.rows[0];
@@ -140,8 +139,8 @@ export const projects: Project[] = [
       [wix(11)]: { src: wixV(11), poster: "/work/wix-harmony/11.poster.jpg" }, // lp.mp4
     },
     // videos/Harmony_cover.mp4 (Dana 27/11): the home cover; the intro ends on its first frame
-    // (opening frame 11). Its last frame is the 01 still, which the project page fades to.
-    homeCover: { src: wixV(0), poster: "/work/wix-harmony/00.poster.jpg" },
+    // (opening frame 11). On the project page it loops as the first tile (Dana: every video loops).
+    homeCover: { src: wixV(0), poster: "/work/wix-harmony/00.poster.jpg", onProject: "loop" },
   },
   {
     // Figma: page frame 923:38414, image column x≈8596
@@ -199,10 +198,11 @@ export const projects: Project[] = [
     // 06 is the narrow "→ '80s VIBES →" strip (group 937:153757).
     rows: [sitf(1), sitf(2), sitf(3), [sitf(4), sitf(5)], sitf(6)],
     // Sources: videos/80s web, phone, tetris, text marquee-.mp4 (matched by first frame).
-    videos: { [sitf(1)]: sitfV(1), [sitf(4)]: sitfV(4), [sitf(5)]: sitfV(5), [sitf(6)]: sitfV(6) },
-    // videos/80_cover_fixed.mp4 (was 80s_cover.mp4) = the site's landing view. Dana 27/11: the project page shows the
-    // FULL clip, so the cover only bridges the click-through and fades straight into 01 from 0s.
-    homeCover: { src: sitfV(0), poster: "/work/scrolling-into-the-future/00.poster.jpg", handoff: 0 },
+    // 01: poster = the clip's own first frame, so the full clip starts without a jump
+    videos: { [sitf(1)]: { src: sitfV(1), poster: "/work/scrolling-into-the-future/01.poster.jpg" }, [sitf(4)]: sitfV(4), [sitf(5)]: sitfV(5), [sitf(6)]: sitfV(6) },
+    // videos/80_cover_fixed.mp4 = the site's landing view, home page only. Dana 27/11: the
+    // project page shows the FULL clip (01) straight away, from its first frame.
+    homeCover: { src: sitfV(0), poster: "/work/scrolling-into-the-future/00.poster.jpg", onProject: "own" },
   },
   {
     // Figma: page frame 942:163698 ("project 05"), image column x≈15993
@@ -235,7 +235,7 @@ export const projects: Project[] = [
     title: "MKT Design Hub",
     year: "2025",
     description: [
-      "Design Hub is a marketing resource library that brings together essential creative assets, tools, and inspiration in one place.",
+      "Design Hub is a marketing resource product that brings together essential creative assets, tools, and inspiration in one place.",
       "I led the project from the research phase, identifying user needs and exploring ways to improve content discovery and accessibility. This involved extensive UX work, information architecture, and UI design, creating an intuitive and cohesive experience for marketing teams.",
     ],
     tags: ["UX", "UI", "Product Design", "Design Systems"],
@@ -273,9 +273,9 @@ export const projects: Project[] = [
     rows: [1, 2, 3, 4, 5, 6, 7, 8, 9].map(sw), // Dana 26/11 20:00: three new, one removed
     // Sources: videos/demo1-3.mov (ProRes) — matched to their frames by comparing first frames.
     videos: { [sw(2)]: swV(2), [sw(4)]: swV(4), [sw(7)]: swV(7) },
-    // videos/cover_showcase.mp4 (Dana 27/11): home cover only; its flowers differ from the 01
-    // still, so on the project page it just bridges the click and fades to 01 right away.
-    homeCover: { src: swV(0), poster: "/work/showcase-websites/00.poster.jpg", handoff: 0 },
+    // videos/cover_showcase_fixed.mp4 (Dana 28/11): the flowers clip, on the home page and as the
+    // project's first tile (looping) — the old static flowers must never show.
+    homeCover: { src: swV(0), poster: "/work/showcase-websites/00.poster.jpg", onProject: "loop" },
   },
   {
     // Figma: page frame 939:157235 ("project 06"), image column x≈18210
